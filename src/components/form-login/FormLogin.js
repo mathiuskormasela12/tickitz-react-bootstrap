@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 // Import Context
 import Context from '../../Context';
 
+// Import components
+import Separator from '../separator/Separator';
+
 // Import bootstrap component
 import { 
   Container,
@@ -91,6 +94,7 @@ function FormLogin() {
                   </p>
                 </Col>
               </Row>
+              <Separator />
             </Col>
           </Row>
         </Container>
