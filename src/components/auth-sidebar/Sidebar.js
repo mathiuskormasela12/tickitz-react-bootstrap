@@ -10,7 +10,7 @@ import styled from './style.module.scss';
 function Sidebar(props) {
   return (
     <Fragment>
-      <Col xs={8} className={ `${styled.heroAside} d-none d-lg-flex align-items-center` }>
+      <Col xl={8} lg={7} className={ `${styled.heroAside} d-none d-lg-flex align-items-center` }>
         { props.children }
       </Col>
     </Fragment>

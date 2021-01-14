@@ -7,6 +7,7 @@ import Context from '../../Context';
 
 // Import components
 import Separator from '../separator/Separator';
+import SocialMediaAuth from '../social-media-auth/SocialMediaAuth';
 
 // Import bootstrap component
 import { 
@@ -29,10 +30,10 @@ function FormLogin() {
 
   return (
     <Fragment>
-      <Col lg={4} className={ `d-flex align-items-center` }>
-        <Container>
-          <Row className={`justify-content-center`}>
-            <Col lg={10}>
+      <Col xl={4} lg={5} className={ `d-flex align-items-center` }>
+        <Container className={ styled.container }>
+          <Row className={`justify-content-center ${styled.row}`}>
+            <Col xl={10} lg={10}>
               <div className={`mb-5`}>
                 <h1 className={ `${styled.title} font-weight-bold` }>Sign In</h1>
                 <p className={`${styled.subtitle} text-break w-100`}>
@@ -95,6 +96,7 @@ function FormLogin() {
                 </Col>
               </Row>
               <Separator />
+              <SocialMediaAuth />
             </Col>
           </Row>
         </Container>
