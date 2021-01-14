@@ -3,19 +3,19 @@ import React, { Fragment, useEffect } from 'react';
 
 // Import all components
 import { 
-  
+  AuthHero
 } from '../components';
 
-function Home() {
+function Login() {
   useEffect(() => {
-    document.title = 'Tickitz | Home'
+    document.title = 'Tickitz | Sign In'
   });
 
   return (
     <Fragment>
-      <h1>Hello</h1>
+      <AuthHero />
     </Fragment>
   );
 }
 
-export default Home;
+export default Login;
