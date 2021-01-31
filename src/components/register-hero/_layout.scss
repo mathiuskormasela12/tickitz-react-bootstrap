@@ -1,0 +1,51 @@
+img.img {
+  width:45%;
+}
+
+h3.title {
+  font-size: 2.3rem;
+}
+
+p.subtitle {
+  font-size: 1.3rem;
+  color: #AAAAAA;
+}
+
+.bullets {
+  display: inline-block;
+  width: 2.5rem;
+  line-height: 2.5rem;
+  text-align: center;
+  border-radius: 50%;
+  border: 1px solid white;
+  position: relative;
+  z-index: 2;
+}
+
+.bulletsTransparent {
+  color: white;
+  background-color: transparent;
+}
+
+.bulletsWhite {
+  color: #290341;
+  background-color: white;
+}
+
+.textGray {
+  // margin-left: 1.2rem;
+  color: #AAAAAA !important;
+}
+
+span.verticalLine {
+  left: 1.4rem;
+  top: 3.5rem;
+  width: 1.75rem;
+  height: .1rem;
+  background-color: white;
+  transform: rotate(90deg);
+}
+
+.heroProgress {
+  height: 3rem !important;
+}

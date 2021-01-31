@@ -25,7 +25,7 @@ import styled from './style.module.scss';
 
 const { AppContext } = Context;
 
-function FormLogin() {
+function FormRegister() {
   const state = useContext(AppContext);
 
   return (
@@ -35,10 +35,8 @@ function FormLogin() {
           <Row className={`justify-content-center ${styled.row}`}>
             <Col xl={10} lg={10}>
               <div className={`mb-5`}>
-                <h1 className={ `${styled.title} font-weight-bold` }>Sign In</h1>
                 <p className={`${styled.subtitle} text-break w-100`}>
-                  Sign in with your data that you entered during
-                  your registration
+                  Fill your additional details
                 </p>
               </div>
               <Form>
@@ -84,14 +82,21 @@ function FormLogin() {
                     </InputGroup.Append>
                   </InputGroup>
                 </Form.Group>
+                <Form.Check
+                  type="checkbox"
+                  className="my-1 mr-sm-2 mr-5"
+                  id="customControlInline"
+                  label="I agree to terms & conditions"
+                  custom
+                />
                 <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                  Sign In
+                  Join for free now
                 </Button>
               </Form>
-              <Row className="mt-4">
+              <Row className="mt-5">
                 <Col>
                   <p className={`${styled.formSubtitle} text-center`}>
-                    Forgot your password? <Link to="/reset" className="text-primary">Reset now</Link>
+                    Do you already have an account? <Link to="/login" className="text-primary">Log In</Link>
                   </p>
                 </Col>
               </Row>
@@ -105,4 +110,4 @@ function FormLogin() {
   );
 }
 
-export default FormLogin;
+export default FormRegister;

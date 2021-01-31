@@ -4,5 +4,5 @@ div.heroAside {
     rgba(43, 21, 107, 0.8)
   ), url('../../assets/images/background.png') center center no-repeat;
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
 }
