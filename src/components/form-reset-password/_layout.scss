@@ -26,3 +26,11 @@ button.controlSize {
   height: 3.2rem;
   font-size: 1.2rem;
 }
+
+.hideAppend {
+  background-color: transparent;
+  border-left: none !important;
+  .eye {
+    cursor: pointer;
+  }
+}
