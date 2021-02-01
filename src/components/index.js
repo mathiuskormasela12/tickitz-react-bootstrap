@@ -3,3 +3,9 @@ export * from './register-hero/RegisterHero';
 export * from './reset-hero/ResetHero';
 export * from './reset-password-hero/ResetPasswordHero';
 export * from './active-hero/ActiveHero';
+export * from './navbar/MyNavbar';
+export * from './home-hero/HomeHero';
+export * from './now-showing/NowShowing';
+export * from './upcoming/Upcoming';
+export * from './moviegoers/Moviegoers'
+export * from './footer/Footer';

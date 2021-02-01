@@ -1,0 +1,31 @@
+.link {
+    color: #414141 !important;
+    font-size: 1rem;
+    margin-right: 1.7rem;
+
+    &:hover {
+        color: $primary !important;
+    }
+}
+
+.brand {
+    width: 8rem;
+}
+
+.dropdown > * {
+    font-size: 1rem;
+    color: #414141 !important;
+    &:hover {
+        color: $primary !important;
+    }
+}
+
+.search {
+    cursor: pointer;
+    color: #414141 !important;
+
+    &:active,
+    &:hover {
+        color: $primary !important;
+    }
+}

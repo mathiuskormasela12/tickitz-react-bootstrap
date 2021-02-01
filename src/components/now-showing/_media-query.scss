@@ -1,0 +1,6 @@
+@media screen and (max-width: 1024px) {
+    .titleHeroContent::after {
+        content: '';
+        display: none
+      }
+}

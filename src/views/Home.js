@@ -3,7 +3,12 @@ import React, { Fragment, useEffect } from 'react';
 
 // Import all components
 import { 
-  
+  MyNavbar,
+  HomeHero,
+  NowShowing,
+  Upcoming,
+  MovieGoers,
+  Footer
 } from '../components';
 
 function Home() {
@@ -13,7 +18,12 @@ function Home() {
 
   return (
     <Fragment>
-      <h1>Hello</h1>
+      <MyNavbar />
+      <HomeHero />
+      <NowShowing />
+      <Upcoming />
+      <MovieGoers />
+      <Footer />
     </Fragment>
   );
 }
