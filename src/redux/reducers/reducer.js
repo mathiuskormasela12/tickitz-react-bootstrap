@@ -40,6 +40,14 @@ const reducer = (state = initialState, action) => {
             }
         }
 
+        case "SEND_FORGOT_PASSWORD_LINK": {
+            return {
+                ...state,
+                message: action.message,
+                success: action.success
+            }
+        }
+
         default: {
             return {
                 ...state
@@ -49,3 +57,4 @@ const reducer = (state = initialState, action) => {
 }
 
 export default reducer
+

@@ -71,3 +71,24 @@ export const activeAccount = ({ id,email }) => {
 		}
 	}
 }
+
+export const sendForgotPasswordLink = (email) => {
+	return async dispatch => {
+		try {	
+				const response = await auth.sendForgotPasswordLink(email)
+				console.log('response data', response)
+				dispatch({
+						type: 'SEND_FORGOT_PASSWORD_LINK',
+						message: response.data.message,
+						success: response.data.success
+				})
+		} catch(err) {
+			console.log(err)
+				dispatch({
+						type: 'SEND_FORGOT_PASSWORD_LINK',
+						message: err.response.data.message,
+						success: false
+				})
+		}
+	}
+}

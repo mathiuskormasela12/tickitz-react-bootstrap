@@ -1,5 +1,7 @@
 // Import all modules
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import { connect } from 'react-redux'
+import { sendForgotPasswordLink } from '../../redux/actions/auth'
 
 // Import bootstrap component
 import { 
@@ -7,13 +9,29 @@ import {
   Col,
   Row,
   Form,
-  Button
+  Button,
+  Alert
 } from 'react-bootstrap';
 
 // import scss
 import styled from './style.module.scss';
 
-function FormReset() {
+function FormReset(props) {
+  const [state, setState] = useState({
+    email: ''
+  })
+
+  const handleInput = (e, prop) => {
+    setState(currentState => ({
+      ...currentState,
+      [prop]: e.target.value
+    }))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    props.send(state.email)    
+  }
 
   return (
     <Fragment>
@@ -29,10 +47,17 @@ function FormReset() {
                   we'll send a link to your email shortly
                 </p>
               </div>
-              <Form>
+              {props.message.length > 0 ? (
+                <Fragment>
+                  <Alert variant={props.success ? 'success' : 'warning'}>
+                    {props.message}
+                  </Alert>
+                </Fragment>
+              ) :null}
+              <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
-                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" />
+                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" onChange={e => handleInput(e, 'email')} />
                 </Form.Group>
                 <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
                   Active now
@@ -46,4 +71,15 @@ function FormReset() {
   );
 }
 
-export default FormReset;
+const mapStateToProps = state => {
+  return {
+    message: state.redux.message,
+    success: state.redux.success
+  }
+}
+
+const mapDispatchToProps = {
+  send: sendForgotPasswordLink
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FormReset);
