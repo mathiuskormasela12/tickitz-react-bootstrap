@@ -1,8 +1,9 @@
 // Import all modules
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 
+import { login } from '../../redux/actions/auth'
 import { peekPassword } from '../../redux/actions/peekPassword'
 
 // Import components
@@ -17,7 +18,8 @@ import {
   Form,
   Button,
   InputGroup,
-  FormControl
+  FormControl,
+  Alert
 } from 'react-bootstrap';
 
 // import scss
@@ -25,6 +27,23 @@ import styled from './style.module.scss';
 
 
 function FormLogin(props) {
+  const [state, setState] = useState({
+    email: '',
+    password: ''
+  })
+
+  const handleInput = (e, prop) => {
+    setState(currentState => ({
+      ...currentState,
+      [prop]: e.target.value
+    }))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    console.log(state)
+    props.login(state.email, state.password)    
+  }
 
   return (
     <Fragment>
@@ -39,10 +58,17 @@ function FormLogin(props) {
                   your registration
                 </p>
               </div>
-              <Form>
+              {props.message.length > 0 ? (
+                <Fragment>
+                  <Alert variant="warning">
+                    {props.message}
+                  </Alert>
+                </Fragment>
+              ) :null}
+              <Form method="POST" onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
-                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" />
+                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" onChange={e => handleInput(e, 'email')} />
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword" className="mb-3">
                   <Form.Label className="mb-3">Password</Form.Label>
@@ -53,6 +79,7 @@ function FormLogin(props) {
                       placeholder="Write your password"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
+                      onChange={e => handleInput(e, 'password')}
                     />
                     <InputGroup.Append>
                       <InputGroup.Text id="basic-addon2" className={`${styled.hideAppend}`}>
@@ -105,12 +132,14 @@ function FormLogin(props) {
 
 const mapStateToProps = state => {
   return {
-    show: state.redux.showPassword
+    show: state.redux.showPassword,
+    message: state.redux.message
   }
 }
 
 const mapDispatchToProps = {
-  showPassword: peekPassword
+  login: login,
+  showPassword: peekPassword 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);

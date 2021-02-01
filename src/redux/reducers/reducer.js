@@ -1,7 +1,9 @@
 const initialState = {
     showPassword: false,
     message: '',
-    token: null
+    token: null,
+    role: null,
+    success: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -17,7 +19,24 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 message: action.message,
-                token: action.token
+                success: action.success
+            }
+        }
+
+        case "LOGIN": {
+            return {
+                ...state,
+                message: action.message,
+                token: action.token,
+                success: action.success
+            }
+        }
+
+        case "ACTIVEACCOUNT": {
+            return {
+                ...state,
+                message: action.message,
+                success: action.success
             }
         }
 
