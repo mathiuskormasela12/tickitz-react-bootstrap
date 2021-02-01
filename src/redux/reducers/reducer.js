@@ -1,5 +1,7 @@
 const initialState = {
-    showPassword: false
+    showPassword: false,
+    message: '',
+    token: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -8,6 +10,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 showPassword: !state.showPassword
+            }
+        }
+
+        case "REGISTER": {
+            return {
+                ...state,
+                message: action.message,
+                token: action.token
             }
         }
 

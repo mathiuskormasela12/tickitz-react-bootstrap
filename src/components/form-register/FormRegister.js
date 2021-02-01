@@ -1,9 +1,11 @@
 // Import all modules
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 
 import { peekPassword } from '../../redux/actions/peekPassword'
+import { register } from '../../redux/actions/auth'
+
 
 // Import components
 import Separator from '../separator/Separator';
@@ -17,13 +19,32 @@ import {
   Form,
   Button,
   InputGroup,
-  FormControl
+  FormControl,
+  Alert
 } from 'react-bootstrap';
 
 // import scss
 import styled from './style.module.scss';
 
 function FormRegister(props) {
+  const [state, setState] = useState({
+    email: '',
+    password: '',
+    agree: false
+  })
+
+  const handleInput = (e, prop) => {
+    setState(currentState => ({
+      ...currentState,
+      [prop]: e.target.value
+    }))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    props.register(state.email, state.password, state.password)    
+  }
+
   return (
     <Fragment>
       <Col xl={4} lg={5} className={ `d-flex align-items-center` }>
@@ -35,10 +56,17 @@ function FormRegister(props) {
                   Fill your additional details
                 </p>
               </div>
-              <Form>
+              {props.message.length > 0 ? (
+                <Fragment>
+                  <Alert variant="warning">
+                    {props.message}
+                  </Alert>
+                </Fragment>
+              ) :null} 
+              <Form method="POST" onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
-                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" />
+                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email"  onChange={(e) => handleInput(e, 'email')}/>
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword" className="mb-3">
                   <Form.Label className="mb-3">Password</Form.Label>
@@ -49,6 +77,7 @@ function FormRegister(props) {
                       placeholder="Write your password"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
+                      onChange={(e) => handleInput(e, 'password')}
                     />
                     <InputGroup.Append>
                       <InputGroup.Text id="basic-addon2" className={`${styled.hideAppend}`}>
@@ -84,10 +113,19 @@ function FormRegister(props) {
                   id="customControlInline"
                   label="I agree to terms & conditions"
                   custom
+                  onChange={e => handleInput(e, 'agree')}
                 />
-                <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                  Join for free now
-                </Button>
+                {
+                  state.agree ? (
+                    <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                      Join for free now
+                    </Button>
+                  ) : (
+                    <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`} disabled>
+                      Join for free now
+                    </Button>
+                  )
+                }
               </Form>
               <Row className="mt-5">
                 <Col>
@@ -108,12 +146,15 @@ function FormRegister(props) {
 
 const mapStateToProps = state => {
   return {
-    show: state.redux.showPassword
+    show: state.redux.showPassword,
+    message: state.redux.message,
+    token: state.redux.token
   }
 }
 
 const mapDispatchToProps = {
-  showPassword: peekPassword
+  showPassword: peekPassword,
+  register
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormRegister);
