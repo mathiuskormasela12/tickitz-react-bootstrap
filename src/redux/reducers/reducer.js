@@ -15,6 +15,13 @@ const reducer = (state = initialState, action) => {
             }
         }
 
+        case "CLOSE_ALERT": {
+            return {
+                ...state,
+                message: ''
+            }
+        }
+
         case "REGISTER": {
             return {
                 ...state,
@@ -41,6 +48,14 @@ const reducer = (state = initialState, action) => {
         }
 
         case "SEND_FORGOT_PASSWORD_LINK": {
+            return {
+                ...state,
+                message: action.message,
+                success: action.success
+            }
+        }
+
+        case "EDIT_PASSWORD": {
             return {
                 ...state,
                 message: action.message,

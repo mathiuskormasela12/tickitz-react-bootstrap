@@ -92,3 +92,22 @@ export const sendForgotPasswordLink = (email) => {
 		}
 	}
 }
+
+export const editPassword = (id, email, password) => {
+	return async dispatch => {
+		try {	
+				const response = await auth.editPassword(id, email, password)
+				dispatch({
+						type: 'EDIT_PASSWORD',
+						message: response.data.message,
+						success: response.data.success
+				})
+		} catch(err) {
+				dispatch({
+						type: 'EDIT_PASSWORD',
+						message: err.response.data.message,
+						success: false
+				})
+		}
+	}
+}

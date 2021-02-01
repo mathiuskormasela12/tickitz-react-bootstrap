@@ -18,6 +18,10 @@ class AuthService {
             email
         })
     }
+
+    editPassword(id, email, password) {
+        return http.patch(`/auth/password/${id}/${email}`, { password })
+    }
 }
 
 export default new AuthService()

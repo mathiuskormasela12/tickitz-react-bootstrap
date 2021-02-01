@@ -9,9 +9,10 @@ import {
   Col,
   Row,
   Form,
-  Button,
-  Alert
+  Button
 } from 'react-bootstrap';
+
+import {default as Alert} from '../alert/MyAlert'
 
 // import scss
 import styled from './style.module.scss';
@@ -47,13 +48,7 @@ function FormReset(props) {
                   we'll send a link to your email shortly
                 </p>
               </div>
-              {props.message.length > 0 ? (
-                <Fragment>
-                  <Alert variant={props.success ? 'success' : 'warning'}>
-                    {props.message}
-                  </Alert>
-                </Fragment>
-              ) :null}
+              <Alert variant={props.success ? 'success' : 'warning'} message={props.message} />
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>

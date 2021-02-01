@@ -9,6 +9,7 @@ import { peekPassword } from '../../redux/actions/peekPassword'
 // Import components
 import Separator from '../separator/Separator';
 import SocialMediaAuth from '../social-media-auth/SocialMediaAuth';
+import {default as Alert} from '../alert/MyAlert'
 
 // Import bootstrap component
 import { 
@@ -18,8 +19,7 @@ import {
   Form,
   Button,
   InputGroup,
-  FormControl,
-  Alert
+  FormControl
 } from 'react-bootstrap';
 
 // import scss
@@ -58,13 +58,7 @@ function FormLogin(props) {
                   your registration
                 </p>
               </div>
-              {props.message.length > 0 ? (
-                <Fragment>
-                  <Alert variant="warning">
-                    {props.message}
-                  </Alert>
-                </Fragment>
-              ) :null}
+              <Alert variant={props.success ? 'success' : 'warning'} message={props.message} />
               <Form method="POST" onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
@@ -133,7 +127,8 @@ function FormLogin(props) {
 const mapStateToProps = state => {
   return {
     show: state.redux.showPassword,
-    message: state.redux.message
+    message: state.redux.message,
+    success: state.redux.success
   }
 }
 

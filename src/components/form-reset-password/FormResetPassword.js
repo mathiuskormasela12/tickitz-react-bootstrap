@@ -1,8 +1,14 @@
 // Import all modules
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
+import { useLocation } from 'react-router-dom'
+import Cryptr from 'cryptr'
 
 import { peekPassword } from '../../redux/actions/peekPassword'
+import { editPassword } from '../../redux/actions/auth'
+
+// import components
+import {default as Alert} from '../alert/MyAlert'
 
 // Import bootstrap component
 import { 
@@ -18,8 +24,27 @@ import {
 // import scss
 import styled from './style.module.scss';
 
-function FormResetPassword(props) {
+const cryptr = new Cryptr(process.env.REACT_APP_SECRET)
 
+function FormResetPassword(props) {
+  const query = new URLSearchParams(useLocation().search);
+
+  const [state, setState] = useState({
+    password: ''
+  })
+
+  const handleInput = (e, prop) => {
+    setState(currentState => ({
+      ...currentState,
+      [prop]: e.target.value
+    }))
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    props.editPassword(query.get('id'), cryptr.decrypt(query.get('email')), state.password)    
+  }
+  
   return (
     <Fragment>
       <Col xl={4} lg={5} className={ `d-flex align-items-center` }>
@@ -31,7 +56,8 @@ function FormResetPassword(props) {
                   Fill your new password
                 </p>
               </div>
-              <Form>
+              <Alert variant={props.success ? 'success' : 'warning'} message={props.message} />
+              <Form onSubmit={handleSubmit}> 
               <Form.Group controlId="formBasicPassword" className="mb-3">
                   <Form.Label className="mb-3">Password</Form.Label>
                   <InputGroup className="mb-3">
@@ -41,6 +67,7 @@ function FormResetPassword(props) {
                       placeholder="Write your password"
                       aria-label="Recipient's username"
                       aria-describedby="basic-addon2"
+                      onChange={e => handleInput(e, 'password')}
                     />
                     <InputGroup.Append>
                       <InputGroup.Text id="basic-addon2" className={`${styled.hideAppend}`}>
@@ -84,12 +111,15 @@ function FormResetPassword(props) {
 
 const mapStateToProps = state => {
   return {
-    show: state.redux.showPassword
+    show: state.redux.showPassword,
+    message: state.redux.message,
+    success: state.redux.success
   }
 }
 
 const mapDispatchToProps = {
-  showPassword: peekPassword
+  showPassword: peekPassword,
+  editPassword
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormResetPassword);
