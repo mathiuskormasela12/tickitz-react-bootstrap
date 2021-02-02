@@ -30,6 +30,10 @@ class AuthService {
     getUpcoming(month) {
         return http.get(`/movies/month/${month}`)
     }
+
+    addMoviegoers(email) {
+        return http.post('/moviegoers', email)
+    }
 }
 
 export default new AuthService()
