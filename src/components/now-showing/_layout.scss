@@ -1,6 +1,6 @@
 .hero {
   background-color: #F5F6F8;
-  height: 35rem;
+  height: 32.5rem;
 }
 
 .titleHeroContent::after {
@@ -23,26 +23,36 @@
   z-index: 10;
   cursor: pointer;
   border-radius: 8px;
-  width: 15.5rem !important;
+  width: 14rem !important;
   background-color: transparent;
   border-color: white;
-  height: 21rem;
+  height: 18.5rem;
   overflow: hidden;
-  box-shadow: 0px 8px 30px rgba(186, 186, 186, 0.25);
   align-items: center;
+  background: rgba(255, 255, 255, 0.1);
+  
   .imgCard {
-    width: 11.5rem;
+    width: 10rem;
   }
 
   &:hover {
     background-color: white;
     border-color: white;
     height: auto;
+    box-shadow: 0px 8px 30px rgba(186, 186, 186, 0.25);
   }
 
   .cardBody {
     padding: 0 !important;
   }
+}
+
+.title {
+  font-size: 1.1rem;
+}
+
+.subtitle {
+  font-size: .9rem;
 }
 
 .hideScroll {

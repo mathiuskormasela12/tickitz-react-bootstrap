@@ -1,4 +1,12 @@
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 920px) {
+  .hero {
+      height: auto;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
+}
+
+@media screen and (min-width: 920px) and (max-width: 1024px) {
     .hero {
         height: 70vh;
       }

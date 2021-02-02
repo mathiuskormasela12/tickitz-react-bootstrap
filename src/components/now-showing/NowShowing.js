@@ -40,8 +40,8 @@ export function NowShowing() {
                       <Card className={`${styled.card} p-4 mr-4`} key={index}>
                         <Card.Img variant="top" src={img} className={styled.imgCard} />
                         <Card.Body className={`${styled.cardBody} mt-4 text-center`}>
-                          <Card.Title className="font-weight-bold text-dark">Spider-Man:Homecoming</Card.Title>
-                          <Card.Text>
+                          <Card.Title className={`${styled.title} font-weight-bold text-dark mb-4`}>Spider-Man:Homecoming</Card.Title>
+                          <Card.Text className={`${styled.subtitle} mb-4`}>
                             Acion, Adventure, Sci-FI
                           </Card.Text>
                           <Button variant="outline-primary" className="w-100 mb-3" onClick={handleDetail}>Details</Button>

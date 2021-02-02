@@ -18,7 +18,7 @@ import styled from './style.module.scss';
 export function MovieGoers() {
   return (
     <Fragment>
-      <div className={`${styled.hero} py-5 mt-5`}>
+      <div className={`${styled.hero} py-5 mt-1`}>
         <Container>
           <Card className={`${styled.card}`}>
             <Card.Body>

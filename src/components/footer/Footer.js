@@ -5,13 +5,10 @@ import React, { Fragment } from 'react';
 import { 
   Container,
   Row,
-  Col,
-  Card,
-  Button
+  Col
 } from 'react-bootstrap';
 
 // import scss
-import styled from './style.module.scss';
 
 import img from '../../assets/images/tickitz2.svg';
 import ebu from '../../assets/images/ebu.png';

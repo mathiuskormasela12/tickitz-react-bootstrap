@@ -17,9 +17,9 @@ import img from '../../assets/images/hero-img.png';
 export function HomeHero() {
   return (
     <Fragment>
-      <Container className={`${styled.hero} pt-lg-5`}>
+      <Container className={`${styled.hero} pt-lg-5 py-5`}>
         <Row className={`${styled.row} align-items-center`}>
-          <Col lg={6} md={12} className="text-center text-lg-left">
+          <Col lg={6} md={12} className="text-center text-lg-left mb-4 mb-lg-0">
             <h4 className={`${styled.subtitle} mb-3`}>
               Nearest Cinema, Newest Movie,
             </h4>
