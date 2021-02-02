@@ -9,3 +9,4 @@ export * from './now-showing/NowShowing';
 export * from './upcoming/Upcoming';
 export * from './moviegoers/Moviegoers'
 export * from './footer/Footer';
+export * from './movie-detail/MovieDetail';

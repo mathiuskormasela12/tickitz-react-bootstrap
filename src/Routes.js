@@ -9,6 +9,7 @@ import Register from './views/Register';
 import Reset from './views/Reset';
 import ResetPassword from './views/ResetPassword';
 import Active from './views/Active';
+import MovieDetails from './views/MovieDetails';
 
 // Import store
 import store from './redux/store'
@@ -24,6 +25,7 @@ function Routes() {
           <Route path="/reset" component={ ResetPassword } />
           <Route path="/reset-password" component={ Reset } />
           <Route path="/active" component={ Active } />
+          <Route path="/details/:id" component={ MovieDetails } />
         </Switch>
       </BrowserRouter>
     </Provider>

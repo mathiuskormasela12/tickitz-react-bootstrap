@@ -21,7 +21,7 @@ import {
   Button
 } from 'react-bootstrap'
 
-export function MyNavbar() {
+export function MyNavbar(props) {
   const history = useHistory()
   const [show, setShow] = useState(false)
 
@@ -29,7 +29,7 @@ export function MyNavbar() {
 
 	return (
 		<Fragment>
-			<Navbar bg="light" expand="lg" className={`${styled.nav} py-4 w-100`}>
+			<Navbar bg="light" expand="lg" className={`${styled.nav} py-4 w-100 ${props.abs ? 'position-static' : ''}`}>
         <Container>
           <Navbar.Brand href="#home" className="mr-5">
             <img
