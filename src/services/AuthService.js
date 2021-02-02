@@ -34,6 +34,10 @@ class AuthService {
     addMoviegoers(email) {
         return http.post('/moviegoers', email)
     }
+
+    getMovieDetails(id) {
+        return http.get(`/movies/${id}`)
+    }
 }
 
 export default new AuthService()

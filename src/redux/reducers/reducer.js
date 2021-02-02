@@ -5,10 +5,12 @@ const initialState = {
     role: null,
     success: false,
     successNowShowing: false,
+    successMovieDetails: false,
     successUpcoming: false,
     movieShowing: [],
     upcoming: [],
-    isLoading: false
+    isLoading: false,
+    movieDetails: {}
 }
 
 const reducer = (state = initialState, action) => {
@@ -85,6 +87,14 @@ const reducer = (state = initialState, action) => {
                 upcoming: action.results,
                 isLoading: action.isLoading,
                 message: action.message
+            }
+        }
+
+        case "SHOW_MOVIE_DETAIL": {
+            return {
+                ...state,
+                successMovieDetails: action.success,
+                movieDetails: action.results
             }
         }
 

@@ -1,5 +1,9 @@
 // import all modules
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
+import { connect } from 'react-redux'
+
+// import actions
+import { getMovieDetails } from '../../redux/actions/movieDetails'
 
 // import react bootstrap component
 import { 
@@ -18,7 +22,12 @@ import img from '../../assets/images/heroes1.png'
 
 // import all components
 
-export function MovieDetail() {
+function MovieDetailComponent(props) {
+  const { getMovieDetails } = props
+  useEffect(() => {
+    getMovieDetails(props.id)
+  }, [getMovieDetails, props.id])
+  console.log(props)
   return (
     <Fragment>
       <div className={`${styled.hero} py-5`}>
@@ -27,44 +36,42 @@ export function MovieDetail() {
             <Col lg={3}>
               <Card className={`${styled.card} p-3`}>
                 <Card.Body className={styled.cardBody}>
-                  <Image src={img} className={styled.img} />
+                  <Image src={props.results.poster} className={styled.img} alt={props.results.title}/>
                 </Card.Body>
               </Card>
             </Col>
             <Col lg={8} className="ml-3">
               <Row>
                 <Col xs={12} className={`mb-3`}>
-                  <h3 className={`${styled.title} text-dark`}>Spider-Man: Homecoming</h3>
-                  <p className={`${styled.genre} mt-3`}>Adventure, Action, Sci-Fi</p>
+                  <h3 className={`${styled.title} text-dark`}>{props.results.title}</h3>
+                  <p className={`${styled.genre} mt-3`}>{props.results.genres}</p>
                 </Col>
                 <Col xs={12} className={`${styled.rowLine} py-3 mb-3`}>
                   <Row>
                     <Col xs={5} className={styled.movieDesc}>
                       <p>Release Date</p>
-                      <p>June 28, 2017</p>
+                      <p>{props.results.releaseDate}</p>
                     </Col>
                     <Col xs={5} className={styled.movieDesc}>
                       <p>Directed by</p>
-                      <p>Jon Watss</p>
+                      <p>{props.results.direct}</p>
                     </Col>
                   </Row>
                   <Row className="mt-4">
                     <Col xs={5} className={styled.movieDesc}>
                       <p>Duration</p>
-                      <p>2 hours 13 minutes</p>
+                      <p>{props.results.duration}</p>
                     </Col>
                     <Col xs={5} className={styled.movieDesc}>
                       <p>Casts</p>
-                      <p>Tom Holland, Michael Keaton, Robert Downey Jr., ...</p>
+                      <p>{props.results.casts}</p>
                     </Col>
                   </Row>
                 </Col>
                 <Col xs={12}>
                   <h4 className={`${styled.synopsis} text-dark mt-2 mb-3`}>Synopsis</h4>
                   <p className={styled.text}>
-                    Thrilled by his experience with the Avengers, 
-                    Peter returns home, where he lives with his Aunt May, 
-                    under the watchful eye of his new mentor Tony Stark, Peter tries to fall back into his normal daily routine - distracted by thoughts of proving himself to be more than just your friendly neighborhood Spider-Man - but when the Vulture emerges as a new villain, everything that Peter holds most important will be threatened. 
+                  {props.results.synopsis}
                   </p>
                 </Col>
               </Row>
@@ -76,3 +83,17 @@ export function MovieDetail() {
   )
 }
   
+const mapStateToProps = state => {
+  console.log('INI')
+  console.log(state)
+  return {
+    success: state.redux.successMovieDetails,
+    results: state.redux.movieDetails
+  }
+}
+
+const mapDispatchToProps = {
+  getMovieDetails
+}
+
+export const MovieDetail = connect(mapStateToProps, mapDispatchToProps)(MovieDetailComponent)

@@ -12,7 +12,7 @@ import {
   MovieDetail
 } from '../components';
 
-function MovieDetails() {
+function MovieDetails(props) {
   useEffect(() => {
     document.title = 'Tickitz | Movie Details'
   });
@@ -20,7 +20,7 @@ function MovieDetails() {
   return (
     <Fragment>
       <MyNavbar abs={true}/>
-      <MovieDetail />
+      <MovieDetail id={props.match.params.id}/>
       <Footer />
     </Fragment>
   );
