@@ -27,7 +27,7 @@ export function HomeHero() {
               Find out now!
             </h2>
           </Col>
-          <Col lg={6} md={12} className="text-center text-lg-left">
+          <Col lg={6} md={12} className="text-center mt-lg-5 text-lg-left">
             <Image src={img} className="ml-lg-5" fluid />
           </Col>
         </Row>

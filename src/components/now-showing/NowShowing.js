@@ -1,5 +1,9 @@
 // import all modules
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect} from 'react';
+import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { getNowShowing } from '../../redux/actions/home'
+import { setLoading } from '../../redux/actions/loading'
 
 // Import react bootstrap components
 import { 
@@ -13,11 +17,17 @@ import {
 // import scss
 import styled from './style.module.scss';
 
-import img from '../../assets/images/heroes2.png';
+export function NowShowingComponent(props) {
+  const history = useHistory()
+  const { getNowShowing } = props
 
-export function NowShowing() {
-  const handleDetail = (e) => {
+  useEffect(() => {
+    getNowShowing()
+  }, [getNowShowing])
+
+  const handleDetail = (e, id) => {
     e.stopPropagation()
+    history.push('/details/' + id)
   }
 
   return (
@@ -35,21 +45,26 @@ export function NowShowing() {
             <Col lg={12} className={styled.hideScroll}>
               <div className={styled.movieWrapper}>
                 {
-                  [1,2,3,4,5,6,7,8,9,10,].map((item, index) => {
-                    return (
-                      <Card className={`${styled.card} p-4 mr-4`} key={index}>
-                        <Card.Img variant="top" src={img} className={styled.imgCard} />
-                        <Card.Body className={`${styled.cardBody} mt-4 text-center`}>
-                          <Card.Title className={`${styled.title} font-weight-bold text-dark mb-4`}>Spider-Man:Homecoming</Card.Title>
-                          <Card.Text className={`${styled.subtitle} mb-4`}>
-                            Acion, Adventure, Sci-FI
-                          </Card.Text>
-                          <Button variant="outline-primary" className="w-100 mb-3" onClick={handleDetail}>Details</Button>
-                          <Button variant="primary" className="w-100">Book Now</Button>
-                        </Card.Body>
-                      </Card>
-                    )
-                  })
+                  props.isLoading ? (<p>Loadingg...</p>): null
+                }
+                {
+                  props.success ? (
+                    props.movieShowing.map((item, index) => {
+                      return (
+                        <Card className={`${styled.card} p-4 mr-4`} key={index}>
+                          <Card.Img variant="top" src={item.poster} className={styled.imgCard} />
+                          <Card.Body className={`${styled.cardBody} mt-4 text-center`}>
+                            <Card.Title className={`${styled.title} font-weight-bold text-dark mb-4`}>{item.title}</Card.Title>
+                            <Card.Text className={`${styled.subtitle} mb-4`}>
+                              {item.genres}
+                            </Card.Text>
+                            <Button variant="outline-primary" className="w-100 mb-3" onClick={e => handleDetail(e, item.id)}>Details</Button>
+                            <Button variant="primary" className="w-100">Book Now</Button>
+                          </Card.Body>
+                        </Card>
+                      )
+                    })
+                  ) : null
                 }
               </div>
             </Col>
@@ -59,3 +74,16 @@ export function NowShowing() {
     </Fragment>
   );
 }
+
+const mapStateToProps = state => ({
+  movieShowing: state.redux.movieShowing,
+  isLoading: state.redux.isLoading,
+  success: state.redux.success
+})
+
+const mapDispatchToProps = {
+  getNowShowing,
+  setLoading
+}
+
+export const NowShowing = connect(mapStateToProps, mapDispatchToProps)(NowShowingComponent)

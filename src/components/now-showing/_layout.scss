@@ -26,14 +26,16 @@
   width: 14rem !important;
   background-color: transparent;
   border-color: white;
-  height: 18.5rem;
+  height: 18.3rem;
   overflow: hidden;
   align-items: center;
   background: rgba(255, 255, 255, 0.1);
   
   .imgCard {
     width: 10rem;
+    height: 15rem;
   }
+  
 
   &:hover {
     background-color: white;
@@ -53,6 +55,7 @@
 
 .subtitle {
   font-size: .9rem;
+  text-transform: capitalize;
 }
 
 .hideScroll {

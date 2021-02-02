@@ -3,7 +3,10 @@ const initialState = {
     message: '',
     token: null,
     role: null,
-    success: false
+    success: false,
+    movieShowing: [],
+    upcoming: [],
+    isLoading: false
 }
 
 const reducer = (state = initialState, action) => {
@@ -60,6 +63,48 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 message: action.message,
                 success: action.success
+            }
+        }
+
+        case "SHOW_NOW_SHOWING": {
+            // return {
+            //     ...state,
+            //     success: action.success,
+            //     movieShowing: action.results,
+            //     isLoading: action.isLoading,
+            //     message: action.message
+            // }
+            const data  = {
+                success: action.success,
+                movieShowing: action.results,
+                isLoading: action.isLoading,
+                message: action.message
+            }
+
+            return Object.assign({}, state, data)
+        }
+
+        case "SHOW_UPCOMING": {
+            // return {
+            //     ...state,
+            //     success: action.success,
+            //     upcoming: action.results,
+            //     isLoading: action.isLoading,
+            //     message: action.message
+            // }
+            const data =  {
+                success: action.success,
+                upcoming: action.results,
+                isLoading: action.isLoading,
+                message: action.message
+            }
+            return Object.assign({}, state, data)
+        }
+
+        case "SET_LOADING": {
+            return {
+                ...state,
+                isLoading: true
             }
         }
 

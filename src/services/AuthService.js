@@ -22,6 +22,14 @@ class AuthService {
     editPassword(id, email, password) {
         return http.patch(`/auth/password/${id}/${email}`, { password })
     }
+
+    getNowShowing() {
+        return http.get(`/showing`)
+    }
+
+    getUpcoming(month) {
+        return http.get(`/movies/month/${month}`)
+    }
 }
 
 export default new AuthService()
