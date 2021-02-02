@@ -64,7 +64,11 @@ export function NowShowingComponent(props) {
                         </Card>
                       )
                     })
-                  ) : null
+                  ) : (
+                    <section className="py-5 text-center">
+                      <h3>No Data</h3>
+                    </section>
+                  )
                 }
               </div>
             </Col>
@@ -75,11 +79,13 @@ export function NowShowingComponent(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  movieShowing: state.redux.movieShowing,
-  isLoading: state.redux.isLoading,
-  success: state.redux.success
-})
+const mapStateToProps = state => {
+  return {
+    movieShowing: state.redux.movieShowing,
+    isLoading: state.redux.isLoading,
+    success: state.redux.successNowShowing
+  }
+}
 
 const mapDispatchToProps = {
   getNowShowing,
