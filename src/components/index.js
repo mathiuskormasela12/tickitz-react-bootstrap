@@ -11,3 +11,7 @@ export * from './moviegoers/Moviegoers'
 export * from './footer/Footer';
 export * from './movie-detail/MovieDetail';
 export * from './show-times/ShowTimes';
+export * from './order-header/OrderHeader';
+export * from './order-main/OrderMain';
+export * from './order-side/OrderSide';
+export * from './order/Order';

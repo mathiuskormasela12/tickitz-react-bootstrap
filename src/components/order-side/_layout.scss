@@ -1,0 +1,26 @@
+aside {
+    img.imgMovie {
+        width: 8rem;
+    }
+    .movieSelect {
+        font-size: .8rem;
+        // color: red !important;
+    }
+
+    h3 {
+        font-size: 1.4rem;
+    }
+}
+
+aside > .card {
+    background-color: $light;
+    box-shadow: 0px 8px 16px rgba(186, 186, 186, 0.24);
+    border-radius: 6px;
+    border: none;
+
+    .cardFooter {
+        box-sizing: b;
+        background-color: transparent !important;
+        border-top: 1px solid #E6E6E6;
+    }
+}

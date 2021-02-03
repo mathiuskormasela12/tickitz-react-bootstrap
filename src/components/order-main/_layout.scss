@@ -1,0 +1,76 @@
+main.main {
+  h3 {
+    color: #14142B;
+    font-size: 1.4rem;
+  }
+  
+  .card {
+    padding: 4rem 1.4rem;
+    border-radius: 6px;
+    background-color: $light;
+    height: auto;
+    border: none;
+    box-sizing: content-box !important;
+  }
+  
+  input[type=checkbox] {
+    display: none;
+    position: absolute;
+  }
+  
+  input[type=checkbox]:checked + label {
+    background-color: #5F2EEA !important;
+  }
+  
+  input[type=checkbox]:disabled + label {
+    background-color: #6E7191 !important;
+  }
+  
+  label {
+    cursor: pointer;
+    margin-right: .5rem;
+    margin-bottom: .5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 4px;
+  }
+  
+  label.normal {
+    background-color: #D6D8E7;
+  }
+  
+  .loveNest {
+    background-color: #F589D7;
+  }
+  
+  div.alphabet {
+    left: -1rem;
+  
+    p {
+      line-height: 1.5rem;
+      width: 1.5rem;
+      font-size: .9rem;
+      margin-bottom: .5rem;
+      color: #4E4B66;
+    }
+  }
+  
+  div.numeric {
+    bottom: -2.7rem;
+  
+    p {
+      height: 1.5rem;
+      width: 1.5rem;
+      margin-right: .5rem;
+      font-size: .9rem;
+      color: #4E4B66;
+      text-align: center;
+    }
+  }
+  
+  .box {
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 4px;
+  }
+}

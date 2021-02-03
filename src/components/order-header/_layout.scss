@@ -1,0 +1,37 @@
+header {
+  h3 {
+    color: #14142B;
+    font-size: 1.4rem;
+  }
+
+  .card {
+    padding: 0 1.4rem;
+    border-radius: 6px;
+    background-color: $light;
+    height: 6rem;
+    border: none;
+
+    &Header {
+      background-color: transparent;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+
+      .orderTitle {
+        color: black;
+        // font-weight: bold;
+        font-size: 1.4rem;
+      }
+
+      button.btnOrder {
+        color: $primary;
+        background-color: #EFF0F6;
+        border-radius: 6px;
+        height: 3rem;
+        width: 8.5rem;
+      }
+    }
+  }
+}
