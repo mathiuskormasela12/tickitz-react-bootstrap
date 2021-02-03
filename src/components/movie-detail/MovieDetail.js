@@ -17,9 +17,6 @@ import {
 // import SCSS
 import styled from './style.module.scss'
 
-// import images
-import img from '../../assets/images/heroes1.png'
-
 // import all components
 
 function MovieDetailComponent(props) {

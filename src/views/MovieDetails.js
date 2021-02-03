@@ -9,7 +9,8 @@ import {
 
 // Import all components
 import { 
-  MovieDetail
+  MovieDetail,
+  ShowTimes
 } from '../components';
 
 function MovieDetails(props) {
@@ -21,6 +22,7 @@ function MovieDetails(props) {
     <Fragment>
       <MyNavbar abs={true}/>
       <MovieDetail id={props.match.params.id}/>
+      <ShowTimes />
       <Footer />
     </Fragment>
   );
