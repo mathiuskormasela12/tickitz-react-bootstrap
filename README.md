@@ -15,7 +15,7 @@ Online Ticketing System with MERN Stack
 ![alt text](https://github.com/mathiuskormasela12/tickitz-react-bootstrap/blob/main/details.png?raw=true)
 
 ### Login
-![alt text](https://github.com/mathiuskormasela12/tickitz-react-bootstrap/blob/main/login.png?raw=true)
+![alt text](https://github.com/mathiuskormasela12/tickitz-react-bootstrap/blob/main/Login.png?raw=true)
 
 ### Register
 ![alt text](https://github.com/mathiuskormasela12/tickitz-react-bootstrap/blob/main/Register.png?raw=true)
