@@ -1,5 +1,6 @@
 // import all modules
 import React, { Fragment, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
 
@@ -24,11 +25,16 @@ import styled from './style.module.scss'
 
 function ShowTimesComponent(props) {
   const { getShowTimes, id, getAllTimes } = props 
+  const history = useHistory()
 
   useEffect(() => {
     getShowTimes(id)
     getAllTimes()
   }, [getShowTimes, getAllTimes, id])
+
+  const handleOrder = () => {
+    history.push('/order')
+  }
 
   return (
     <Fragment>
@@ -110,7 +116,7 @@ function ShowTimesComponent(props) {
                               <Col lg={12} className="mt-3">
                                 <Row>
                                   <Col xs={6}>
-                                    <Button variant="primary" className={`${styled.shadow} py-2 px-4`}>
+                                    <Button variant="primary" onClick={handleOrder} className={`${styled.shadow} py-2 px-4`}>
                                       Book Now
                                     </Button>
                                   </Col>
