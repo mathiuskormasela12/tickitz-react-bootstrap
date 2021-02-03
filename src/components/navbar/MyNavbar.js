@@ -27,6 +27,8 @@ export function MyNavbar(props) {
 
   const handleLogin = () => history.push('/register')
 
+  const push = page => history.push(page)
+
 	return (
 		<Fragment>
 			<Navbar bg="light" expand="lg" className={`${styled.nav} py-4 w-100 ${props.abs ? 'position-static' : ''}`}>
@@ -41,7 +43,7 @@ export function MyNavbar(props) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav" className="ml-4">
             <Nav className="mr-auto">
-              <Nav.Link href="#home" className={styled.link}>Movies</Nav.Link>
+              <Nav.Link href="#home" className={styled.link} onClick={() => push('/')}>Movies</Nav.Link>
               <Nav.Link href="#link" className={styled.link}>Cinemas</Nav.Link>
               <Nav.Link href="#link" className={styled.link}>Buy Ticket</Nav.Link>
             </Nav>

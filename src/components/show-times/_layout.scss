@@ -90,6 +90,7 @@
 .card {
     border: none;
     padding: 0 !important;
+    border-radius: 10px;
 }
 
 .line {
@@ -98,7 +99,7 @@
 
 .time {
     cursor: pointer;
-    font-size: .9rem;
+    font-size: .8rem;
 }
 
 .input {
@@ -107,6 +108,15 @@
 
 .input:checked + label {
     color: $primary;
+}
+
+.input + label {
+    color: #4E4B66;
+}
+
+.input:disabled + label {
+    color: #A0A3BD;
+    cursor: text;
 }
 
 .priceText {

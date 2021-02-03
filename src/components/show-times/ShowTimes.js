@@ -1,9 +1,10 @@
 // import all modules
 import React, { Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
+import Moment from 'react-moment'
 
 // import actions
-import { getShowTimes } from '../../redux/actions/movieDetails'
+import { getShowTimes, getAllTimes } from '../../redux/actions/movieDetails'
 
 // import react bootstrap component
 import { 
@@ -19,17 +20,15 @@ import {
 // import SCSS
 import styled from './style.module.scss'
 
-import img from '../../assets/images/hiflix.png'
-
 // import all components
 
 function ShowTimesComponent(props) {
-  const { getShowTimes, id } = props 
+  const { getShowTimes, id, getAllTimes } = props 
 
   useEffect(() => {
     getShowTimes(id)
-    console.log(props)
-  }, [getShowTimes, id])
+    getAllTimes()
+  }, [getShowTimes, getAllTimes, id])
 
   return (
     <Fragment>
@@ -65,13 +64,13 @@ function ShowTimesComponent(props) {
                         <Card className={`${styled.card}`}>
                           <Card.Body>
                             <Row className={`${styled.line} py-3`}>
-                              <Col xs={5} className="d-flex justify-content-center align-items-center">
-                                <Image src={img} fluid />
+                              <Col xs={6} className="d-flex justify-content-center align-items-center">
+                                <Image src={item.cinemaPoster} fluid />
                               </Col>
-                              <Col xs={7} className="d-flex flex-column">
-                                <h6 className={`${styled.cardTitle}`}>CineOne21</h6>
+                              <Col xs={6} className="d-flex flex-column">
+                                <h6 className={`${styled.cardTitle}`}>{item.cinema}</h6>
                                 <p className={styled.cardSubtitle}>
-                                    Whatever street No.12, South Purwokerto
+                                    {item.address}
                                 </p>
                               </Col>
                             </Row>
@@ -79,31 +78,32 @@ function ShowTimesComponent(props) {
                               <Col xs={12}>
                                 <Row>
                                   {
-                                    [
-                                      '8:30pm', 
-                                      '10:30pm', 
-                                      '12:00pm', 
-                                      '02:00pm',
-                                      '04:30pm',
-                                      '07:00pm'
-                                    ].map((item, index) => (
+                                    props.times.map((time, index) => (
                                       <Col xs={3} key={index}>
-                                        <input type="radio" id={`time-${index}`} className={styled.input} name="time" value={item} />
-                                        <label htmlFor={`time-${index}`} className={styled.time}>
-                                          {item}
+                                        {
+                                          (item.time.indexOf(time.showTime) === -1) ? (
+                                              <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={item.showTime} disabled/>
+                                          ) : (
+                                            <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={item.showTime} />
+                                          )
+                                        }
+                                        <label htmlFor={item.cinemaId.toString().concat(index)} className={styled.time}>
+                                          <Moment format="HH:mma">
+                                            {`2021-01-26 ${time.showTime}`}
+                                          </Moment>
                                         </label>
                                       </Col>
                                     ))                                  
                                   }
                                 </Row>
                               </Col>
-                              <Col lg={12} className="mt-3">
+                              <Col lg={12} className="mt-4">
                                 <Row>
                                   <Col xs={6}>
                                     <p className={styled.price}>Price</p>
                                   </Col>
                                   <Col xs={6} className="text-right">
-                                    <p className={styled.priceText}>$10.00/seat</p>
+                                    <p className={styled.priceText}>${item.pricePerSeat}/seat</p>
                                   </Col>
                                 </Row>
                               </Col>
@@ -157,15 +157,21 @@ function ShowTimesComponent(props) {
 }
   
 const mapStateToProps = state => {
+  console.log('REDUCER')
+  console.log(state.redux.times)
   return {
     success: state.redux.successShowtimes,
     results: state.redux.showTimes,
-    message: state.redux.messageShowtimes
+    message: state.redux.messageShowtimes,
+    successTimes: state.redux.successTimes,
+    times: state.redux.times,
+    messageTimes: state.redux.messageTimes
   }
 }
 
 const mapDispatchToProps = {
-  getShowTimes
+  getShowTimes,
+  getAllTimes
 }
 
 export const ShowTimes = connect(mapStateToProps, mapDispatchToProps)(ShowTimesComponent)

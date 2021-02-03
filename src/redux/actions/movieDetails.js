@@ -59,3 +59,34 @@ export const getShowTimes = (id) => {
             })
     }
 }
+
+export const getAllTimes = () => {
+    return dispatch => {
+        http.getAllTimes(localStorage.getItem('token'))
+            // .finally(() => {
+            //     dispatch({
+            //         type: 'SET_LOADING'
+            //     })
+            // })
+            .then(response => {
+                console.log('RESPONSE')
+                console.log(response)
+                dispatch({
+                    type: 'GET_ALL_TIMES',
+                    results: response.data.results,
+                    isLoading: false,
+                    success: response.data.success,
+                    message: response.data.message
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: 'GET_ALL_TIMES',
+                    message: err.response.data.message,
+                    isLoading: false,
+                    results: [],
+                    success: false
+                })
+            })
+    }
+}

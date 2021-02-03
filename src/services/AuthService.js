@@ -42,6 +42,10 @@ class AuthService {
     getShowTimes(token,id) {
         return http(token).get(`/ticket/${id}`)
     }
+
+    getAllTimes(token) {
+        return http(token).get('/times')
+    }
 }
 
 export default new AuthService()

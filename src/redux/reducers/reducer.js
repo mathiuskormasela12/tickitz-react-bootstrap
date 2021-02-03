@@ -2,11 +2,13 @@ const initialState = {
     showPassword: false,
     message: '',
     messageShowtimes: '',
+    messageTimes: '',
     token: null,
     isLogin: false,
     role: null,
     success: false,
     successNowShowing: false,
+    successTimes: false,
     successShowtimes: false,
     successMovieDetails: false,
     successUpcoming: false,
@@ -14,7 +16,8 @@ const initialState = {
     upcoming: [],
     isLoading: false,
     movieDetails: {},
-    showTimes: []
+    showTimes: [],
+    times: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -116,6 +119,15 @@ const reducer = (state = initialState, action) => {
                 successShowtimes: action.success,
                 showTimes: action.results,
                 messageShowtimes: action.message
+            }
+        }
+
+        case "GET_ALL_TIMES": {
+            return {
+                ...state,
+                successTimes: action.success,
+                times: action.results,
+                messageTimes: action.message
             }
         }
 
