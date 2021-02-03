@@ -24,4 +24,4 @@ Online Ticketing System with MERN Stack
 ![alt text](https://github.com/mathiuskormasela12/tickitz-react-bootstrap/blob/main/reset-password.png?raw=true)
 
 ### Order Page
-![alt text](https://github.com/mathiuskormasela12/tickitz-react-bootstrap/blob/main/order.png?raw=true)
+![alt text](https://github.com/mathiuskormasela12/tickitz-react-bootstrap/blob/main/Order.png?raw=true)
