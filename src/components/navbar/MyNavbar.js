@@ -1,5 +1,6 @@
 // import all modules
 import React, { Fragment, useState } from 'react'
+import { connect } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 // import SCSS
@@ -9,6 +10,7 @@ import styled from './style.module.scss'
 
 // import all images
 import tickitz from '../../assets/images/tickitz2.svg';
+import user from '../../assets/images/user.png'
 
 // import bootstrap components
 import {
@@ -18,17 +20,18 @@ import {
   Container,
   Form,
   FormControl,
-  Button
+  Button,
+  Image
 } from 'react-bootstrap'
 
-export function MyNavbar(props) {
+function MyNavbarComponent(props) {
   const history = useHistory()
   const [show, setShow] = useState(false)
 
   const handleLogin = () => history.push('/register')
 
   const push = page => history.push(page)
-
+  console.log(props)
 	return (
 		<Fragment>
 			<Navbar bg="light" expand="lg" className={`${styled.nav} py-4 w-100 ${props.abs ? 'position-static' : ''}`}>
@@ -61,9 +64,15 @@ export function MyNavbar(props) {
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
               </svg>
             </div>
-            <Button variant="primary" className="ml-4 px-4" onClick={handleLogin}>
-              Sign Up
-            </Button>
+            {
+              props.isLogin ? (
+                <Image src={user} fluid />
+              ) : (
+                <Button variant="primary" className="ml-4 px-4" onClick={handleLogin}>
+                  Sign Up
+                </Button>
+              )
+            }
           </Navbar.Collapse>
         </Container>
 			</Navbar>
@@ -71,3 +80,8 @@ export function MyNavbar(props) {
 	)
 }
 
+const mapStateToprops = state => ({
+  isLogin: state.redux.isLogin
+})
+
+export const MyNavbar = connect(mapStateToprops, null)(MyNavbarComponent)

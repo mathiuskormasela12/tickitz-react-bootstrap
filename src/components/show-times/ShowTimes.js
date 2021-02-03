@@ -6,6 +6,7 @@ import Moment from 'react-moment'
 
 // import actions
 import { getShowTimes, getAllTimes } from '../../redux/actions/movieDetails'
+import { setOrder } from '../../redux/actions/order'
 
 // import react bootstrap component
 import { 
@@ -171,13 +172,15 @@ const mapStateToProps = state => {
     message: state.redux.messageShowtimes,
     successTimes: state.redux.successTimes,
     times: state.redux.times,
-    messageTimes: state.redux.messageTimes
+    messageTimes: state.redux.messageTimes,
+    order: state.order
   }
 }
 
 const mapDispatchToProps = {
   getShowTimes,
-  getAllTimes
+  getAllTimes,
+  setOrder
 }
 
 export const ShowTimes = connect(mapStateToProps, mapDispatchToProps)(ShowTimesComponent)
