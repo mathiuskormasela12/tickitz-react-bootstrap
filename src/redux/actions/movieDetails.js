@@ -29,3 +29,33 @@ export const getMovieDetails = (id) => {
             })
     }
 }
+
+export const getShowTimes = (id) => {
+    return dispatch => {
+        http.getShowTimes(localStorage.getItem('token'), id)
+            // .finally(() => {
+            //     dispatch({
+            //         type: 'SET_LOADING'
+            //     })
+            // })
+            .then(response => {
+                console.log(response)
+                dispatch({
+                    type: 'GET_SHOW_TIMES',
+                    results: response.data.results,
+                    isLoading: false,
+                    success: response.data.success,
+                    message: response.data.message
+                })
+            })
+            .catch(err => {
+                dispatch({
+                    type: 'GET_SHOW_TIMES',
+                    message: err.response.data.message,
+                    isLoading: false,
+                    results: [],
+                    success: false
+                })
+            })
+    }
+}

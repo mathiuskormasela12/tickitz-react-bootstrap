@@ -1,7 +1,7 @@
 // Import all modules
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { login } from '../../redux/actions/auth'
 import { peekPassword } from '../../redux/actions/peekPassword'
@@ -27,6 +27,8 @@ import styled from './style.module.scss';
 
 
 function FormLogin(props) {
+  const history = useHistory()
+
   const [state, setState] = useState({
     email: '',
     password: ''
@@ -44,6 +46,12 @@ function FormLogin(props) {
     console.log(state)
     props.login(state.email, state.password)    
   }
+
+  React.useEffect(() => {
+    if(props.success) {
+      history.push('/')
+    }
+  }, [props.success, history])
 
   return (
     <Fragment>

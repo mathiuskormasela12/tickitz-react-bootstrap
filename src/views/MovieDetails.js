@@ -22,7 +22,7 @@ function MovieDetails(props) {
     <Fragment>
       <MyNavbar abs={true}/>
       <MovieDetail id={props.match.params.id}/>
-      <ShowTimes />
+      <ShowTimes id={props.match.params.id}/>
       <Footer />
     </Fragment>
   );

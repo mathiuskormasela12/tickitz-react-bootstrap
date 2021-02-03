@@ -3,7 +3,7 @@ import React, { Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
 
 // import actions
-import { getMovieDetails } from '../../redux/actions/movieDetails'
+import { getShowTimes } from '../../redux/actions/movieDetails'
 
 // import react bootstrap component
 import { 
@@ -24,6 +24,13 @@ import img from '../../assets/images/hiflix.png'
 // import all components
 
 function ShowTimesComponent(props) {
+  const { getShowTimes, id } = props 
+
+  useEffect(() => {
+    getShowTimes(id)
+    console.log(props)
+  }, [getShowTimes, id])
+
   return (
     <Fragment>
       <div className={`${styled.hero} py-5`}>
@@ -52,74 +59,80 @@ function ShowTimesComponent(props) {
             <Col lg={12} className="mt-5">
               <Row>
                 {
-                  [1,2,3,4,5,6].map((item, index) => (
-                    <Col lg={4} key={String(index)} className="mb-3">
-                      <Card className={`${styled.card}`}>
-                        <Card.Body>
-                          <Row className={`${styled.line} py-3`}>
-                            <Col xs={5} className="d-flex justify-content-center align-items-center">
-                              <Image src={img} fluid />
-                            </Col>
-                            <Col xs={7} className="d-flex flex-column">
-                              <h6 className={`${styled.cardTitle}`}>CineOne21</h6>
-                              <p className={styled.cardSubtitle}>
-                                  Whatever street No.12, South Purwokerto
-                              </p>
-                            </Col>
-                          </Row>
-                          <Row className="mt-3">
-                            <Col xs={12}>
-                              <Row>
-                                {
-                                  [
-                                    '8:30pm', 
-                                    '10:30pm', 
-                                    '12:00pm', 
-                                    '02:00pm',
-                                    '04:30pm',
-                                    '07:00pm'
-                                  ].map((item, index) => (
-                                    <Col xs={3} key={index}>
-                                      <input type="radio" id={`time-${index}`} className={styled.input} name="time" value={item} />
-                                      <label htmlFor={`time-${index}`} className={styled.time}>
-                                        {item}
-                                      </label>
-                                    </Col>
-                                  ))                                  
-                                }
-                              </Row>
-                            </Col>
-                            <Col lg={12} className="mt-3">
-                              <Row>
-                                <Col xs={6}>
-                                  <p className={styled.price}>Price</p>
-                                </Col>
-                                <Col xs={6} className="text-right">
-                                  <p className={styled.priceText}>$10.00/seat</p>
-                                </Col>
-                              </Row>
-                            </Col>
-                            <Col lg={12} className="mt-3">
-                              <Row>
-                                <Col xs={6}>
-                                  <Button variant="primary" className={`${styled.shadow} py-2 px-4`}>
-                                    Book Now
-                                  </Button>
-                                </Col>
-                                <Col xs={6} className="text-right">
-                                  <Button variant="outline-light" className="py-2 px-2">
-                                    <span className="text-primary font-font-weight-bold"> 
-                                      Add to chart
-                                    </span>
-                                  </Button>
-                                </Col>
-                              </Row>
-                            </Col>
-                          </Row>
-                        </Card.Body>
-                      </Card>
-                    </Col>
-                  ))
+                  props.success ? (
+                    props.results.map((item, index) => (
+                      <Col lg={4} key={String(index)} className="mb-3">
+                        <Card className={`${styled.card}`}>
+                          <Card.Body>
+                            <Row className={`${styled.line} py-3`}>
+                              <Col xs={5} className="d-flex justify-content-center align-items-center">
+                                <Image src={img} fluid />
+                              </Col>
+                              <Col xs={7} className="d-flex flex-column">
+                                <h6 className={`${styled.cardTitle}`}>CineOne21</h6>
+                                <p className={styled.cardSubtitle}>
+                                    Whatever street No.12, South Purwokerto
+                                </p>
+                              </Col>
+                            </Row>
+                            <Row className="mt-3">
+                              <Col xs={12}>
+                                <Row>
+                                  {
+                                    [
+                                      '8:30pm', 
+                                      '10:30pm', 
+                                      '12:00pm', 
+                                      '02:00pm',
+                                      '04:30pm',
+                                      '07:00pm'
+                                    ].map((item, index) => (
+                                      <Col xs={3} key={index}>
+                                        <input type="radio" id={`time-${index}`} className={styled.input} name="time" value={item} />
+                                        <label htmlFor={`time-${index}`} className={styled.time}>
+                                          {item}
+                                        </label>
+                                      </Col>
+                                    ))                                  
+                                  }
+                                </Row>
+                              </Col>
+                              <Col lg={12} className="mt-3">
+                                <Row>
+                                  <Col xs={6}>
+                                    <p className={styled.price}>Price</p>
+                                  </Col>
+                                  <Col xs={6} className="text-right">
+                                    <p className={styled.priceText}>$10.00/seat</p>
+                                  </Col>
+                                </Row>
+                              </Col>
+                              <Col lg={12} className="mt-3">
+                                <Row>
+                                  <Col xs={6}>
+                                    <Button variant="primary" className={`${styled.shadow} py-2 px-4`}>
+                                      Book Now
+                                    </Button>
+                                  </Col>
+                                  <Col xs={6} className="text-right">
+                                    <Button variant="outline-light" className="py-2 px-2">
+                                      <span className="text-primary font-font-weight-bold"> 
+                                        Add to chart
+                                      </span>
+                                    </Button>
+                                  </Col>
+                                </Row>
+                              </Col>
+                            </Row>
+                          </Card.Body>
+                        </Card>
+                      </Col>
+                    ))
+                  ): (
+                    <Fragment>
+                      <h5>{props.message}</h5>
+                    </Fragment>
+                  )
                 }
               </Row>
             </Col>
@@ -145,13 +158,14 @@ function ShowTimesComponent(props) {
   
 const mapStateToProps = state => {
   return {
-    success: state.redux.successMovieDetails,
-    results: state.redux.movieDetails
+    success: state.redux.successShowtimes,
+    results: state.redux.showTimes,
+    message: state.redux.messageShowtimes
   }
 }
 
 const mapDispatchToProps = {
-  getMovieDetails
+  getShowTimes
 }
 
 export const ShowTimes = connect(mapStateToProps, mapDispatchToProps)(ShowTimesComponent)

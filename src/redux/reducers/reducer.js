@@ -1,16 +1,20 @@
 const initialState = {
     showPassword: false,
     message: '',
+    messageShowtimes: '',
     token: null,
+    isLogin: false,
     role: null,
     success: false,
     successNowShowing: false,
+    successShowtimes: false,
     successMovieDetails: false,
     successUpcoming: false,
     movieShowing: [],
     upcoming: [],
     isLoading: false,
-    movieDetails: {}
+    movieDetails: {},
+    showTimes: []
 }
 
 const reducer = (state = initialState, action) => {
@@ -42,7 +46,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 message: action.message,
                 token: action.token,
-                success: action.success
+                success: action.success,
+                isLogin: action.login
             }
         }
 
@@ -102,6 +107,15 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLoading: true
+            }
+        }
+
+        case "GET_SHOW_TIMES": {
+            return {
+                ...state,
+                successShowtimes: action.success,
+                showTimes: action.results,
+                messageShowtimes: action.message
             }
         }
 

@@ -1,6 +1,7 @@
 // Import all modules
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux'
+import ProtectedRoutes from './ProtectedRoutes'
 
 // Import views
 import Home from './views/Home';
@@ -25,7 +26,7 @@ function Routes() {
           <Route path="/reset" component={ ResetPassword } />
           <Route path="/reset-password" component={ Reset } />
           <Route path="/active" component={ Active } />
-          <Route path="/details/:id" component={ MovieDetails } />
+          <ProtectedRoutes path="/details/:id" protectedComponent={ MovieDetails } />
         </Switch>
       </BrowserRouter>
     </Provider>

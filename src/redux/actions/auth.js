@@ -38,14 +38,16 @@ export const login = (email, password) => {
 						type: 'LOGIN',
 						message: response.data.message,
 						success: response.data.success,
-						token: response.data.results.token
+						token: response.data.results.token,
+						login: true
 				})
 		} catch(err) {
 				dispatch({
 						type: 'LOGIN',
 						message: err.response.data.message,
 						success: false,
-						token: null
+						token: null,
+						login: false
 				})
 		}
 	}
