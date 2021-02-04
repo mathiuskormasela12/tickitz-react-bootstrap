@@ -20,11 +20,11 @@ function OrderMainComponent(props) {
   const seatAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
   // const soldSeat = ['A2', 'C3', 'F4', 'E2', 'F1', 'G2', 'G10', 'B13', 'F8', 'G14', 'A12', 'F10', 'F11'];
   const [soldSeat, setSoldSeat] = useState([])
-
+  console.log(props.results)
   React.useEffect(() => {
     const getSoldSeat = async () => {
       try {
-        const response = await http.getSoldSeat(localStorage.getItem('token'), props.results.movieId, props.results.cinemaId, props.results.timeId)
+        const response = await http.getSoldSeat(localStorage.getItem('token'), props.results.movieId, props.results.cinemaId, props.results.ticketTime)
         console.log('RESPONSE')
         console.log(response)
         setSoldSeat(response.data.results)
@@ -34,7 +34,7 @@ function OrderMainComponent(props) {
       }
     }
     getSoldSeat()
-  }, [props.results.cinemaId, props.results.movieId, props.results.timeId])
+  }, [props.results.cinemaId, props.results.movieId, props.results.ticketTime])
 
   const [userSeat, setUserSeat] = useState([]);
 
