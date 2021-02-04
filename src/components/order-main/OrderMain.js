@@ -67,12 +67,27 @@ function OrderMainComponent(props) {
   // }
 
   const selectSeat = e => {
-    if(props.results.seats.indexOf(e.target.value) === -1) {
-      props.selectSeat([...props.results.seats, e.target.value])
+    const values = (e.target.value.toLowerCase() === 'f10,f11') ? e.target.value.split(',') : e.target.value 
+    if(typeof values === 'string') {
+      if(props.results.seats.indexOf(values) === -1) {
+        props.selectSeat([...props.results.seats, e.target.value])
+      } else {
+        const prevSeats = [...props.results.seats]
+        prevSeats.splice(prevSeats.indexOf(e.target.value), 1)
+        props.selectSeat([...prevSeats])
+      }
     } else {
-      const prevSeats = [...props.results.seats]
-      prevSeats.splice(prevSeats.indexOf(e.target.value), 1)
-      props.selectSeat([...prevSeats])
+      if(props.results.seats.indexOf(values[0]) === -1 && props.results.seats.indexOf(values[1]) === -1) {
+        props.selectSeat([...props.results.seats, ...values])
+      } else {
+        const values = e.target.value.split(',')
+        const prevSeats = [...props.results.seats]
+        values.forEach(item => {
+          // prevSeats.splice(item, 1)
+          prevSeats.splice(prevSeats.indexOf(item), 1)
+        })
+        props.selectSeat([...prevSeats])
+      }
     }
   }
 
@@ -138,12 +153,12 @@ function OrderMainComponent(props) {
                               {
                                 (soldSeat.some((item) => item === `${row}${col}`)) ? (
                                   <Fragment>
-                                    <input type="checkbox" id={row + '-' + col} value={row + col} disabled />
+                                    <input type="checkbox" id={row + '-' + col} value={`${row + col},${row + (Number(col) + 1)}`} disabled />
                                     <label htmlFor={row + '-' + col} style={{ width: '3.5rem'}} className={styled.loveNest}></label>
                                   </Fragment>
                                 ) : (
                                   <Fragment>
-                                    <input type="checkbox" id={row + '-' + col} value={row + col} onChange={ selectSeat } />
+                                    <input type="checkbox" id={row + '-' + col} value={`${row + col},${row + (Number(col) + 1)}`} onChange={ selectSeat } />
                                     <label htmlFor={row + '-' + col} style={{ width: '3.5rem'}} className={styled.loveNest}></label>
                                   </Fragment>
                                 )
