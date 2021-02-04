@@ -1,5 +1,7 @@
 // import all modules
 import React, { Fragment } from 'react';
+import { connect } from 'react-redux'
+import Moment from 'react-moment'
 
 // Import react bootstrap components
 import {
@@ -14,7 +16,7 @@ import styled from './style.module.scss';
 
 import cine from '../../assets/images/cine.png'
 
-export function OrderSide(props) {
+function OrderSideComponent(props) {
   return (
     <Fragment>
       <aside>
@@ -24,11 +26,11 @@ export function OrderSide(props) {
             <Container className="px-2" fluid>
               <Row>
                 <Col lg={12} className="text-center mb-3">
-                  <img className={`${styled.imgMovie} img-fluid`} alt="Movie" src={ cine }/>
+                  <img className={`${styled.imgMovie} img-fluid`} alt="Movie" src={ props.results.cinemaPoster }/>
                 </Col>
                 <Col lg={12} className="text-center">
                   <h5 className="fw-normal">
-                    CineOne21 Cinema
+                    {props.results.cinemaName}
                   </h5>
                 </Col>
               </Row>
@@ -37,15 +39,23 @@ export function OrderSide(props) {
                   <p className={`${styled.movieSelect} text-muted`}>Movie selected</p>
                 </Col>
                 <Col sm={7} xs={7}>
-                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>Spider-Man: Homecoming</p>
+                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>{props.results.movieTitle}</p>
                 </Col>
               </Row>
               <Row>
                 <Col sm={6} xs={6}>
-                  <p className={`${styled.movieSelect} text-muted`}>Tuesday, 07 July 2020</p>
+                  <p className={`${styled.movieSelect} text-muted`}>
+                    <Moment format="dddd, D MMMM YYYY">
+                      {props.results.showTimeDate}
+                    </Moment>
+                  </p>
                 </Col>
                 <Col sm={6} xs={6}>
-                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>02:00pm</p>
+                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>
+                    <Moment format="HH:mma">
+                      {`2021-01-26 ${props.results.ticketTime}`}
+                    </Moment>
+                  </p>
                 </Col>
               </Row>
               <Row>
@@ -53,7 +63,7 @@ export function OrderSide(props) {
                   <p className={`${styled.movieSelect} text-muted`}>One ticket price</p>
                 </Col>
                 <Col sm={6} xs={6}>
-                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>$10</p>
+                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>${props.results.pricePerSeat}</p>
                 </Col>
               </Row>
               <Row>
@@ -87,3 +97,9 @@ export function OrderSide(props) {
     </Fragment>
   );
 }
+
+const mapStateToProps = (state) => ({
+  results: state.order
+})
+
+export const OrderSide = connect(mapStateToProps, null)(OrderSideComponent)

@@ -10,7 +10,8 @@ const initialState = {
     pricePerSeat: 0,
     paymentMethod: null,
     seats: [],
-    movieTitle: null
+    movieTitle: null,
+    showTimeId: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -22,11 +23,11 @@ const reducer = (state = initialState, action) => {
                 movieTitle: action.movieTitle,
                 cinemaName: action.cinemaName,
                 showTimeDate: action.showTimeDate,
-                ticketTime: action.ticketTime,
                 cinemaPoster: action.cinemaPoster,
                 cinemaCity: action.cinemaCity,
                 ticketCount: action.ticketCount,
-                pricePerSeat: action.pricePerSeat
+                pricePerSeat: action.pricePerSeat,
+                showTimeId: action.showTimeId
             }
         }
 

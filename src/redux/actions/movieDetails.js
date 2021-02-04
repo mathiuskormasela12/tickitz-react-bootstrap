@@ -9,7 +9,6 @@ export const getMovieDetails = (id) => {
             //     })
             // })
             .then(response => {
-                console.log(response)
                 dispatch({
                     type: 'SHOW_MOVIE_DETAIL',
                     results: response.data.results[0],
@@ -30,16 +29,15 @@ export const getMovieDetails = (id) => {
     }
 }
 
-export const getShowTimes = (id) => {
+export const getShowTimes = (id, showTimeDate, location) => {
     return dispatch => {
-        http.getShowTimes(localStorage.getItem('token'), id)
+        http.getShowTimes(localStorage.getItem('token'), id, showTimeDate, location)
             // .finally(() => {
             //     dispatch({
             //         type: 'SET_LOADING'
             //     })
             // })
             .then(response => {
-                console.log(response)
                 dispatch({
                     type: 'GET_SHOW_TIMES',
                     results: response.data.results,
@@ -69,8 +67,6 @@ export const getAllTimes = () => {
             //     })
             // })
             .then(response => {
-                console.log('RESPONSE')
-                console.log(response)
                 dispatch({
                     type: 'GET_ALL_TIMES',
                     results: response.data.results,

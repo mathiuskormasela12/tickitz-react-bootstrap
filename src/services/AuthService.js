@@ -39,12 +39,20 @@ class AuthService {
         return http(null).get(`/movies/${id}`)
     }
 
-    getShowTimes(token,id) {
-        return http(token).get(`/ticket/${id}`)
+    getShowTimes(token,id, showTimeDate, location) {
+        return http(token).get(`/ticket/${id}?location=${location}&showTimeDate=${showTimeDate}`)
     }
 
     getAllTimes(token) {
         return http(token).get('/times')
+    }
+
+    getSoldSeat(token, movieId, cinemaId, timeId) {
+        return http(token).get(`/soldseats/${movieId}/${cinemaId}/${timeId}`)
+    }
+
+    getAllCities() {
+        return http().get('/cities')
     }
 }
 

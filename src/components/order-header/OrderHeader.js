@@ -1,5 +1,7 @@
 // import all modules
 import React, { Fragment } from 'react';
+import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // Import react bootstrap components
 import {
@@ -9,7 +11,10 @@ import {
 // import scss
 import styled from './style.module.scss';
 
-export function OrderHeader() {
+function OrderHeaderComponent(props) {
+  const history = useHistory()
+  const back = () => history.push('/')
+
   return (
     <Fragment>
       <header className={styled.header}>
@@ -17,9 +22,9 @@ export function OrderHeader() {
         <Card className={styled.card}>
           <Card.Header className={styled.cardHeader}>
             <h4 className={`${styled.orderTitle}`}>
-              Spider-Man: Homecoming
+              {props.results.movieTitle}
             </h4>
-            <button className={`${styled.btnOrder} btn`}>
+            <button className={`${styled.btnOrder} btn`} onClick={back}>
               Change movie
             </button>
           </Card.Header>
@@ -28,3 +33,9 @@ export function OrderHeader() {
     </Fragment>
   );
 }
+
+const mapStateToProps = (state) => ({
+  results: state.order
+})
+
+export const OrderHeader = connect(mapStateToProps, null)(OrderHeaderComponent)

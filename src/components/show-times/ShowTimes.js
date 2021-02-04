@@ -3,6 +3,7 @@ import React, { Fragment, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
+import http from '../../services/AuthService'
 
 // import actions
 import { getShowTimes, getMovieDetails, getAllTimes } from '../../redux/actions/movieDetails'
@@ -28,14 +29,39 @@ function ShowTimesComponent(props) {
   const { getShowTimes, id, getAllTimes } = props 
   const history = useHistory()
 
+  const [state, setState] = React.useState({
+    showTimeDate: null,
+    location: 'Jakarta',
+    cities: []
+  })
+
   useEffect(() => {
-    getShowTimes(id)
+    async function getAllCities() {
+      try {
+        const response = await http.getAllCities()
+        setState(current => ({
+          ...current,
+          cities: response.data.results
+        }))
+      } catch(err) {
+        throw new Error(err)
+      }
+    }
+    getShowTimes(id, state.showTimeDate, state.location)
     getAllTimes()
-  }, [getShowTimes, getAllTimes, id])
+    getAllCities()
+  }, [getShowTimes, getAllTimes, id, state.showTimeDate, state.location])
 
   const handleOrder = (index) => {
     props.setOrder(props.results[index])
     history.push('/order')
+  }
+
+  const handleForm = (e, prop) => {
+    setState(current => ({
+      ...current,
+      [prop]: e.target.value
+    }))
   }
 
   return (
@@ -50,12 +76,19 @@ function ShowTimesComponent(props) {
               <Form className="mt-4">
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Form.Control placeholder="First name" type="date" className={`${styled.date} py-4`} />
+                    <Form.Control type="date" className={`${styled.date} py-4`} onChange={e => handleForm(e, 'showTimeDate')}/>
                     <label className={styled.arrowDate}></label>
                   </Col>
                   <Col lg={3} className="position-relative">
-                    <Form.Control as="select" id="select" className={`${styled.select}`}>
-                      <option value="Jakarta" selected>Jakarta</option>
+                    <Form.Control as="select" id="select" className={`${styled.select}`} value={state.location} onChange={e => handleForm(e, 'location')}>
+                      {
+                        state.cities.map((item, index) => (
+                          <Fragment key={index}>
+                            <option value={item}>{item}</option>
+                          </Fragment>
+                        ))
+                      }
+                      <option value="Jakarta">Jakarta</option>
                       <option value="Bandung">Bandung</option>
                     </Form.Control>
                     <label htmlFor="select" className={styled.arrow}></label>
