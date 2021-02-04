@@ -10,24 +10,31 @@ const initialState = {
     pricePerSeat: 0,
     paymentMethod: null,
     seats: [],
-    movieTitle: null,
-    time: null   
+    movieTitle: null
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_ORDER': {
+            console.log('INI PRICENYA', action.pricePerSeat)
             return {
                 ...state,
-                movieTitle: action.data.movieTitle,
-                cinemaName: action.data.cinemaName,
-                showTimeDate: action.data.showTimeDate,
-                ticketTime: action.data.ticketTime,
-                cinemaPoster: action.data.cinemaPoster,
-                cinemaCity: action.data.cinemaCity,
-                ticketCount: action.data.ticketCount
+                movieTitle: action.movieTitle,
+                cinemaName: action.cinemaName,
+                showTimeDate: action.showTimeDate,
+                ticketTime: action.ticketTime,
+                cinemaPoster: action.cinemaPoster,
+                cinemaCity: action.cinemaCity,
+                ticketCount: action.ticketCount,
+                pricePerSeat: action.pricePerSeat
             }
         }
+
+        case 'SELECT_TIME' :
+            return {
+                ...state,
+                ticketTime: action.time
+            }
 
         default: {
             return {

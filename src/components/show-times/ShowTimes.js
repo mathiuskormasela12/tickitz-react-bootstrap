@@ -5,8 +5,8 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 
 // import actions
-import { getShowTimes, getAllTimes } from '../../redux/actions/movieDetails'
-import { setOrder } from '../../redux/actions/order'
+import { getShowTimes, getMovieDetails, getAllTimes } from '../../redux/actions/movieDetails'
+import { setOrder, selectTime } from '../../redux/actions/order'
 
 // import react bootstrap component
 import { 
@@ -33,7 +33,8 @@ function ShowTimesComponent(props) {
     getAllTimes()
   }, [getShowTimes, getAllTimes, id])
 
-  const handleOrder = () => {
+  const handleOrder = (index) => {
+    props.setOrder(props.results[index])
     history.push('/order')
   }
 
@@ -54,8 +55,8 @@ function ShowTimesComponent(props) {
                   </Col>
                   <Col lg={3} className="position-relative">
                     <Form.Control as="select" id="select" className={`${styled.select}`}>
-                      <option selected>Jakarta</option>
-                      <option>Bandung</option>
+                      <option value="Jakarta" selected>Jakarta</option>
+                      <option value="Bandung">Bandung</option>
                     </Form.Control>
                     <label htmlFor="select" className={styled.arrow}></label>
                   </Col>
@@ -66,8 +67,8 @@ function ShowTimesComponent(props) {
               <Row>
                 {
                   props.success ? (
-                    props.results.map((item, index) => (
-                      <Col lg={4} key={String(index)} className="mb-3">
+                    props.results.map((item, indexShowTime) => (
+                      <Col lg={4} key={String(indexShowTime)} className="mb-3">
                         <Card className={`${styled.card}`}>
                           <Card.Body>
                             <Row className={`${styled.line} py-3`}>
@@ -89,9 +90,11 @@ function ShowTimesComponent(props) {
                                       <Col xs={3} key={index}>
                                         {
                                           (item.time.indexOf(time.showTime) === -1) ? (
-                                              <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={item.showTime} disabled/>
+                                              <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={time.showTime} disabled/>
                                           ) : (
-                                            <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={item.showTime} />
+                                            <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={time.showTime} 
+                                            onChange={e => props.selectTime(e.target.value)}
+                                            />
                                           )
                                         }
                                         <label htmlFor={item.cinemaId.toString().concat(index)} className={styled.time}>
@@ -117,9 +120,17 @@ function ShowTimesComponent(props) {
                               <Col lg={12} className="mt-3">
                                 <Row>
                                   <Col xs={6}>
-                                    <Button variant="primary" onClick={handleOrder} className={`${styled.shadow} py-2 px-4`}>
-                                      Book Now
-                                    </Button>
+                                    {
+                                      props.order.ticketTime ? (
+                                        <Button variant="primary" onClick={() => handleOrder(indexShowTime)} className={`${styled.shadow} py-2 px-4`}>
+                                          Book Now
+                                        </Button>
+                                      ) : (
+                                        <Button variant="primary" className={`${styled.shadow} py-2 px-4`} disabled>
+                                          Book Now
+                                        </Button>
+                                      )
+                                    }
                                   </Col>
                                   <Col xs={6} className="text-right">
                                     <Button variant="outline-light" className="py-2 px-2">
@@ -173,14 +184,18 @@ const mapStateToProps = state => {
     successTimes: state.redux.successTimes,
     times: state.redux.times,
     messageTimes: state.redux.messageTimes,
-    order: state.order
+    order: state.order,
+    successMovieDetails: state.redux.successMovieDetails,
+    resultsMovieDetails: state.redux.movieDetails
   }
 }
 
 const mapDispatchToProps = {
   getShowTimes,
   getAllTimes,
-  setOrder
+  setOrder,
+  getMovieDetails,
+  selectTime
 }
 
 export const ShowTimes = connect(mapStateToProps, mapDispatchToProps)(ShowTimesComponent)
