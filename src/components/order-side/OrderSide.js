@@ -85,7 +85,7 @@ function OrderSideComponent(props) {
               </Col>
               <Col sm={6} xs={6}>
                 <p className="text-primary text-right font-weight-bold">
-                  $30
+                  ${props.results.totalPayment}
                 </p>
               </Col>
             </Row>
