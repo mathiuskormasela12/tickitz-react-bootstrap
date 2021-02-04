@@ -14,8 +14,6 @@ import {
 // import scss
 import styled from './style.module.scss';
 
-import cine from '../../assets/images/cine.png'
-
 function OrderSideComponent(props) {
   return (
     <Fragment>
@@ -71,7 +69,7 @@ function OrderSideComponent(props) {
                   <p className={`${styled.movieSelect} text-muted`}>Seat choosed</p>
                 </Col>
                 <Col sm={6} xs={6}>
-                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>A1, B1, C3</p>
+                  <p className={`${styled.movieSelect} text-muted font-weight-bold text-right`}>{props.results.seats.join(', ')}</p>
                 </Col>
               </Row>
             </Container>

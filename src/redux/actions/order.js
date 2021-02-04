@@ -1,6 +1,4 @@
 export const setOrder = (data) => {
-    console.log('Dari DB')
-    console.log(data)
     return {
         type: 'SET_ORDER',
         movieTitle: data.movieTitle,
@@ -19,4 +17,9 @@ export const setOrder = (data) => {
 export const selectTime = (time) => ({
     type: 'SELECT_TIME',
     time
+})
+
+export const selectSeat = (seats) => ({
+    type: 'SELECT_SEAT',
+    seats
 })

@@ -53,7 +53,6 @@ function ShowTimesComponent(props) {
   }, [getShowTimes, getAllTimes, id, state.showTimeDate, state.location])
 
   const handleOrder = (index) => {
-    console.log(props.results[index])
     props.setOrder(props.results[index])
     history.push('/order')
   }

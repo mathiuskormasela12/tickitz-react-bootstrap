@@ -2,6 +2,7 @@
 import React, { Fragment, useState } from 'react';
 import http from '../../services/AuthService'
 import { connect } from 'react-redux'
+import { selectSeat } from '../../redux/actions/order'
 
 // Import react bootstrap components
 import {
@@ -18,49 +19,61 @@ function OrderMainComponent(props) {
   const seatNum = [1, 2, 3, 4, 5, 6, 7];
   const seatNumRight = ['8', '9', '10', '11', '12', '13', '14'];
   const seatAlphabet = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-  // const soldSeat = ['A2', 'C3', 'F4', 'E2', 'F1', 'G2', 'G10', 'B13', 'F8', 'G14', 'A12', 'F10', 'F11'];
   const [soldSeat, setSoldSeat] = useState([])
-  console.log(props.results)
+  
   React.useEffect(() => {
     const getSoldSeat = async () => {
       try {
-        const response = await http.getSoldSeat(localStorage.getItem('token'), props.results.movieId, props.results.cinemaId, props.results.ticketTime)
-        console.log('RESPONSE')
-        console.log(response)
+        const response = await http.getSoldSeat(
+        localStorage.getItem('token'), 
+          props.results.movieId, 
+          props.results.cinemaId, 
+          props.results.ticketTime
+        )
         setSoldSeat(response.data.results)
       } catch(err) {
         setSoldSeat([])
-        // throw new Error(err)
+        console.log(err)
       }
     }
     getSoldSeat()
   }, [props.results.cinemaId, props.results.movieId, props.results.ticketTime])
 
-  const [userSeat, setUserSeat] = useState([]);
+  // const [userSeat, setUserSeat] = useState([]);
+
+  // const selectSeat = e => {
+  //   const isSameSeat = userSeat.some(item => item === e.target.value);
+
+  //   if(!isSameSeat) {
+  //     setUserSeat(currentState => ([
+  //       ...currentState,
+  //       e.target.value
+  //     ]));
+  //   } else {
+  //     setUserSeat(currentState => {
+  //       currentState = currentState.map((item, index) => {
+  //         if(item === e.target.value) {
+  //           return '';
+  //         } else {
+  //           return item
+  //         }
+  //       });
+  //       return [
+  //         ...currentState
+  //       ];
+  //     });
+  //   }
+    
+  // }
 
   const selectSeat = e => {
-    const isSameSeat = userSeat.some(item => item === e.target.value);
-
-    if(!isSameSeat) {
-      setUserSeat(currentState => ([
-        ...currentState,
-        e.target.value
-      ]));
+    if(props.results.seats.indexOf(e.target.value) === -1) {
+      props.selectSeat([...props.results.seats, e.target.value])
     } else {
-      setUserSeat(currentState => {
-        currentState = currentState.map((item, index) => {
-          if(item === e.target.value) {
-            return '';
-          } else {
-            return item
-          }
-        });
-        return [
-          ...currentState
-        ];
-      });
+      const prevSeats = [...props.results.seats]
+      prevSeats.splice(prevSeats.indexOf(e.target.value), 1)
+      props.selectSeat([...prevSeats])
     }
-    
   }
 
   return (
@@ -204,4 +217,8 @@ const mapStateToProps = (state) => ({
   results: state.order
 })
 
-export const OrderMain = connect(mapStateToProps, null)(OrderMainComponent)
+const mapDispatchToProps = {
+  selectSeat
+}
+
+export const OrderMain = connect(mapStateToProps, mapDispatchToProps)(OrderMainComponent)

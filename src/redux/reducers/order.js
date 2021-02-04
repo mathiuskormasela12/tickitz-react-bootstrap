@@ -35,11 +35,19 @@ const reducer = (state = initialState, action) => {
             }
         }
 
-        case 'SELECT_TIME' :
+        case 'SELECT_TIME' : {
             return {
                 ...state,
                 ticketTime: action.time
             }
+        }
+
+        case 'SELECT_SEAT' : {
+            return {
+                ...state,
+                seats: action.seats
+            }
+        }
 
         default: {
             return {

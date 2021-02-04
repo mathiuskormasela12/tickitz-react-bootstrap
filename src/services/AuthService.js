@@ -40,7 +40,7 @@ class AuthService {
     }
 
     getShowTimes(token,id, showTimeDate, location) {
-        return http(token).get(`/ticket/${id}?location=${location}&showTimeDate=${showTimeDate}`)
+        return http(token).get(`/ticket/${id}?location=${location}${showTimeDate ? `&showTimeDate=${showTimeDate}` : ''}`)
     }
 
     getAllTimes(token) {
