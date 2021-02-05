@@ -87,7 +87,6 @@ function OrderMainComponent(props) {
         const values = e.target.value.split(',')
         const prevSeats = [...props.results.seats]
         values.forEach(item => {
-          // prevSeats.splice(item, 1)
           prevSeats.splice(prevSeats.indexOf(item), 1)
         })
         props.selectSeat([...prevSeats])
@@ -219,7 +218,7 @@ function OrderMainComponent(props) {
                   </div>
                   <div className="d-flex align-items-center mb-3 mb-lg-0">
                     <span className={`d-inline-block mr-3 ${styled.loveNest} ${styled.box}`}></span>
-                    <span className="text-muted">Lover Nest</span>
+                    <span className="text-muted">Love Nest</span>
                   </div>
                   <div className="d-flex align-items-center mb-3 mb-lg-0">
                     <span className={`d-inline-block mr-3 ${styled.box}`} style={{ backgroundColor: ' #6E7191'}}></span>

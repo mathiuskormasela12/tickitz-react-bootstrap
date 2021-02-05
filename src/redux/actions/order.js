@@ -24,6 +24,10 @@ export const selectSeat = (seats) => ({
     seats
 })
 
+export const removeSeat = () => ({
+    type: 'REMOVE_SEAT'
+})
+
 export const setTicketCount = () => ({
     type: 'SET_TICKET_COUNT'
 })

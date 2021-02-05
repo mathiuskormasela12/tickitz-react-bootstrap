@@ -2,6 +2,7 @@
 import React, { Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { removeSeat, setTotalPayment, setTicketCount } from '../../redux/actions/order'
 
 // Import react bootstrap components
 import {
@@ -13,7 +14,12 @@ import styled from './style.module.scss';
 
 function OrderHeaderComponent(props) {
   const history = useHistory()
-  const back = () => history.push('/')
+  const back = () => {
+    props.removeSeat()
+    props.setTicketCount()
+    props.setTotalPayment()
+    history.push('/')
+  }
 
   return (
     <Fragment>
@@ -38,4 +44,10 @@ const mapStateToProps = (state) => ({
   results: state.order
 })
 
-export const OrderHeader = connect(mapStateToProps, null)(OrderHeaderComponent)
+const mapDispatchToProps = {
+  removeSeat,
+  setTotalPayment,
+  setTicketCount
+}
+
+export const OrderHeader = connect(mapStateToProps, mapDispatchToProps)(OrderHeaderComponent)

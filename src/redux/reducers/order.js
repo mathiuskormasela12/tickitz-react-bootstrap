@@ -49,6 +49,13 @@ const reducer = (state = initialState, action) => {
             }
         }
 
+        case 'REMOVE_SEAT' : {
+            return {
+                ...state,
+                seats: []
+            }
+        }
+
         case 'SET_TICKET_COUNT' : {
             return {
                 ...state,

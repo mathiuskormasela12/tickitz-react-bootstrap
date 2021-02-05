@@ -19,3 +19,4 @@ export * from './payment/Payment';
 export * from './payment-header/PaymentHeader';
 export * from './payment-main/PaymentMain';
 export * from './payment-side/PaymentSide';
+export * from './show-times-card/ShowTimesCard';

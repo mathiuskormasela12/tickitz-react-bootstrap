@@ -1,6 +1,8 @@
 // import all modules
 import React, { Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { removeSeat, setTotalPayment, setTicketCount } from '../../redux/actions/order'
 
 // import react bootstrap component
 import {
@@ -19,7 +21,7 @@ import {
 
 import styled from './style.module.scss'
 
-export function Order() {
+function OrderComponent(props) {
   const history = useHistory();
 
   const checkout = () => {
@@ -27,6 +29,9 @@ export function Order() {
   }
 
   const changeMovie = () => {
+    props.removeSeat()
+    props.setTicketCount()
+    props.setTotalPayment()
     history.push('/');
   }
 
@@ -62,3 +67,15 @@ export function Order() {
     </Fragment>
   );
 }
+
+const mapStateToProps = (state) => ({
+  results: state.order
+})
+
+const mapDispatchToProps = {
+  removeSeat,
+  setTotalPayment,
+  setTicketCount
+}
+
+export const Order = connect(mapStateToProps, mapDispatchToProps)(OrderComponent)

@@ -1,8 +1,6 @@
 // import all modules
 import React, { Fragment, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
-import Moment from 'react-moment'
 import http from '../../services/AuthService'
 
 // import actions
@@ -14,20 +12,19 @@ import {
   Row,
   Col,
   Form,
-  Container,
-  Card,
-  Image,
-  Button
+  Container
 } from 'react-bootstrap'
 
 // import SCSS
 import styled from './style.module.scss'
 
 // import all components
+import {
+  ShowTimesCard
+} from '../'
 
 function ShowTimesComponent(props) {
-  const { getShowTimes, id, getAllTimes } = props 
-  const history = useHistory()
+  const { getShowTimes, id } = props
 
   const [state, setState] = React.useState({
     showTimeDate: null,
@@ -48,14 +45,8 @@ function ShowTimesComponent(props) {
       }
     }
     getShowTimes(id, state.showTimeDate, state.location)
-    getAllTimes()
     getAllCities()
-  }, [getShowTimes, getAllTimes, id, state.showTimeDate, state.location])
-
-  const handleOrder = (index) => {
-    props.setOrder(props.results[index])
-    history.push('/order')
-  }
+  }, [getShowTimes, id, state.showTimeDate, state.location])
 
   const handleForm = (e, prop) => {
     setState(current => ({
@@ -100,81 +91,7 @@ function ShowTimesComponent(props) {
                   props.success ? (
                     props.results.map((item, indexShowTime) => (
                       <Col lg={4} key={String(indexShowTime)} className="mb-3">
-                        <Card className={`${styled.card}`}>
-                          <Card.Body>
-                            <Row className={`${styled.line} py-3`}>
-                              <Col xs={6} className="d-flex justify-content-center align-items-center">
-                                <Image src={item.cinemaPoster} fluid />
-                              </Col>
-                              <Col xs={6} className="d-flex flex-column">
-                                <h6 className={`${styled.cardTitle}`}>{item.cinema}</h6>
-                                <p className={styled.cardSubtitle}>
-                                    {item.address}
-                                </p>
-                              </Col>
-                            </Row>
-                            <Row className="mt-3">
-                              <Col xs={12}>
-                                <Row>
-                                  {
-                                    props.times.map((time, index) => (
-                                      <Col xs={3} key={index}>
-                                        {
-                                          (item.time.indexOf(time.showTime) === -1) ? (
-                                              <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={time.showTime} disabled/>
-                                          ) : (
-                                            <input type="radio" id={item.cinemaId.toString().concat(index)} className={styled.input} name={item.movieId} value={time.showTime} 
-                                            onChange={e => props.selectTime(e.target.value)}
-                                            />
-                                          )
-                                        }
-                                        <label htmlFor={item.cinemaId.toString().concat(index)} className={styled.time}>
-                                          <Moment format="HH:mma">
-                                            {`2021-01-26T${time.showTime}`}
-                                          </Moment>
-                                        </label>
-                                      </Col>
-                                    ))                                  
-                                  }
-                                </Row>
-                              </Col>
-                              <Col lg={12} className="mt-4">
-                                <Row>
-                                  <Col xs={6}>
-                                    <p className={styled.price}>Price</p>
-                                  </Col>
-                                  <Col xs={6} className="text-right">
-                                    <p className={styled.priceText}>${item.pricePerSeat}/seat</p>
-                                  </Col>
-                                </Row>
-                              </Col>
-                              <Col lg={12} className="mt-3">
-                                <Row>
-                                  <Col xs={6}>
-                                    {
-                                      props.order.ticketTime ? (
-                                        <Button variant="primary" onClick={() => handleOrder(indexShowTime)} className={`${styled.shadow} py-2 px-4`}>
-                                          Book Now
-                                        </Button>
-                                      ) : (
-                                        <Button variant="primary" className={`${styled.shadow} py-2 px-4`} disabled>
-                                          Book Now
-                                        </Button>
-                                      )
-                                    }
-                                  </Col>
-                                  <Col xs={6} className="text-right">
-                                    <Button variant="outline-light" className="py-2 px-2">
-                                      <span className="text-primary font-font-weight-bold"> 
-                                        Add to chart
-                                      </span>
-                                    </Button>
-                                  </Col>
-                                </Row>
-                              </Col>
-                            </Row>
-                          </Card.Body>
-                        </Card>
+                        <ShowTimesCard item={item} indexShowTime={indexShowTime} />
                       </Col>
                     ))
                   ): (
