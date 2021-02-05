@@ -1,6 +1,10 @@
 // import all modules
 import React, { Fragment } from 'react';
 import { useHistory } from 'react-router-dom'
+import { connect } from 'react-redux'
+
+// import redux actions
+import { setPaymentMethod } from '../../redux/actions/order'
 
 // import all images
 import googlepay from '../../assets/images/google-pay.svg';
@@ -24,7 +28,7 @@ import {
 // import scss
 import styled from './style.module.scss';
 
-export function PaymentMain() {
+function PaymentMainComponent(props) {
   const history = useHistory()
   const back = () => history.push('/order')
 
@@ -38,46 +42,46 @@ export function PaymentMain() {
               <Row className={styled.paymentRow}>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={googlepay} className="card-img-top" alt="Google Pay" />
+                    <img src={googlepay} className="card-img-top" alt="Google Pay" onClick={ () => props.setPaymentMethod('Google Pay')} />
                   </Card>
                 </Col>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={visa} className="card-img-top" alt="Visa" />
+                    <img src={visa} className="card-img-top" alt="Visa" onClick={ () => props.setPaymentMethod('Visa')} />
                   </Card>
                 </Col>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={gopay} className="card-img-top" alt="Go pay" />
+                    <img src={gopay} className="card-img-top" alt="Go pay" onClick={ () => props.setPaymentMethod('Go Pay')} />
                   </Card>
                 </Col>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={paypal} className={`${styled.imgPaypal} card-img-top`} alt="Paypal" />
+                    <img src={paypal} className={`${styled.imgPaypal} card-img-top`} alt="Paypal" onClick={ () => props.setPaymentMethod('Paypal')} />
                   </Card>
                 </Col>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={dana} className="card-img-top" alt="Dana" />
+                    <img src={dana} className="card-img-top" alt="Dana" onClick={ () => props.setPaymentMethod('Dana')} />
                   </Card>
                 </Col>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={bca} className="card-img-top" alt="BCA" />
+                    <img src={bca} className="card-img-top" alt="BCA" onClick={ () => props.setPaymentMethod('BCA')} />
                   </Card>
                 </Col>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={bri} className={`${styled.imgBri} card-img-top`} alt="BRI" />
+                    <img src={bri} className={`${styled.imgBri} card-img-top`} alt="BRI" onClick={ () => props.setPaymentMethod('BRI')} />
                   </Card>
                 </Col>
                 <Col lg={3}>
                   <Card className={styled.card}>
-                    <img src={ovo} className="card-img-top" alt="Ovo" />
+                    <img src={ovo} className="card-img-top" alt="Ovo" onClick={ () => props.setPaymentMethod('Ovo')} />
                   </Card>
                 </Col>
               </Row>
-              <Row className="mt-5">
+              <Row className="mt-4">
                 <Col sm={5} xs={5}>
                   <hr />
                 </Col>
@@ -88,7 +92,7 @@ export function PaymentMain() {
                   <hr />
                 </Col>
               </Row>
-              <Row className="mt-5">
+              <Row className="mt-3">
                 <Col lg={12}>
                   <p className="text-muted fs-6 text-center">
                     Pay via cash. <span className="text-primary">See how it work</span>
@@ -116,3 +120,13 @@ export function PaymentMain() {
     </Fragment>
   )
 }
+
+const mapStateToProps = state => ({
+  order: state.order
+})
+
+const mapDispatchToProps = {
+  setPaymentMethod
+}
+
+export const PaymentMain = connect(mapStateToProps, mapDispatchToProps)(PaymentMainComponent)

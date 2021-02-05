@@ -63,6 +63,13 @@ const reducer = (state = initialState, action) => {
             }
         }
 
+        case 'SET_PAYMENT_METHOD' : {
+            return {
+                ...state,
+                paymentMethod: action.paymentMethod
+            }
+        }
+
         default: {
             return {
                 ...state

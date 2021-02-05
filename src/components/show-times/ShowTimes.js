@@ -130,7 +130,7 @@ function ShowTimesComponent(props) {
                                         }
                                         <label htmlFor={item.cinemaId.toString().concat(index)} className={styled.time}>
                                           <Moment format="HH:mma">
-                                            {`2021-01-26 ${time.showTime}`}
+                                            {`2021-01-26T${time.showTime}`}
                                           </Moment>
                                         </label>
                                       </Col>

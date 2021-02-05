@@ -5,9 +5,14 @@ aside.aside {
   .movie-select {
     font-size: .9rem;
   }
+  h3 {
+    font-size: 1.4rem;
+    color: #14142B;
+
+  }
 }
 
-aside > .card {
+aside.aside > .card {
   background-color: $light;
   box-shadow: 0px 8px 16px rgba(186, 186, 186, 0.24);
   border-radius: 6px;

@@ -31,3 +31,8 @@ export const setTicketCount = () => ({
 export const setTotalPayment = () => ({
     type: 'SET_TOTAL_PAYMENT'
 })
+
+export const setPaymentMethod = (paymentMethod) => ({
+    type: 'SET_PAYMENT_METHOD',
+    paymentMethod
+})

@@ -27,11 +27,11 @@ export function PaymentSide() {
               <Form>
                 <div className="mb-3">
                   <Form.Label htmlFor="fullname">Full Name</Form.Label>
-                  <Form.Control type="text" id="fullname"/>
+                  <Form.Control type="text" id="fullname" placeholder="Full name..." />
                 </div>
                 <div className="mb-3">
                   <Form.Label htmlFor="email" className="text-muted">Email</Form.Label>
-                  <Form.Control type="email" id="email"/>
+                  <Form.Control type="email" id="email" placeholder="E-mail..." />
                 </div>
                 <div className="mb-3">
                   <Form.Label htmlFor="phonenumber">
@@ -39,9 +39,9 @@ export function PaymentSide() {
                   </Form.Label>
                   <InputGroup className="mb-2">
                     <InputGroup.Prepend>
-                      <InputGroup.Text>+62</InputGroup.Text>
+                      <InputGroup.Text className="bg-white">+62</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl id="phonenumber" />
+                    <FormControl id="phonenumber" placeholder="Phone number..." />
                   </InputGroup>
                 </div>
               </Form>

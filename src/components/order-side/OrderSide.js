@@ -17,8 +17,8 @@ import styled from './style.module.scss';
 function OrderSideComponent(props) {
   return (
     <Fragment>
-      <aside>
-        <h3 className="fs-5 mb-4">Order Info</h3>
+      <aside className={styled.aside}>
+        <h3 className="mb-4">Order Info</h3>
         <Card className={`${styled.card} w-100 pt-3`} style={{ height: '100%'}}>
           <Card.Body>
             <Container className="px-2" fluid>
