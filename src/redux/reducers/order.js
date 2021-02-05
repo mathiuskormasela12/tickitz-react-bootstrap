@@ -49,6 +49,20 @@ const reducer = (state = initialState, action) => {
             }
         }
 
+        case 'SET_TICKET_COUNT' : {
+            return {
+                ...state,
+                ticketCount: Number(state.seats.length)
+            }
+        }
+
+        case 'SET_TOTAL_PAYMENT' : {
+            return {
+                ...state,
+                totalPayment: state.ticketCount * state.pricePerSeat
+            }
+        }
+
         default: {
             return {
                 ...state

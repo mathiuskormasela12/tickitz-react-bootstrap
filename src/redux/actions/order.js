@@ -23,3 +23,11 @@ export const selectSeat = (seats) => ({
     type: 'SELECT_SEAT',
     seats
 })
+
+export const setTicketCount = () => ({
+    type: 'SET_TICKET_COUNT'
+})
+
+export const setTotalPayment = () => ({
+    type: 'SET_TOTAL_PAYMENT'
+})

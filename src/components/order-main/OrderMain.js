@@ -2,7 +2,11 @@
 import React, { Fragment, useState } from 'react';
 import http from '../../services/AuthService'
 import { connect } from 'react-redux'
-import { selectSeat } from '../../redux/actions/order'
+import { 
+  selectSeat, 
+  setTicketCount, 
+  setTotalPayment 
+} from '../../redux/actions/order'
 
 // Import react bootstrap components
 import {
@@ -89,6 +93,9 @@ function OrderMainComponent(props) {
         props.selectSeat([...prevSeats])
       }
     }
+
+    props.setTicketCount()
+    props.setTotalPayment()
   }
 
   return (
@@ -233,7 +240,9 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-  selectSeat
+  selectSeat,
+  setTicketCount,
+  setTotalPayment
 }
 
 export const OrderMain = connect(mapStateToProps, mapDispatchToProps)(OrderMainComponent)
