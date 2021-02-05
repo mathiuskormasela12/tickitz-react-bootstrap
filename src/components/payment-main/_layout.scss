@@ -1,0 +1,51 @@
+main.main {
+  h3.paymentMethodTitle {
+    color: #14142B;
+    font-size: 1.7rem;
+  }
+
+  .paymentRow {
+    .card {
+      margin-bottom: 1rem;
+      position: relative;
+      cursor: pointer;
+      border: 2px solid #DEDEDE;
+      border-radius: 8px;
+      height: 3.1rem;
+      padding: 0 !important;
+      align-items: center;
+
+      img {
+        top: 1rem;
+        width: 3.7rem;
+        position: absolute;
+      }
+
+      img.imgPaypal {
+        width: 1.5rem;
+        top: .6rem;
+      }
+
+
+      img.imgBri {
+        width: 2.5rem;
+        top: .5rem;
+      }
+    }
+  }
+
+  .card {
+    padding: 4rem 1.4rem;
+    border-radius: 6px;
+    background-color: $light;
+    height: auto;
+    border: none;
+    box-sizing: content-box !important;
+  }
+}
+
+footer.footer {
+  button.btnFooter {
+    height: 3.5rem;
+  }
+}

@@ -15,3 +15,7 @@ export * from './order-header/OrderHeader';
 export * from './order-main/OrderMain';
 export * from './order-side/OrderSide';
 export * from './order/Order';
+export * from './payment/Payment';
+export * from './payment-header/PaymentHeader';
+export * from './payment-main/PaymentMain';
+export * from './payment-side/PaymentSide';

@@ -12,6 +12,7 @@ import ResetPassword from './views/ResetPassword';
 import Active from './views/Active';
 import MovieDetails from './views/MovieDetails';
 import Order from './views/Order';
+import Payments from './views/Payments';
 
 // Import store
 import store from './redux/store'
@@ -29,6 +30,7 @@ function Routes() {
           <Route path="/active" component={ Active } />
           <ProtectedRoutes path="/details/:id" protectedComponent={ MovieDetails } />
           <Route path="/order" component={ Order } />
+          <Route path="/payment" component={ Payments } />
         </Switch>
       </BrowserRouter>
     </Provider>
