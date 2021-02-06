@@ -13,6 +13,7 @@ import Active from './views/Active';
 import MovieDetails from './views/MovieDetails';
 import Order from './views/Order';
 import Payments from './views/Payments';
+import Ticket from './views/Ticket';
 
 // Import store
 import store from './redux/store'
@@ -31,6 +32,7 @@ function Routes() {
           <ProtectedRoutes path="/details/:id" protectedComponent={ MovieDetails } />
           <Route path="/order" component={ Order } />
           <Route path="/payment" component={ Payments } />
+          <Route path="/ticket" component={ Ticket } />
         </Switch>
       </BrowserRouter>
     </Provider>

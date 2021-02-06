@@ -44,7 +44,7 @@ function PaymentMainComponent(props) {
       props.setMessage("Incorrect phone number", 'warning') 
     } else {
       props.setMessage(null, null)
-      window.alert('berhasil')
+      history.push('/ticket')
     }
   }
 

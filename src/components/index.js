@@ -20,3 +20,4 @@ export * from './payment-header/PaymentHeader';
 export * from './payment-main/PaymentMain';
 export * from './payment-side/PaymentSide';
 export * from './show-times-card/ShowTimesCard';
+export * from './ticket/Ticket';
