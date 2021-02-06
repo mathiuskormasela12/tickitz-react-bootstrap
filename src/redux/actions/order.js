@@ -10,7 +10,8 @@ export const setOrder = (data) => {
         pricePerSeat: data.pricePerSeat,
         showTimeId: data.showTimeId,
         cinemaId: data.cinemaId,
-        movieId: data.movieId
+        movieId: data.movieId,
+        category: data.category
     }
 }
 

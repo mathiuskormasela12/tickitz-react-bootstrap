@@ -19,13 +19,13 @@ const initialState = {
     email: null,
     isPersonalInfoValid: false,
     message: null,
-    messageType: null
+    messageType: null,
+    category: null
 }
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case 'SET_ORDER': {
-            console.log('INI PRICENYA', action.pricePerSeat)
             return {
                 ...state,
                 movieTitle: action.movieTitle,
@@ -37,7 +37,8 @@ const reducer = (state = initialState, action) => {
                 pricePerSeat: action.pricePerSeat,
                 showTimeId: action.showTimeId,
                 cinemaId: action.cinemaId,
-                movieId: action.movieId
+                movieId: action.movieId,
+                category: action.category
             }
         }
 
