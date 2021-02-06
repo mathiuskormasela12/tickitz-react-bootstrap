@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 // import redux actions
-import { setPaymentMethod } from '../../redux/actions/order'
+import { setPaymentMethod, removePaymentMethod, setMessage } from '../../redux/actions/order'
 
 // import all images
 import googlepay from '../../assets/images/google-pay.svg';
@@ -30,7 +30,23 @@ import styled from './style.module.scss';
 
 function PaymentMainComponent(props) {
   const history = useHistory()
-  const back = () => history.push('/order')
+  const back = () => {
+    props.removePaymentMethod()
+    history.push('/order')
+  }
+
+  const order = () => {
+    if(!props.order.fullName || !props.order.email || !props.order.phone) {
+      props.setMessage("Form can't be empty", 'warning')
+    } else if (props.order.email.match(/[^@$a-z0-9.]/gi) || !props.order.email.match(/@\b/g) || props.order.email.match(/\s/) || props.order.email.match(/\b[0-9]/) || !props.order.email.split('@').pop().includes('.')) {
+      props.setMessage("Incorrect email", 'warning') 
+    } else if(props.order.phone.match(/[a-z]/gi) || props.order.phone.match(/[^0-9]/gi)) {
+      props.setMessage("Incorrect phone number", 'warning') 
+    } else {
+      props.setMessage(null, null)
+      window.alert('berhasil')
+    }
+  }
 
   return (
     <Fragment>
@@ -111,7 +127,7 @@ function PaymentMainComponent(props) {
             </Button>
           </Col>
           <Col lg={5} className="text-right">
-            <Button variant="primary" className={`${styled.btnFooter} w-100`}>
+            <Button variant="primary" className={`${styled.btnFooter} w-100`} onClick={order}>
               Pay your order
             </Button>
           </Col>
@@ -126,7 +142,9 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  setPaymentMethod
+  setPaymentMethod,
+  removePaymentMethod,
+  setMessage
 }
 
 export const PaymentMain = connect(mapStateToProps, mapDispatchToProps)(PaymentMainComponent)

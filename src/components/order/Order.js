@@ -3,6 +3,7 @@ import React, { Fragment } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeSeat, setTotalPayment, setTicketCount } from '../../redux/actions/order'
+import Swall from 'sweetalert2'
 
 // import react bootstrap component
 import {
@@ -25,7 +26,15 @@ function OrderComponent(props) {
   const history = useHistory();
 
   const checkout = () => {
-    history.push('/payment');
+    if(props.results.seats.length < 1) {
+      Swall.fire({
+        title: 'Failed to checkout',
+        text: 'Please select your seat',
+        icon: 'warning'
+      })
+    } else {
+      history.push('/payment');
+    }
   }
 
   const changeMovie = () => {

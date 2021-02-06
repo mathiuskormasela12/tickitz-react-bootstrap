@@ -13,7 +13,13 @@ const initialState = {
     movieTitle: null,
     showTimeId: null,
     cinemaId: null,
-    movieId: null
+    movieId: null,
+    fullName: null,
+    phone: null,
+    email: null,
+    isPersonalInfoValid: false,
+    message: null,
+    messageType: null
 }
 
 const reducer = (state = initialState, action) => {
@@ -74,6 +80,35 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 paymentMethod: action.paymentMethod
+            }
+        }
+
+        case 'REMOVE_PAYMENT_METHOD' : {
+            return {
+                ...state,
+                paymentMethod: null
+            }
+        }
+
+        case 'SET_PERSONAL_INFO' : {
+            return {
+                ...state,
+                [action.name]: action.value
+            }
+        }
+
+        case 'SET_PERSONAL_INFO_VALID' : {
+            return {
+                ...state,
+                isPersonalInfoValid: action.isPersonalInfoValid
+            }
+        }
+
+        case 'SET_MESSAGE' : {
+            return {
+                ...state,
+                message: action.message,
+                messageType: action.messageType
             }
         }
 

@@ -1,6 +1,8 @@
 // import all modules
 import React, { Fragment } from 'react';
 import warning from '../../assets/images/warning.svg';
+import { connect } from 'react-redux'
+import { setPersonalInfo, setPersonalInfoValid } from '../../redux/actions/order'
 
 // Import react bootstrap components
 import { 
@@ -16,7 +18,11 @@ import {
 // import scss
 import styled from './style.module.scss';
 
-export function PaymentSide() {
+function PaymentSideComponent(props) {
+  const handleInput = (e, prop) => {
+    props.setPersonalInfo(prop, e.target.value)
+  }
+
   return (
     <Fragment>
       <aside className={styled.aside}>
@@ -27,11 +33,11 @@ export function PaymentSide() {
               <Form>
                 <div className="mb-3">
                   <Form.Label htmlFor="fullname">Full Name</Form.Label>
-                  <Form.Control type="text" id="fullname" placeholder="Full name..." />
+                  <Form.Control type="text" id="fullname" placeholder="Full name..." onChange={e => handleInput(e, 'fullName')} />
                 </div>
                 <div className="mb-3">
                   <Form.Label htmlFor="email" className="text-muted">Email</Form.Label>
-                  <Form.Control type="email" id="email" placeholder="E-mail..." />
+                  <Form.Control type="email" id="email" placeholder="E-mail..." onChange={e => handleInput(e, 'email')} />
                 </div>
                 <div className="mb-3">
                   <Form.Label htmlFor="phonenumber">
@@ -41,14 +47,20 @@ export function PaymentSide() {
                     <InputGroup.Prepend>
                       <InputGroup.Text className="bg-white">+62</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl id="phonenumber" placeholder="Phone number..." />
+                    <FormControl id="phonenumber" placeholder="Phone number..." onChange={e => handleInput(e, 'phone')} />
                   </InputGroup>
                 </div>
               </Form>
-              <Alert variant="warning" className="mt-4 d-flex align-items-center">
-                <Image fluid className="mr-4" src={ warning } alt="Warning" />
-                Fill your data correctly.
-              </Alert>
+              {
+                (props.order.message) ? (
+                  <Alert variant={props.order.messageType} className="mt-4 d-flex align-items-center">
+                    {
+                      (props.order.messageType !== 'success') ? <Image fluid className="mr-4" src={ warning } alt="Warning" /> : null
+                    }
+                    {props.order.message}
+                  </Alert>
+                ) : null
+              }
             </Container>
           </Card.Body>
         </Card>
@@ -56,3 +68,14 @@ export function PaymentSide() {
     </Fragment>
   )
 }
+
+const mapStateToProps = state => ({
+  order: state.order
+})
+
+const mapDispatchToProps = {
+  setPersonalInfo,
+  setPersonalInfoValid
+}
+
+export const PaymentSide = connect(mapStateToProps, mapDispatchToProps)(PaymentSideComponent)

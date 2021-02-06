@@ -64,7 +64,12 @@ function PaymentHeaderComponent(props) {
               <p className="text-muted m-0">Total payment</p>
             </Col>
             <Col xs={6} sm={6}>
-              <p className="text-right text-dark font-weight-bold m-0">${props.order.totalPayment}</p>
+              <p className="text-right text-dark font-weight-bold m-0">
+                ${props.order.totalPayment} {' '}
+                <span className="font-weight-normal">
+                  {props.order.paymentMethod ? `via ${props.order.paymentMethod}` : ''} 
+                </span>
+              </p>
             </Col>
           </Row>
         </Card>

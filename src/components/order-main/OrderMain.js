@@ -117,9 +117,16 @@ function OrderMainComponent(props) {
                                 <input type="checkbox" id={row + '-' + col} value={row + col} disabled />
                                 <label htmlFor={row + '-' + col} className={styled.normal}></label>
                               </Fragment>
+                            ) : (!props.results.seats.some((item) => item === `${row}${col}`)) ?(
+                              (
+                                <Fragment>
+                                  <input type="checkbox" id={row + '-' + col} value={row + col} onChange={ selectSeat } />
+                                  <label htmlFor={row + '-' + col} className={styled.normal}></label>
+                                </Fragment>
+                              )
                             ) : (
                               <Fragment>
-                                <input type="checkbox" id={row + '-' + col} value={row + col} onChange={ selectSeat } />
+                                <input type="checkbox" id={row + '-' + col} value={row + col} onChange={ selectSeat } defaultChecked />
                                 <label htmlFor={row + '-' + col} className={styled.normal}></label>
                               </Fragment>
                             )
@@ -162,12 +169,17 @@ function OrderMainComponent(props) {
                                     <input type="checkbox" id={row + '-' + col} value={`${row + col},${row + (Number(col) + 1)}`} disabled />
                                     <label htmlFor={row + '-' + col} style={{ width: '3.5rem'}} className={styled.loveNest}></label>
                                   </Fragment>
-                                ) : (
+                                ) : (!props.results.seats.some((item) => item === `${row}${col}`)) ? (
                                   <Fragment>
                                     <input type="checkbox" id={row + '-' + col} value={`${row + col},${row + (Number(col) + 1)}`} onChange={ selectSeat } />
                                     <label htmlFor={row + '-' + col} style={{ width: '3.5rem'}} className={styled.loveNest}></label>
                                   </Fragment>
-                                )
+                                ) : (
+                                  <Fragment>
+                                    <input type="checkbox" id={row + '-' + col} value={`${row + col},${row + (Number(col) + 1)}`} onChange={ selectSeat } defaultChecked />
+                                    <label htmlFor={row + '-' + col} style={{ width: '3.5rem'}} className={styled.loveNest}></label>
+                                  </Fragment>
+                                ) 
                               }
                             </Fragment>
                           ): (row === 'F' && Number(col) === 11) ? null: (
@@ -178,9 +190,14 @@ function OrderMainComponent(props) {
                                     <input type="checkbox" id={row + '-' + col} value={row + col} disabled/>
                                     <label htmlFor={row + '-' + col} className={styled.normal}></label>
                                   </Fragment>
-                                ) : (
+                                ) : (!props.results.seats.some((item) => item === `${row}${col}`)) ? (
                                   <Fragment>
                                     <input type="checkbox" id={row + '-' + col} value={row + col} onChange={ selectSeat } />
+                                    <label htmlFor={row + '-' + col} className={styled.normal}></label>
+                                  </Fragment>
+                                ) : (
+                                  <Fragment>
+                                    <input type="checkbox" id={row + '-' + col} value={row + col} onChange={ selectSeat } defaultChecked />
                                     <label htmlFor={row + '-' + col} className={styled.normal}></label>
                                   </Fragment>
                                 )

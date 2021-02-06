@@ -40,3 +40,24 @@ export const setPaymentMethod = (paymentMethod) => ({
     type: 'SET_PAYMENT_METHOD',
     paymentMethod
 })
+
+export const removePaymentMethod = () => ({
+    type: 'REMOVE_PAYMENT_METHOD'
+})
+
+export const setPersonalInfo = (name, value) => ({
+    type: 'SET_PERSONAL_INFO',
+    value,
+    name
+})
+
+export const setPersonalInfoValid = (value) => ({
+    type: 'SET_PERSONAL_INFO_VALID',
+    isPersonalInfoValid: value
+})
+
+export const setMessage = (message, type) => ({
+    type: 'SET_MESSAGE',
+    message,
+    messageType: type
+})
