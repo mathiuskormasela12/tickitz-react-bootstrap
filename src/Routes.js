@@ -30,9 +30,9 @@ function Routes() {
           <Route path="/reset-password" component={ Reset } />
           <Route path="/active" component={ Active } />
           <ProtectedRoutes path="/details/:id" protectedComponent={ MovieDetails } />
-          <Route path="/order" component={ Order } />
-          <Route path="/payment" component={ Payments } />
-          <Route path="/ticket" component={ Ticket } />
+          <ProtectedRoutes path="/order" protectedComponent={ Order } />
+          <ProtectedRoutes path="/payment" protectedComponent={ Payments } />
+          <ProtectedRoutes path="/ticket" protectedComponent={ Ticket } />
         </Switch>
       </BrowserRouter>
     </Provider>

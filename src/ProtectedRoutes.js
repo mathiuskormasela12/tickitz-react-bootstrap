@@ -2,6 +2,9 @@ import React, { Fragment } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+// import actions
+import { autoLogin } from './redux/actions/auth'
+
 function ProtectedRoutesComponent(props) {
 		const Component = props.protectedComponent;
 		
@@ -9,6 +12,12 @@ function ProtectedRoutesComponent(props) {
 			<Fragment>
 				<Route {...props} render={({ location, ...rest}) => {
 					if(props.isLogin) {
+						return (
+							<Component {...rest} />
+						)
+					} else if(localStorage.getItem('token')) {
+						props.autoLogin()
+
 						return (
 							<Component {...rest} />
 						)
@@ -33,4 +42,8 @@ const mapStateToProps = state => ({
     isLogin: state.redux.isLogin
 })
 
-export default connect(mapStateToProps, null)(ProtectedRoutesComponent)
+const mapDispatchToProps = {
+	autoLogin
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProtectedRoutesComponent)

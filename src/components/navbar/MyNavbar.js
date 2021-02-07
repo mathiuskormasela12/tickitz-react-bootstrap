@@ -6,7 +6,8 @@ import { useHistory } from 'react-router-dom'
 // import SCSS
 import styled from './style.module.scss'
 
-// import all components
+// import actions
+import { logout, autoLogin } from '../../redux/actions/auth';
 
 // import all images
 import tickitz from '../../assets/images/tickitz2.svg';
@@ -31,7 +32,17 @@ function MyNavbarComponent(props) {
   const handleLogin = () => history.push('/register')
 
   const push = page => history.push(page)
-  console.log(props)
+  
+  const logout = () => localStorage.removeItem('token')
+
+  const { autoLogin, isLogin } = props
+
+  React.useEffect(() => {
+    if(localStorage.getItem('token')) {
+      autoLogin()
+    }
+  }, [isLogin, autoLogin])
+
 	return (
 		<Fragment>
 			<Navbar bg="light" expand="lg" className={`${styled.nav} py-4 w-100 ${props.abs ? 'position-static' : ''}`}>
@@ -66,7 +77,10 @@ function MyNavbarComponent(props) {
             </div>
             {
               props.isLogin ? (
-                <Image src={user} fluid />
+                <NavDropdown title={<Image src={user} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow} onClick={logout}>
+                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                  <NavDropdown.Item onClick={props.logout}>Logout</NavDropdown.Item>
+                </NavDropdown>
               ) : (
                 <Button variant="primary" className="ml-4 px-4" onClick={handleLogin}>
                   Sign Up
@@ -84,4 +98,9 @@ const mapStateToprops = state => ({
   isLogin: state.redux.isLogin
 })
 
-export const MyNavbar = connect(mapStateToprops, null)(MyNavbarComponent)
+const mapDispatchToProps = {
+  logout,
+  autoLogin
+}
+
+export const MyNavbar = connect(mapStateToprops, mapDispatchToProps)(MyNavbarComponent)

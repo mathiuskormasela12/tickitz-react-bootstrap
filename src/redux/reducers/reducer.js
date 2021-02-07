@@ -131,6 +131,21 @@ const reducer = (state = initialState, action) => {
             }
         }
 
+        case "AUTO_LOGIN": {
+            return {
+                ...state,
+                isLogin: true
+            }
+        }
+
+        case "LOGOUT": {
+            localStorage.removeItem('token')
+            return {
+                ...state,
+                isLogin: false
+            }
+        }
+
         default: {
             return {
                 ...state

@@ -113,3 +113,11 @@ export const editPassword = (id, email, password) => {
 		}
 	}
 }
+
+export const autoLogin = () => ({
+	type: "AUTO_LOGIN"
+})
+
+export const logout = () => ({
+	type: "LOGOUT"
+})

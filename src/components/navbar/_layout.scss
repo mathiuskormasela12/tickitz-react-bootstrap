@@ -29,3 +29,7 @@
         color: $primary !important;
     }
 }
+
+.dropdownArrow > a::after {
+    display: none !important;
+}
