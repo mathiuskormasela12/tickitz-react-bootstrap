@@ -3,9 +3,6 @@ const initialState = {
     message: '',
     messageShowtimes: '',
     messageTimes: '',
-    token: null,
-    isLogin: false,
-    role: null,
     success: false,
     successNowShowing: false,
     successTimes: false,
@@ -26,55 +23,6 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 showPassword: !state.showPassword
-            }
-        }
-
-        case "CLOSE_ALERT": {
-            return {
-                ...state,
-                message: ''
-            }
-        }
-
-        case "REGISTER": {
-            return {
-                ...state,
-                message: action.message,
-                success: action.success
-            }
-        }
-
-        case "LOGIN": {
-            return {
-                ...state,
-                message: action.message,
-                token: action.token,
-                success: action.success,
-                isLogin: action.login
-            }
-        }
-
-        case "ACTIVEACCOUNT": {
-            return {
-                ...state,
-                message: action.message,
-                success: action.success
-            }
-        }
-
-        case "SEND_FORGOT_PASSWORD_LINK": {
-            return {
-                ...state,
-                message: action.message,
-                success: action.success
-            }
-        }
-
-        case "EDIT_PASSWORD": {
-            return {
-                ...state,
-                message: action.message,
-                success: action.success
             }
         }
 
@@ -128,21 +76,6 @@ const reducer = (state = initialState, action) => {
                 successTimes: action.success,
                 times: action.results,
                 messageTimes: action.message
-            }
-        }
-
-        case "AUTO_LOGIN": {
-            return {
-                ...state,
-                isLogin: true
-            }
-        }
-
-        case "LOGOUT": {
-            localStorage.removeItem('token')
-            return {
-                ...state,
-                isLogin: false
             }
         }
 

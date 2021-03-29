@@ -5,7 +5,7 @@ import { Alert } from 'react-bootstrap'
 
 function MyAlert(props) {
 
-  if (props.message.length > 0) {
+  if (props.message) {
     return (
       <Alert variant={props.variant} onClose={() => props.closeAlert()} dismissible>
         {props.message}
@@ -16,14 +16,8 @@ function MyAlert(props) {
   }
 }
   
-const mapStateToProps = state => {
-  return {
-    message: state.redux.message
-  }
-}
-
 const mapDispatchToProps = {
   closeAlert
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MyAlert)
+export default connect(null, mapDispatchToProps)(MyAlert)

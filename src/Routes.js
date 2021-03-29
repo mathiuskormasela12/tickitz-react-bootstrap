@@ -2,6 +2,7 @@
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import ProtectedRoutes from './ProtectedRoutes'
+import {PersistGate} from 'redux-persist/integration/react'
 
 // Import views
 import Home from './views/Home';
@@ -16,25 +17,28 @@ import Payments from './views/Payments';
 import Ticket from './views/Ticket';
 
 // Import store
-import store from './redux/store'
+import persistedStore from './redux/store'
 
 function Routes() {
+  const {store, persistor} = persistedStore()
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          <Route path="/" exact component={ Home } />
-          <Route path="/login" component={ Login } />
-          <Route path="/register" component={ Register } />
-          <Route path="/reset" component={ ResetPassword } />
-          <Route path="/reset-password" component={ Reset } />
-          <Route path="/active" component={ Active } />
-          <ProtectedRoutes path="/details/:id" protectedComponent={ MovieDetails } />
-          <ProtectedRoutes path="/order" protectedComponent={ Order } />
-          <ProtectedRoutes path="/payment" protectedComponent={ Payments } />
-          <ProtectedRoutes path="/ticket" protectedComponent={ Ticket } />
-        </Switch>
-      </BrowserRouter>
+      <PersistGate persistor={persistor}>
+        <BrowserRouter>
+          <Switch>
+            <Route path="/" exact component={ Home } />
+            <Route path="/login" component={ Login } />
+            <Route path="/register" component={ Register } />
+            <Route path="/reset" component={ ResetPassword } />
+            <Route path="/reset-password" component={ Reset } />
+            <Route path="/active" component={ Active } />
+            <ProtectedRoutes path="/details/:id" protectedComponent={ MovieDetails } />
+            <ProtectedRoutes path="/order" protectedComponent={ Order } />
+            <ProtectedRoutes path="/payment" protectedComponent={ Payments } />
+            <ProtectedRoutes path="/ticket" protectedComponent={ Ticket } />
+          </Switch>
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   );
 }

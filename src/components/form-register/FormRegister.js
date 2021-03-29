@@ -1,16 +1,16 @@
 // Import all modules
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import { peekPassword } from '../../redux/actions/peekPassword'
-import { register } from '../../redux/actions/auth'
-
+import { register, resetMessage } from '../../redux/actions/auth'
 
 // Import components
 import Separator from '../separator/Separator';
 import SocialMediaAuth from '../social-media-auth/SocialMediaAuth';
 import {default as Alert} from '../alert/MyAlert'
+import Loading from '../loading/Loading';
 
 // Import bootstrap component
 import { 
@@ -27,18 +27,44 @@ import {
 import styled from './style.module.scss';
 
 function FormRegister(props) {
+  const history = useHistory()
   const [state, setState] = useState({
     email: '',
     password: '',
     agree: false
   })
 
+  const { success, resetMessage } = props;
+
   const handleInput = (e, prop) => {
-    setState(currentState => ({
-      ...currentState,
-      [prop]: e.target.value
-    }))
+    if(prop === 'agree') {
+      if(e.target.checked) {
+        setState(currentState => ({
+          ...currentState,
+          [prop]: true,
+        }))
+      } else {
+        setState(currentState => ({
+          ...currentState,
+          [prop]: false,
+        }))
+      }
+    } else {
+      setState(currentState => ({
+        ...currentState,
+        [prop]: e.target.value
+      }))
+    }
   }
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      if(success) {
+        resetMessage()
+        history.push('/login')
+      }
+    }, 3000)
+  }, [history, success, resetMessage])
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -107,19 +133,22 @@ function FormRegister(props) {
                   id="customControlInline"
                   label="I agree to terms & conditions"
                   custom
+                  value={true}
                   onChange={e => handleInput(e, 'agree')}
                 />
-                {
-                  state.agree ? (
-                    <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                      Join for free now
-                    </Button>
-                  ) : (
-                    <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`} disabled>
-                      Join for free now
-                    </Button>
-                  )
-                }
+                <Loading>
+                  {
+                    state.agree ? (
+                      <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                        Join for free now
+                      </Button>
+                    ) : (
+                      <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`} disabled>
+                        Join for free now
+                      </Button>
+                    )
+                  }
+                </Loading>
               </Form>
               <Row className="mt-5">
                 <Col>
@@ -141,14 +170,15 @@ function FormRegister(props) {
 const mapStateToProps = state => {
   return {
     show: state.redux.showPassword,
-    message: state.redux.message,
-    success: state.redux.success
+    message: state.message.message,
+    success: state.message.success,
   }
 }
 
 const mapDispatchToProps = {
   showPassword: peekPassword,
-  register
+  register,
+  resetMessage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormRegister);

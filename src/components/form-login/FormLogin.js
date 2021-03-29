@@ -3,11 +3,12 @@ import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom';
 
-import { login } from '../../redux/actions/auth'
+import { login, resetMessage } from '../../redux/actions/auth'
 import { peekPassword } from '../../redux/actions/peekPassword'
 
 // Import components
 import Separator from '../separator/Separator';
+import Loading from '../loading/Loading';
 import SocialMediaAuth from '../social-media-auth/SocialMediaAuth';
 import {default as Alert} from '../alert/MyAlert'
 
@@ -19,7 +20,7 @@ import {
   Form,
   Button,
   InputGroup,
-  FormControl
+  FormControl,
 } from 'react-bootstrap';
 
 // import scss
@@ -31,27 +32,64 @@ function FormLogin(props) {
 
   const [state, setState] = useState({
     email: '',
-    password: ''
+    password: '',
   })
 
+  const { resetMessage, success, login} = props;
+
   const handleInput = (e, prop) => {
+    // if (
+    //   state.email.match(/[^@$a-z0-9.]/gi) ||
+    //   !state.email.match(/@\b/g) ||
+    //   state.email.match(/\s/) ||
+    //   state.email.match(/\b[0-9]/) ||
+    //   !state.email.split('@').pop().includes('.')
+    // ) {
+    //   console.log('e')
+    //   setState((currentState) => ({
+    //     ...currentState,
+    //     message: 'Incorrect email',
+    //   }))
+    // } else if (
+    //   state.password.length > 15 ||
+    //   state.password.length < 5
+    // ) {
+    //   setState((currentState) => ({
+    //     ...currentState,
+    //     message: 'Password min 5 character and max 15 character',
+    //   }))
+    // } else if (
+    //   state.password.match(/[a-z]/g) === null ||
+    //   state.password.match(/\d/g) === null ||
+    //   state.password.match(/[A-Z]/g) === null ||
+    //   state.password.match(/[^a-z0-9]/gi) === null
+    // ) {
+    //   setState((currentState) => ({
+    //     ...currentState,
+    //     message: 'Password must include lower case and uppercase letters, numbers and symbol',
+    //   }))
+  
+    // }
+
     setState(currentState => ({
       ...currentState,
       [prop]: e.target.value
     }))
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault()
-    console.log(state)
-    props.login(state.email, state.password)    
+    login(state.email, state.password)    
   }
 
   React.useEffect(() => {
-    if(props.success) {
-      history.push('/')
-    }
-  }, [props.success, history])
+    setTimeout(() => {
+      if(success) {
+        resetMessage()
+        history.push('/')
+      }
+    }, 3000)
+  }, [success, resetMessage, history])
 
   return (
     <Fragment>
@@ -71,6 +109,11 @@ function FormLogin(props) {
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
                   <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" onChange={e => handleInput(e, 'email')} />
+                  {state.message && (
+                    <Form.Control.Feedback type="invalid">
+                      wwlwl
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword" className="mb-3">
                   <Form.Label className="mb-3">Password</Form.Label>
@@ -110,10 +153,25 @@ function FormLogin(props) {
                       </InputGroup.Text>
                     </InputGroup.Append>
                   </InputGroup>
+                  {state.message && (
+                    <Form.Control.Feedback type="invalid">
+                      {state.message}
+                    </Form.Control.Feedback>
+                  )}
                 </Form.Group>
-                <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                  Sign In
-                </Button>
+                <Loading>
+                  {
+                  state.email && state.password ? (
+                    <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                      Sign In
+                    </Button>
+                    ) : (
+                      <Button variant="primary" disabled type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                        Sign In
+                      </Button>
+                    )
+                  }
+                </Loading>
               </Form>
               <Row className="mt-4">
                 <Col>
@@ -135,14 +193,15 @@ function FormLogin(props) {
 const mapStateToProps = state => {
   return {
     show: state.redux.showPassword,
-    message: state.redux.message,
-    success: state.redux.success
+    message: state.message.message,
+    success: state.message.success,
   }
 }
 
 const mapDispatchToProps = {
   login: login,
-  showPassword: peekPassword 
+  showPassword: peekPassword,
+  resetMessage
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormLogin);

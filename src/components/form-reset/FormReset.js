@@ -1,7 +1,7 @@
 // Import all modules
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
-import { sendForgotPasswordLink } from '../../redux/actions/auth'
+import { sendForgotPasswordLink, resetMessage } from '../../redux/actions/auth'
 
 // Import bootstrap component
 import { 
@@ -14,6 +14,9 @@ import {
 
 import {default as Alert} from '../alert/MyAlert'
 
+// import all components
+import Loading from '../loading/Loading'
+
 // import scss
 import styled from './style.module.scss';
 
@@ -21,6 +24,8 @@ function FormReset(props) {
   const [state, setState] = useState({
     email: ''
   })
+
+  const {resetMessage} = props
 
   const handleInput = (e, prop) => {
     setState(currentState => ({
@@ -33,6 +38,12 @@ function FormReset(props) {
     e.preventDefault()
     props.send(state.email)    
   }
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      resetMessage()
+    }, 3000)
+  }, [resetMessage, props.message, props.success])
 
   return (
     <Fragment>
@@ -54,9 +65,11 @@ function FormReset(props) {
                   <Form.Label className="mb-3">Email address</Form.Label>
                   <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" onChange={e => handleInput(e, 'email')} />
                 </Form.Group>
-                <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                  Active now
-                </Button>
+                <Loading>
+                  <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                    Active now
+                  </Button>
+                </Loading>
               </Form>
             </Col>
           </Row>
@@ -68,13 +81,14 @@ function FormReset(props) {
 
 const mapStateToProps = state => {
   return {
-    message: state.redux.message,
-    success: state.redux.success
+    message: state.message.message,
+    success: state.message.success
   }
 }
 
 const mapDispatchToProps = {
-  send: sendForgotPasswordLink
+  send: sendForgotPasswordLink,
+  resetMessage,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormReset);

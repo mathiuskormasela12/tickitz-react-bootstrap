@@ -1,11 +1,11 @@
 // Import all modules
 import React, { Fragment, useState } from 'react';
 import { connect } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useHistory } from 'react-router-dom'
 import Cryptr from 'cryptr'
 
 import { peekPassword } from '../../redux/actions/peekPassword'
-import { editPassword } from '../../redux/actions/auth'
+import { editPassword, resetMessage } from '../../redux/actions/auth'
 
 // import components
 import {default as Alert} from '../alert/MyAlert'
@@ -21,17 +21,44 @@ import {
   FormControl
 } from 'react-bootstrap';
 
+// import all components
+import Loading from '../loading/Loading'
+
 // import scss
 import styled from './style.module.scss';
 
 const cryptr = new Cryptr(process.env.REACT_APP_SECRET)
 
 function FormResetPassword(props) {
+  const history = useHistory();
   const query = new URLSearchParams(useLocation().search);
 
   const [state, setState] = useState({
-    password: ''
+    password: '',
+    id: null,
+    email: null,
   })
+
+  const {resetMessage} = props; 
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      resetMessage()
+
+      if(props.success) {
+        history.push('/login')
+      }
+    }, 3000)
+  }, [resetMessage, props.message, props.success, history])
+
+  React.useEffect(() => {
+    setState((currentState) => ({
+      ...currentState,
+      email: cryptr.decrypt(query.get('email')),
+      id: query.get('id'),
+    }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const handleInput = (e, prop) => {
     setState(currentState => ({
@@ -42,7 +69,7 @@ function FormResetPassword(props) {
 
   const handleSubmit = e => {
     e.preventDefault()
-    props.editPassword(query.get('id'), cryptr.decrypt(query.get('email')), state.password)    
+    props.editPassword(state.id, state.email, state.password)    
   }
   
   return (
@@ -97,9 +124,11 @@ function FormResetPassword(props) {
                     </InputGroup.Append>
                   </InputGroup>
                 </Form.Group>
-                <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                  Reset now
-                </Button>
+                <Loading>
+                  <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                    Reset now
+                  </Button>
+                </Loading>
               </Form>
             </Col>
           </Row>
@@ -112,14 +141,15 @@ function FormResetPassword(props) {
 const mapStateToProps = state => {
   return {
     show: state.redux.showPassword,
-    message: state.redux.message,
-    success: state.redux.success
+    message: state.message.message,
+    success: state.message.success
   }
 }
 
 const mapDispatchToProps = {
   showPassword: peekPassword,
-  editPassword
+  editPassword,
+  resetMessage,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FormResetPassword);

@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom'
 import styled from './style.module.scss'
 
 // import actions
-import { logout, autoLogin } from '../../redux/actions/auth';
+import { logout } from '../../redux/actions/auth';
 
 // import all images
 import tickitz from '../../assets/images/tickitz2.svg';
@@ -33,15 +33,9 @@ function MyNavbarComponent(props) {
 
   const push = page => history.push(page)
   
-  const logout = () => localStorage.removeItem('token')
-
-  const { autoLogin, isLogin } = props
-
-  React.useEffect(() => {
-    if(localStorage.getItem('token')) {
-      autoLogin()
-    }
-  }, [isLogin, autoLogin])
+  const logout = () => {
+    props.logout()
+  }
 
 	return (
 		<Fragment>
@@ -76,10 +70,10 @@ function MyNavbarComponent(props) {
               </svg>
             </div>
             {
-              props.isLogin ? (
-                <NavDropdown title={<Image src={user} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow} onClick={logout}>
+              props.token ? (
+                <NavDropdown title={<Image src={user} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow}>
                   <NavDropdown.Item>Profile</NavDropdown.Item>
-                  <NavDropdown.Item onClick={props.logout}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <Button variant="primary" className="ml-4 px-4" onClick={handleLogin}>
@@ -95,12 +89,11 @@ function MyNavbarComponent(props) {
 }
 
 const mapStateToprops = state => ({
-  isLogin: state.redux.isLogin
+  token: state.auth.token
 })
 
 const mapDispatchToProps = {
   logout,
-  autoLogin
 }
 
 export const MyNavbar = connect(mapStateToprops, mapDispatchToProps)(MyNavbarComponent)

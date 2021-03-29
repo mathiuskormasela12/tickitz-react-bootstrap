@@ -2,6 +2,9 @@ import auth from '../../services/AuthService'
 
 export const register = (email, password, passwordConfirm) => {
 	return async dispatch => {
+		dispatch({
+			type: 'SET_LOADING',
+		})
 		try {
 				const formData = new FormData()
 				formData.append('email', email)
@@ -11,44 +14,75 @@ export const register = (email, password, passwordConfirm) => {
 				
 				const response = await auth.register(formData)
 				dispatch({
-						type: 'REGISTER',
-						message: response.data.message,
-						success: response.data.success
+					type: 'SET_LOADING',
 				})
-		} catch(err) {
 				dispatch({
 						type: 'REGISTER',
-						message: err.response.data.message,
-						success: false
 				})
+				dispatch({
+					type: 'SET_MESSAGE',
+					message: response.data.message,
+					success: true,
+			})
+		} catch(err) {
+				dispatch({
+					type: 'SET_LOADING',
+				})
+				dispatch({
+					type: 'SET_MESSAGE',
+					message: err.response.data.message,
+					success: false,
+			})
+			setTimeout(() => {
+				dispatch({
+					type: 'RESET_MESSAGE'
+				})
+			}, 2000)
 		}
 	}
 }
 
 export const login = (email, password) => {
 	return async dispatch => {
+		dispatch({
+			type: 'SET_LOADING',
+		})
 		try {
 				const formData = new FormData()
 				formData.append('email', email)
 				formData.append('password', password)
 				
 				const response = await auth.login(formData)
-				localStorage.setItem('token', response.data.results.token)
+				dispatch({
+					type: 'SET_LOADING',
+				})
 				dispatch({
 						type: 'LOGIN',
-						message: response.data.message,
-						success: response.data.success,
 						token: response.data.results.token,
-						login: true
+				})
+				dispatch({
+						type: 'SET_MESSAGE',
+						message: response.data.message,
+						success: true,
 				})
 		} catch(err) {
 				dispatch({
+					type: 'SET_LOADING',
+				})
+				dispatch({
 						type: 'LOGIN',
+						token: null,
+				})
+				dispatch({
+						type: 'SET_MESSAGE',
 						message: err.response.data.message,
 						success: false,
-						token: null,
-						login: false
 				})
+				setTimeout(() => {
+					dispatch({
+						type: 'RESET_MESSAGE'
+					})
+				}, 2000)
 		}
 	}
 }
@@ -60,62 +94,85 @@ export const activeAccount = ({ id,email }) => {
 				console.log('response data', response)
 				dispatch({
 						type: 'ACTIVEACCOUNT',
+				})
+				dispatch({
+						type: 'SET_MESSAGE',
 						message: response.data.message,
-						success: response.data.success
+						success: true,
 				})
 		} catch(err) {
 			console.log(err)
 				dispatch({
 						type: 'ACTIVEACCOUNT',
-						message: err.response.data.message,
-						success: false
 				})
+				dispatch({
+					type: 'SET_MESSAGE',
+					message: err.response.data.message,
+					success: false,
+			})
 		}
 	}
 }
 
 export const sendForgotPasswordLink = (email) => {
 	return async dispatch => {
+		dispatch({
+			type: 'SET_LOADING',
+		})
 		try {	
 				const response = await auth.sendForgotPasswordLink(email)
-				console.log('response data', response)
 				dispatch({
-						type: 'SEND_FORGOT_PASSWORD_LINK',
+					type: 'SET_LOADING',
+				})
+				dispatch({
+						type: 'SET_MESSAGE',
 						message: response.data.message,
-						success: response.data.success
+						success: true,
 				})
 		} catch(err) {
 			console.log(err)
 				dispatch({
-						type: 'SEND_FORGOT_PASSWORD_LINK',
-						message: err.response.data.message,
-						success: false
+					type: 'SET_LOADING',
 				})
+				dispatch({
+					type: 'SET_MESSAGE',
+					message: err.response.data.message,
+					success: false,
+			})
 		}
 	}
 }
 
 export const editPassword = (id, email, password) => {
 	return async dispatch => {
+		dispatch({
+			type: 'SET_LOADING',
+		})
 		try {	
 				const response = await auth.editPassword(id, email, password)
 				dispatch({
-						type: 'EDIT_PASSWORD',
-						message: response.data.message,
-						success: response.data.success
+					type: 'SET_LOADING',
 				})
+				dispatch({
+					type: 'SET_MESSAGE',
+					message: response.data.message,
+					success: true,
+			})
 		} catch(err) {
 				dispatch({
-						type: 'EDIT_PASSWORD',
-						message: err.response.data.message,
-						success: false
+					type: 'SET_LOADING',
 				})
+				dispatch({
+					type: 'SET_MESSAGE',
+					message: err.response.data.message,
+					success: false,
+			})
 		}
 	}
 }
 
-export const autoLogin = () => ({
-	type: "AUTO_LOGIN"
+export const resetMessage = () => ({
+	type: "RESET_MESSAGE"
 })
 
 export const logout = () => ({

@@ -33,7 +33,7 @@ function ActiveHeroComponent(props) {
     <Fragment>
       <div>
         <Container fluid className={`${styled.hero} d-flex justify-content-center align-items-center`}>
-          <h1 className="text-white">{props.message.length < 1 ? 'Loading....' : props.message}</h1>
+          <h1 className="text-white">{!props.message ? 'Loading....' : props.message}</h1>
         </Container>
       </div>
     </Fragment>
@@ -42,7 +42,7 @@ function ActiveHeroComponent(props) {
 
 const mapStateToProps = state => {
   return {
-    message: state.redux.message
+    message: state.message.message
   }
 }
 
