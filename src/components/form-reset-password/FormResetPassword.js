@@ -34,9 +34,10 @@ function FormResetPassword(props) {
   const query = new URLSearchParams(useLocation().search);
 
   const [state, setState] = useState({
-    password: '',
+    password: null,
     id: null,
     email: null,
+    message: null,
   })
 
   const {resetMessage} = props; 
@@ -61,6 +62,34 @@ function FormResetPassword(props) {
   }, [])
 
   const handleInput = (e, prop) => {
+    if(prop === 'password') {
+      if (
+        e.target.value.length > 15 ||
+        e.target.value.length < 5
+      ) {
+        setState((currentState) => ({
+          ...currentState,
+          message: 'Password min 5 character and max 15 character',
+        }))
+      } else if (
+        e.target.value.match(/[a-z]/g) === null ||
+        e.target.value.match(/\d/g) === null ||
+        e.target.value.match(/[A-Z]/g) === null ||
+        e.target.value.match(/[^a-z0-9]/gi) === null
+      ) {
+        setState((currentState) => ({
+          ...currentState,
+          message: 'Password must include lower case and uppercase letters, numbers and symbol',
+        }))
+    
+      } else {
+        setState((currenState) => ({
+          ...currenState,
+          message: null,
+        }))
+      }
+    } 
+
     setState(currentState => ({
       ...currentState,
       [prop]: e.target.value
@@ -90,13 +119,12 @@ function FormResetPassword(props) {
                   <InputGroup className="mb-3">
                     <FormControl
                       type={ props.show ? 'text' : 'password'}
-                      className={`${styled.controlSize} ${styled.hideBorderLeft}`}
+                      className={`${styled.controlSize} ${styled.hideBorderLeft} ${state.password && `is-${!state.message ? 'valid' : 'invalid'}`}`}
                       placeholder="Write your password"
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
+                      value={state.password}
                       onChange={e => handleInput(e, 'password')}
                     />
-                    <InputGroup.Append>
+                    <InputGroup.Prepend>
                       <InputGroup.Text id="basic-addon2" className={`${styled.hideAppend}`}>
                         {
                           props.show ? (
@@ -121,13 +149,28 @@ function FormResetPassword(props) {
                           )
                         }
                       </InputGroup.Text>
-                    </InputGroup.Append>
+                    </InputGroup.Prepend>
+                    {
+                      (state.message) && (
+                        <div className="invalid-feedback">
+                          {state.message}
+                        </div>
+                      )
+                    }
                   </InputGroup>
                 </Form.Group>
                 <Loading>
-                  <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                    Reset now
-                  </Button>
+                  {
+                    !state.message && state.password ? (
+                      <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                      Reset now
+                    </Button>
+                    ) : (
+                      <Button variant="primary" disabled type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                        Reset now
+                      </Button>
+                    )
+                  }
                 </Loading>
               </Form>
             </Col>

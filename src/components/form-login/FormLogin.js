@@ -33,44 +33,59 @@ function FormLogin(props) {
   const [state, setState] = useState({
     email: '',
     password: '',
+    emailMessage: null,
+    passwordMessage: null,
   })
 
   const { resetMessage, success, login} = props;
 
   const handleInput = (e, prop) => {
-    // if (
-    //   state.email.match(/[^@$a-z0-9.]/gi) ||
-    //   !state.email.match(/@\b/g) ||
-    //   state.email.match(/\s/) ||
-    //   state.email.match(/\b[0-9]/) ||
-    //   !state.email.split('@').pop().includes('.')
-    // ) {
-    //   console.log('e')
-    //   setState((currentState) => ({
-    //     ...currentState,
-    //     message: 'Incorrect email',
-    //   }))
-    // } else if (
-    //   state.password.length > 15 ||
-    //   state.password.length < 5
-    // ) {
-    //   setState((currentState) => ({
-    //     ...currentState,
-    //     message: 'Password min 5 character and max 15 character',
-    //   }))
-    // } else if (
-    //   state.password.match(/[a-z]/g) === null ||
-    //   state.password.match(/\d/g) === null ||
-    //   state.password.match(/[A-Z]/g) === null ||
-    //   state.password.match(/[^a-z0-9]/gi) === null
-    // ) {
-    //   setState((currentState) => ({
-    //     ...currentState,
-    //     message: 'Password must include lower case and uppercase letters, numbers and symbol',
-    //   }))
-  
-    // }
-
+    if(prop === 'email') {
+      if ( 
+        e.target.value.match(/[^@$a-z0-9.]/gi) ||
+        !e.target.value.match(/@\b/g) ||
+        e.target.value.match(/\s/) ||
+        e.target.value.match(/\b[0-9]/) ||
+        !e.target.value.split('@').pop().includes('.')
+      ) {
+        setState((currentState) => ({
+          ...currentState,
+          emailMessage: 'Incorrect email',
+        }))
+      } else {
+        console.log('ok')
+        setState((currenState) => ({
+          ...currenState,
+          emailMessage: null,
+        }))
+      }
+    } else if(prop === 'password') {
+      if (
+        e.target.value.length > 15 ||
+        e.target.value.length < 5
+      ) {
+        setState((currentState) => ({
+          ...currentState,
+          passwordMessage: 'Password min 5 character and max 15 character',
+        }))
+      } else if (
+        e.target.value.match(/[a-z]/g) === null ||
+        e.target.value.match(/\d/g) === null ||
+        e.target.value.match(/[A-Z]/g) === null ||
+        e.target.value.match(/[^a-z0-9]/gi) === null
+      ) {
+        setState((currentState) => ({
+          ...currentState,
+          passwordMessage: 'Password must include lower case and uppercase letters, numbers and symbol',
+        }))
+    
+      } else {
+        setState((currenState) => ({
+          ...currenState,
+          passwordMessage: null,
+        }))
+      }
+    }
     setState(currentState => ({
       ...currentState,
       [prop]: e.target.value
@@ -79,7 +94,7 @@ function FormLogin(props) {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    login(state.email, state.password)    
+    login(state.email, state.password)
   }
 
   React.useEffect(() => {
@@ -108,25 +123,34 @@ function FormLogin(props) {
               <Form method="POST" onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
-                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" onChange={e => handleInput(e, 'email')} />
-                  {state.message && (
-                    <Form.Control.Feedback type="invalid">
-                      wwlwl
-                    </Form.Control.Feedback>
-                  )}
+                  <Form.Control 
+                    type="text" 
+                    className={`${styled.controlSize} ${state.email && `is-${!state.emailMessage ? 'valid' : 'invalid'}`}`} 
+                    placeholder="Write your email" 
+                    onChange={e => handleInput(e, 'email')} 
+                    required
+                    value={state.email}
+                  />
+                  {
+                    (state.emailMessage) && (
+                      <div className="invalid-feedback">
+                        {state.emailMessage}
+                      </div>
+                    )
+                  }
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword" className="mb-3">
                   <Form.Label className="mb-3">Password</Form.Label>
-                  <InputGroup className="mb-3">
+                  <InputGroup className="mb-3" hasValidation>
                     <FormControl
                       type={ props.show ? 'text' : 'password'}
-                      className={`${styled.controlSize} ${styled.hideBorderLeft}`}
+                      className={`${styled.controlSize} ${styled.hideBorderLeft} ${state.password && `is-${!state.passwordMessage ? 'valid' : 'invalid'}`}`}
                       placeholder="Write your password"
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
                       onChange={e => handleInput(e, 'password')}
+                      required
+                      value={state.password}
                     />
-                    <InputGroup.Append>
+                    <InputGroup.Prepend>
                       <InputGroup.Text id="basic-addon2" className={`${styled.hideAppend}`}>
                         {
                           props.show ? (
@@ -151,17 +175,19 @@ function FormLogin(props) {
                           )
                         }
                       </InputGroup.Text>
-                    </InputGroup.Append>
+                    </InputGroup.Prepend>
+                    {
+                      (state.passwordMessage) && (
+                        <div className="invalid-feedback">
+                          {state.passwordMessage}
+                        </div>
+                      )
+                    }
                   </InputGroup>
-                  {state.message && (
-                    <Form.Control.Feedback type="invalid">
-                      {state.message}
-                    </Form.Control.Feedback>
-                  )}
                 </Form.Group>
                 <Loading>
                   {
-                  state.email && state.password ? (
+                  !state.emailMessage && !state.passwordMessage && state.email && state.password ? (
                     <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
                       Sign In
                     </Button>

@@ -31,26 +31,97 @@ function FormRegister(props) {
   const [state, setState] = useState({
     email: '',
     password: '',
-    agree: false
+    agree: false,
+    emailMessage: null,
+    passwordMessage: null,
   })
 
   const { success, resetMessage } = props;
 
+  // const handleInput = (e, prop) => {
+  //   if(prop === 'agree') {
+  //     if(e.target.checked) {
+  //       setState(currentState => ({
+  //         ...currentState,
+  //         [prop]: true,
+  //       }))
+  //     } else {
+  //       setState(currentState => ({
+  //         ...currentState,
+  //         [prop]: false,
+  //       }))
+  //     }
+  //   } else {
+  //     setState(currentState => ({
+  //       ...currentState,
+  //       [prop]: e.target.value
+  //     }))
+  //   }
+  // }
+
   const handleInput = (e, prop) => {
-    if(prop === 'agree') {
-      if(e.target.checked) {
-        setState(currentState => ({
+    if(prop === 'email') {
+      if ( 
+        e.target.value.match(/[^@$a-z0-9.]/gi) ||
+        !e.target.value.match(/@\b/g) ||
+        e.target.value.match(/\s/) ||
+        e.target.value.match(/\b[0-9]/) ||
+        !e.target.value.split('@').pop().includes('.')
+      ) {
+        setState((currentState) => ({
           ...currentState,
-          [prop]: true,
+          emailMessage: 'Incorrect email',
         }))
       } else {
-        setState(currentState => ({
+        console.log('ok')
+        setState((currenState) => ({
+          ...currenState,
+          emailMessage: null,
+        }))
+      }
+    } else if(prop === 'password') {
+      if (
+        e.target.value.length > 15 ||
+        e.target.value.length < 5
+      ) {
+        setState((currentState) => ({
           ...currentState,
-          [prop]: false,
+          passwordMessage: 'Password min 5 character and max 15 character',
+        }))
+      } else if (
+        e.target.value.match(/[a-z]/g) === null ||
+        e.target.value.match(/\d/g) === null ||
+        e.target.value.match(/[A-Z]/g) === null ||
+        e.target.value.match(/[^a-z0-9]/gi) === null
+      ) {
+        setState((currentState) => ({
+          ...currentState,
+          passwordMessage: 'Password must include lower case and uppercase letters, numbers and symbol',
+        }))
+    
+      } else {
+        setState((currenState) => ({
+          ...currenState,
+          passwordMessage: null,
+        }))
+      }
+    }
+
+    if(prop === 'agree') {
+      console.log(e.target.checked)
+      if(e.target.checked) {
+        setState((currentState) => ({
+          ...currentState,
+          agree: true,
+        }))
+      } else {
+        setState((currentState) => ({
+          ...currentState,
+          agree: false,
         }))
       }
     } else {
-      setState(currentState => ({
+      setState((currentState) => ({
         ...currentState,
         [prop]: e.target.value
       }))
@@ -86,20 +157,30 @@ function FormRegister(props) {
               <Form method="POST" onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
-                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email"  onChange={(e) => handleInput(e, 'email')}/>
+                  <Form.Control 
+                    type="email" 
+                    className={`${styled.controlSize} ${state.email && `is-${!state.emailMessage ? 'valid' : 'invalid'}`}`} 
+                    placeholder="Write your email"  
+                    onChange={(e) => handleInput(e, 'email')}
+                  />
+                  {
+                    (state.emailMessage) && (
+                      <div className="invalid-feedback">
+                        {state.emailMessage}
+                      </div>
+                    )
+                  }
                 </Form.Group>
                 <Form.Group controlId="formBasicPassword" className="mb-3">
                   <Form.Label className="mb-3">Password</Form.Label>
                   <InputGroup className="mb-3">
                     <FormControl
                       type={ props.show ? 'text' : 'password'}
-                      className={`${styled.controlSize} ${styled.hideBorderLeft}`}
+                      className={`${styled.controlSize} ${styled.hideBorderLeft} ${state.password && `is-${!state.passwordMessage ? 'valid' : 'invalid'}`}`}
                       placeholder="Write your password"
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
                       onChange={(e) => handleInput(e, 'password')}
                     />
-                    <InputGroup.Append>
+                    <InputGroup.Prepend>
                       <InputGroup.Text id="basic-addon2" className={`${styled.hideAppend}`}>
                         {
                           props.show ? (
@@ -124,7 +205,14 @@ function FormRegister(props) {
                           )
                         }
                       </InputGroup.Text>
-                    </InputGroup.Append>
+                    </InputGroup.Prepend>
+                    {
+                      (state.passwordMessage) && (
+                        <div className="invalid-feedback">
+                          {state.passwordMessage}
+                        </div>
+                      )
+                    }
                   </InputGroup>
                 </Form.Group>
                 <Form.Check
@@ -138,7 +226,7 @@ function FormRegister(props) {
                 />
                 <Loading>
                   {
-                    state.agree ? (
+                    state.agree && !state.emailMessage && !state.passwordMessage && state.email && state.password ? (
                       <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
                         Join for free now
                       </Button>

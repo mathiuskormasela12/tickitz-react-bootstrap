@@ -22,12 +22,30 @@ import styled from './style.module.scss';
 
 function FormReset(props) {
   const [state, setState] = useState({
-    email: ''
+    email: '',
+    message: null,
   })
 
   const {resetMessage} = props
 
   const handleInput = (e, prop) => {
+    if ( 
+      e.target.value.match(/[^@$a-z0-9.]/gi) ||
+      !e.target.value.match(/@\b/g) ||
+      e.target.value.match(/\s/) ||
+      e.target.value.match(/\b[0-9]/) ||
+      !e.target.value.split('@').pop().includes('.')
+    ) {
+      setState((currentState) => ({
+        ...currentState,
+        message: 'Incorrect email',
+      }))
+    } else {
+      setState((currenState) => ({
+        ...currenState,
+        message: null,
+      }))
+    }
     setState(currentState => ({
       ...currentState,
       [prop]: e.target.value
@@ -63,12 +81,32 @@ function FormReset(props) {
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail" className="mb-4">
                   <Form.Label className="mb-3">Email address</Form.Label>
-                  <Form.Control type="email" className={`${styled.controlSize}`} placeholder="Write your email" onChange={e => handleInput(e, 'email')} />
+                  <Form.Control 
+                    type="email" 
+                    className={`${styled.controlSize} ${state.email && `is-${!state.message ? 'valid' : 'invalid'}`}`} 
+                    placeholder="Write your email" 
+                    onChange={e => handleInput(e, 'email')} 
+                  />
+                  {
+                    (state.message) && (
+                      <div className="invalid-feedback">
+                        {state.message}
+                      </div>
+                    )
+                  }
                 </Form.Group>
                 <Loading>
-                  <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
-                    Active now
-                  </Button>
+                  {
+                    !state.message && state.email ? (
+                      <Button variant="primary" type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                        Active now
+                      </Button>
+                    ) : (
+                      <Button variant="primary" disabled type="submit" className={`${styled.controlSize} w-100 mt-4`}>
+                        Active now
+                      </Button>
+                    ) 
+                  }
                 </Loading>
               </Form>
             </Col>
