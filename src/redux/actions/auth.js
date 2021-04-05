@@ -53,6 +53,8 @@ export const login = (email, password) => {
 				formData.append('password', password)
 				
 				const response = await auth.login(formData)
+				const {data} = await auth.getUserDetail(response.data.results.token)
+
 				dispatch({
 					type: 'SET_LOADING',
 				})
@@ -60,6 +62,16 @@ export const login = (email, password) => {
 						type: 'LOGIN',
 						token: response.data.results.token,
 				})
+				dispatch({
+					type: 'SET_USER_DATA',
+					payload: {
+						firstName: data.results.first_name,
+						lastName: data.results.last_name,
+						email: data.results.email,
+						phoneNumber: data.results.phone,
+						picture: data.results.poster,
+					},
+			})
 				dispatch({
 						type: 'SET_MESSAGE',
 						message: response.data.message,

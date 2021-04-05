@@ -1,0 +1,116 @@
+.hero {
+  height: 100vh;
+
+  .inputUpload {
+    display: none;
+  }
+
+  .card {
+    border: none;
+
+    .textInfo {
+      color: $placeholder-color;
+      font-size: 1.2rem;
+    }
+
+    &Header {
+      background-color: transparent;
+      border-bottom: none;
+      height: 0;
+    }
+
+    .upload {
+      cursor: pointer;
+    }
+
+    .cardBody {
+      border-bottom: 1px solid #EEEEEE;
+      
+      .img {
+        width: 12rem;
+        height: 12rem;
+        border-radius: 12rem;
+      }
+
+      .title {
+        text-align: center;
+        color: $title-color;
+        font-size: 1.3rem;
+      }
+
+      .subtitle {
+        margin-top: .3rem;
+        text-align: center;
+        font-size: .9rem;
+      }
+    }
+
+    .cardFooter {
+      .loyaltyPoint {
+        color: #7A788C;
+        font-size: .9rem;
+        font-weight: 600;
+      }
+
+      .cardMovigoers {
+        border-radius: 8px;
+        background-color: $primary;
+        box-shadow: 0px 5.5px 1px 0px #AB91F4;
+      }
+
+      .titleMovigoers {
+        color: white;
+        font-weight: 600;
+        font-size: .9rem;
+      }
+
+      .point {
+        color: white;
+        font-weight: 600;
+        font-size: 1.3rem;
+        margin-top: .2rem;
+      }
+
+      .pointText {
+        color: white;
+        font-size: .7rem;
+        font-weight: 600;
+        margin-left: .2rem;
+      }
+
+      .baloon {
+        display: inline-block;
+        width: 100px;
+        height: 100px;
+        border-radius: 100px;
+        background-color: rgba(255, 255, 255, 0.3);
+        position: absolute
+      }
+
+      .first {
+        right: -17px;
+        top: -40px;
+      }
+
+      .star {
+        position: absolute;
+        right: 5px;
+        z-index: 2;
+      }
+
+      .progressText {
+        font-size: .9rem;
+      }
+
+      .last {
+        right: -28px;
+        top: -20px;
+      }
+
+      .progress {
+        height: 1.3rem;
+        border-radius: 8px;
+      }
+    }
+  }
+}

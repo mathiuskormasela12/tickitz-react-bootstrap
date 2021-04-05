@@ -29,7 +29,7 @@ function MyNavbarComponent(props) {
   const history = useHistory()
   const [show, setShow] = useState(false)
 
-  const handleLogin = () => history.push('/register')
+  const handleHistory = path => history.push(path)
 
   const push = page => history.push(page)
   
@@ -72,11 +72,11 @@ function MyNavbarComponent(props) {
             {
               props.token ? (
                 <NavDropdown title={<Image src={user} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow}>
-                  <NavDropdown.Item>Profile</NavDropdown.Item>
+                  <NavDropdown.Item onClick={() => handleHistory('/profile')}>Profile</NavDropdown.Item>
                   <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <Button variant="primary" className="ml-4 px-4" onClick={handleLogin}>
+                <Button variant="primary" className="ml-4 px-4" onClick={() => handleHistory('/register')}>
                   Sign Up
                 </Button>
               )

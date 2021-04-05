@@ -54,6 +54,10 @@ class AuthService {
     getAllCities() {
         return http().get('/cities')
     }
+
+    getUserDetail(token) {
+        return http(token).get('/auth/user')
+    }
 }
 
 export default new AuthService()

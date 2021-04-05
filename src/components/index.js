@@ -21,3 +21,5 @@ export * from './payment-main/PaymentMain';
 export * from './payment-side/PaymentSide';
 export * from './show-times-card/ShowTimesCard';
 export * from './ticket/Ticket';
+export * from './hero-gray/HeroGray';
+export * from './profile-content/ProfileContent';
