@@ -1,0 +1,38 @@
+.card {
+  border: none;
+  &Header {
+    border-bottom: 1px solid #dedede;
+  }
+
+  .headerTitle {
+    color: $title-color;
+  }
+
+  input.controlSize {
+    height: 2.9rem;
+    padding-left: 1rem;
+  }
+
+  button.controlSize {
+    padding: 0;
+    width: 10rem;
+    height: 2.9rem;
+    font-size: 1rem;
+  }
+
+  input.hideBorderLeft {
+    border-right: none;
+  }
+
+  .hideAppend {
+    background-color: transparent;
+  }
+
+  .hideAppendPassword {
+    background-color: transparent;
+    border-left: none !important;
+    .eye {
+      cursor: pointer;
+    }
+  }
+}

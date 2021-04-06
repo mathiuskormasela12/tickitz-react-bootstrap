@@ -118,5 +118,25 @@
   .nav {
     background-color: white;
     border-radius: 6px;
+    height: 4rem;
+    align-items: center;
+  }
+
+  .item {
+    height: 4rem;
+    display: flex;
+    align-items: center;
+  }
+
+  a.link {
+    color: #AAAAAA !important;
+  }
+
+  a.link.active {
+    color: $title-color !important;
+  }
+
+  li.active {
+    border-bottom: 2px solid $primary;
   }
 }

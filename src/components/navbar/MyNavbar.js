@@ -1,6 +1,6 @@
 // import all modules
 import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 
 // import SCSS
@@ -11,7 +11,6 @@ import { logout } from '../../redux/actions/auth';
 
 // import all images
 import tickitz from '../../assets/images/tickitz2.svg';
-import user from '../../assets/images/user.png'
 
 // import bootstrap components
 import {
@@ -23,15 +22,18 @@ import {
   Image
 } from 'react-bootstrap'
 
-function MyNavbarComponent(props) {
+export function MyNavbar(props) {
   const history = useHistory()
+  const dispatch = useDispatch()
+  const token = useSelector(currentState => currentState.auth.token);
+  const picture = useSelector(currentState => currentState.auth.picture);
 
   const handleHistory = path => history.push(path)
 
   const push = page => history.push(page)
   
-  const logout = () => {
-    props.logout()
+  const handleLogout = () => {
+    dispatch(logout())
   }
 
 	return (
@@ -49,14 +51,14 @@ function MyNavbarComponent(props) {
           <Navbar.Collapse id="basic-navbar-nav" className="ml-4">
             <Nav className="mr-auto">
               <Nav.Link className={styled.link} onClick={() => push('/')}>Home</Nav.Link>
-              <Nav.Link className={styled.link} href="#now-showing">Movies</Nav.Link>
-              <Nav.Link className={styled.link}>Buy Ticket</Nav.Link>
+              <Nav.Link className={styled.link}>Movies</Nav.Link>
+              <Nav.Link className={styled.link} href="#now-showing">Buy Ticket</Nav.Link>
             </Nav>
             {
-              props.token ? (
-                <NavDropdown title={<Image src={user} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow}>
+              token ? (
+                <NavDropdown title={<Image className={styled.picture} src={picture} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow}>
                   <NavDropdown.Item onClick={() => handleHistory('/profile')}>Profile</NavDropdown.Item>
-                  <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+                  <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
               ) : (
                 <Button variant="primary" className="ml-4 px-4" onClick={() => handleHistory('/register')}>
@@ -70,13 +72,3 @@ function MyNavbarComponent(props) {
 		</Fragment>
 	)
 }
-
-const mapStateToprops = state => ({
-  token: state.auth.token
-})
-
-const mapDispatchToProps = {
-  logout,
-}
-
-export const MyNavbar = connect(mapStateToprops, mapDispatchToProps)(MyNavbarComponent)

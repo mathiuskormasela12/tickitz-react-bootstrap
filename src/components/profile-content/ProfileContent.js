@@ -28,10 +28,27 @@ import star from '../../assets/images/star.svg';
 class ProfileContentComponent extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      active: true,
+    }
+
     this.navigate = this.navigate.bind(this);
   }
 
-  navigate(page) {
+  navigate(name, page) {
+    switch(name) {
+      case 'profile': 
+        this.setState({
+          active: true,
+        })
+      break;
+
+      default: 
+        this.setState({
+          active: false,
+        })
+    }
     this.props.history.push(page);
   }
 
@@ -41,7 +58,7 @@ class ProfileContentComponent extends Component {
         <HeroGray>
           <Container className={`${styled.hero} pt-lg-5 py-5`}>
             <Row noGutters>
-              <Col lg={3} className="bg-danger">
+              <Col lg={3}>
                 <Card className={`${styled.card}`}>
                   <Card.Header className={`${styled.cardHeader} py-4 px-4`}>
                     <Row noGutters className="justify-content-between">
@@ -105,31 +122,29 @@ class ProfileContentComponent extends Component {
                   </Card.Body>
                 </Card>
               </Col>
-              <Col lg={8}>
-                <Container className="px-4">
-                  <Row>
-                    <Col md={12}>
-                      <Nav as="ul" className={`${styled.nav} py-3 px-2`}>
-                        <Nav.Item as="li">
-                          <Nav.Link onClick={() => this.navigate('/profile')}>Account Settings</Nav.Link>
-                        </Nav.Item>
-                        <Nav.Item as="li">
-                          <Nav.Link onClick={() => this.navigate('/profile/order-history')}>Order History</Nav.Link>
-                        </Nav.Item>
-                      </Nav>
-                    </Col>
-                    <Col md={12} className="mt-4">
-                      <Switch>
-                        <Route exact path="/profile"> 
-                          <AccountSettings />
-                        </Route>
-                        <Route path="/profile/order-history"> 
-                          <OrderHistory />
-                        </Route>
-                      </Switch>
-                    </Col>
-                  </Row>
-                </Container>
+              <Col lg={9}>
+                <Row noGutters className="pl-5">
+                  <Col md={12}>
+                    <Nav as="ul" className={`${styled.nav} px-2`}>
+                      <Nav.Item as="li" className={`${this.state.active && styled.active} ${styled.item}`}>
+                        <Nav.Link onClick={() => this.navigate('profile', '/profile')} className={`${styled.link} ${this.state.active && styled.active}`}>Account Settings</Nav.Link>
+                      </Nav.Item> 
+                      <Nav.Item as="li" className={`${!this.state.active && styled.active} ${styled.item}`}>
+                        <Nav.Link onClick={() => this.navigate('order-history', '/profile/order-history')} className={`${styled.link} ${!this.state.active && styled.active}`}>Order History</Nav.Link>
+                      </Nav.Item>
+                    </Nav>
+                  </Col>
+                  <Col md={12} className="mt-4">
+                    <Switch>
+                      <Route exact path="/profile"> 
+                        <AccountSettings />
+                      </Route>
+                      <Route path="/profile/order-history"> 
+                        <OrderHistory />
+                      </Route>
+                    </Switch>
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </Container>
