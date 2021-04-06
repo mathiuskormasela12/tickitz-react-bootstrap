@@ -29,9 +29,9 @@ class ProfileContentComponent extends Component {
       <Fragment>
         <HeroGray>
           <Container className={`${styled.hero} pt-lg-5 py-5`}>
-            <Row>
-              <Col lg={3}>
-                <Card className={styled.card}>
+            <Row noGutters>
+              <Col lg={3} className="bg-danger">
+                <Card className={`${styled.card}`}>
                   <Card.Header className={`${styled.cardHeader} py-4 px-4`}>
                     <Row noGutters className="justify-content-between">
                       <Col md={5}>
@@ -46,17 +46,17 @@ class ProfileContentComponent extends Component {
                     </Row>
                   </Card.Header>
                   <Card.Body className={`${styled.cardBody} py-4`}>
-                    <Container className="d-flex flex-column justify-content-center">
+                    <Container className="d-flex flex-column align-items-center">
                       <figure>
                         <Image 
                           src={this.props.auth.picture}
                           className={styled.img}
                         />
                       </figure>
-                      <figcaption className={styled.title}>
+                      <figcaption className={`${styled.title} mt-1`}>
                         Mathius
                       </figcaption>
-                      <figcaption className={styled.subtitle}>
+                      <figcaption className={`${styled.subtitle} mt-1`}>
                         Moviegoers
                       </figcaption>
                     </Container>
@@ -64,30 +64,40 @@ class ProfileContentComponent extends Component {
                   <Card.Body className={`${styled.cardFooter} pt-4 pb-5`}>
                     <Row>
                       <Col md={12}>
-                        <p className={styled.loyaltyPoint}>Loyalty Points</p>
-                      </Col>
-                      <Col md={12}>
-                        <Card className={`${styled.cardMovigoers} py-3 px-3 position-relative`}>
-                          <Image src={star} fluid className={styled.star} />
-                          <span className={`${styled.baloon} ${styled.first}`}></span>
-                          <span className={`${styled.baloon} ${styled.last}`}></span>
-                          <p className={styled.titleMovigoers}>Moviegoers</p>
-                          <p className={styled.point}>
-                            420
-                            <span className={styled.pointText}>Points</span>
-                          </p>
-                        </Card>
-                      </Col>
-                      <Col md={12} className="mt-4">
-                        <p className={`${styled.progressText} text-muted text-center`}>180 points become a master</p>
-                        <ProgressBar now={60} className={styled.progress} />
+                        <Row className="justify-content-center">
+                          <Col lg={11}>
+                            <p className={styled.loyaltyPoint}>Loyalty Points</p>
+                          </Col>
+                        </Row>
+                        <Row className="justify-content-center">
+                          <Col md={11}>
+                            <Card className={`${styled.cardMovigoers} py-3 px-3 position-relative`}>
+                              <Image src={star} fluid className={styled.star} />
+                              <span className={`${styled.baloon} ${styled.first}`}></span>
+                              <span className={`${styled.baloon} ${styled.last}`}></span>
+                              <p className={styled.titleMovigoers}>Moviegoers</p>
+                              <p className={styled.point}>
+                                420
+                                <span className={styled.pointText}>Points</span>
+                              </p>
+                            </Card>
+                          </Col>
+                        </Row>
+                        <Row className="justify-content-center mt-4">
+                          <Col lg={11}>
+                            <p className={`${styled.progressText} text-muted text-center`}>180 points become a master</p>
+                            <ProgressBar now={60} className={styled.progress} />
+                          </Col>
+                        </Row>
                       </Col>
                     </Row>
                   </Card.Body>
                 </Card>
               </Col>
-              <Col lg={9}>
-                <h1>wlwlw</h1>
+              <Col lg={8}>
+                <Container className="px-4">
+                  <h1>wlwlw</h1>
+                </Container>
               </Col>
             </Row>
           </Container>
