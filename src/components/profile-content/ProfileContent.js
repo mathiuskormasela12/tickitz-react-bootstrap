@@ -1,10 +1,11 @@
 // ===== Profile 
 // import all modules
 import React, { Component, Fragment } from 'react';
+import {Route, Switch, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
 
 // import all components 
-import { HeroGray } from '../';
+import { HeroGray, OrderHistory, AccountSettings } from '../';
 
 // import react bootstrap components
 import { 
@@ -14,6 +15,7 @@ import {
   Card,
   Image,
   ProgressBar,
+  Nav,
 } from 'react-bootstrap';
 
 // import styled 
@@ -24,6 +26,15 @@ import evamore from '../../assets/images/eva-more.svg';
 import star from '../../assets/images/star.svg';
 
 class ProfileContentComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.navigate = this.navigate.bind(this);
+  }
+
+  navigate(page) {
+    this.props.history.push(page);
+  }
+
   render() {
     return (
       <Fragment>
@@ -96,7 +107,28 @@ class ProfileContentComponent extends Component {
               </Col>
               <Col lg={8}>
                 <Container className="px-4">
-                  <h1>wlwlw</h1>
+                  <Row>
+                    <Col md={12}>
+                      <Nav as="ul" className={`${styled.nav} py-3 px-2`}>
+                        <Nav.Item as="li">
+                          <Nav.Link onClick={() => this.navigate('/profile')}>Account Settings</Nav.Link>
+                        </Nav.Item>
+                        <Nav.Item as="li">
+                          <Nav.Link onClick={() => this.navigate('/profile/order-history')}>Order History</Nav.Link>
+                        </Nav.Item>
+                      </Nav>
+                    </Col>
+                    <Col md={12} className="mt-4">
+                      <Switch>
+                        <Route exact path="/profile"> 
+                          <AccountSettings />
+                        </Route>
+                        <Route path="/profile/order-history"> 
+                          <OrderHistory />
+                        </Route>
+                      </Switch>
+                    </Col>
+                  </Row>
                 </Container>
               </Col>
             </Row>
@@ -111,4 +143,4 @@ const mapStateToProps = states => ({
   auth: states.auth,
 })
 
-export const ProfileContent = connect(mapStateToProps, null)(ProfileContentComponent)
+export const ProfileContent = withRouter(connect(mapStateToProps, null)(ProfileContentComponent))

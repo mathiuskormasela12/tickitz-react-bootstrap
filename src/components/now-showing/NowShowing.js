@@ -32,7 +32,7 @@ export function NowShowingComponent(props) {
 
   return (
     <Fragment>
-      <div className={`${styled.hero} pt-5`}>
+      <div className={`${styled.hero} pt-5`} id="now-showing">
         <Container>
           <Row>
             <Col lg={12}>
