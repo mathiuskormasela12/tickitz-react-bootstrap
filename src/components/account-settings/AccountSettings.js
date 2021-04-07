@@ -2,6 +2,8 @@
 // import all modules
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
+import Swal from 'sweetalert2'
+import http from '../../services/AuthService';
 
 // import react bootstrap component
 import {
@@ -13,6 +15,9 @@ import {
   FormControl,
   Row,
 } from 'react-bootstrap';
+
+// import all components
+import Loading from '../loading/Loading';
 
 // import styled 
 import styled from './style.module.scss';
@@ -38,6 +43,92 @@ class AccountSettingsComponent extends Component {
 
     this.handleInput = this.handleInput.bind(this);
     this.showPassword = this.showPassword.bind(this);
+    this.saveChanges = this.saveChanges.bind(this);
+  }
+
+  async saveChanges(e, name) {
+    e.preventDefault();
+    
+    switch (name) {
+      case 'ACCOUNT_SETTINGS':
+        const form = new URLSearchParams();
+        form.append('first_name', this.state.firstName)
+        form.append('last_name', this.state.lastName)
+        form.append('email', this.state.email)
+        form.append('phone', this.state.phoneNumber)
+
+        this.props.dispatch({
+          type: 'SET_LOADING',
+        })
+
+        try {
+          const {data: {message}} = await http.editUser(this.props.auth.token, form)
+          const {data} = await http.getUserDetail(this.props.auth.token)
+
+          this.props.dispatch({
+            type: 'SET_USER_DATA',
+            payload: {
+              id: data.results.id,
+              firstName: data.results.first_name,
+              lastName: data.results.last_name,
+              email: data.results.email,
+              phoneNumber: data.results.phone,
+              picture: data.results.poster,
+            },
+          })
+          this.props.dispatch({
+            type: 'SET_LOADING',
+          })
+          Swal.fire({
+            title: 'Success',
+            text: message,
+            icon: 'success'
+          })
+        } catch (err) {
+          this.props.dispatch({
+            type: 'SET_LOADING',
+          })
+
+          Swal.fire({
+            title: 'Failed',
+            text: err.response.data.message,
+            icon: 'error'
+          })
+        }
+        break;
+        
+      case 'EDIT_PASSWORD': 
+        this.props.dispatch({
+          type: 'SET_LOADING',
+        })
+
+        try {
+          const {data: {message}} = await http.editPassword(this.props.auth.id, this.props.auth.email, this.state.password)
+
+          this.props.dispatch({
+            type: 'SET_LOADING',
+          })
+          Swal.fire({
+            title: 'Success',
+            text: message,
+            icon: 'success'
+          })
+        } catch (err) {
+          this.props.dispatch({
+            type: 'SET_LOADING',
+          })
+
+          Swal.fire({
+            title: 'Failed',
+            text: err.response.data.message,
+            icon: 'error'
+          })
+        }
+      break;
+
+      default:
+        break;
+    }
   }
 
   showPassword(name) {
@@ -207,7 +298,7 @@ class AccountSettingsComponent extends Component {
                       <Form.Label className="mb-3" htmlFor="phoneNumber">Phone Number</Form.Label>
                       <InputGroup className="mb-2">
                         <InputGroup.Prepend>
-                          <InputGroup.Text className={`${styled.hideAppend}`}>+62</InputGroup.Text>
+                          <InputGroup.Text className={`${styled.hideAppend} ${this.state.phoneNumber && `${!this.state.phoneNumberMessage ? `${styled.hideAppendValid}` : `${styled.hideAppendInvalid}`}`}`}>+62</InputGroup.Text>
                         </InputGroup.Prepend>
                         <FormControl 
                           id="phoneNumber" 
@@ -226,17 +317,19 @@ class AccountSettingsComponent extends Component {
                       </InputGroup>
                     </Col>
                   </Form.Row>
-                  {
-                    !this.state.emailMessage && this.state.email && this.state.phoneNumber && !this.state.phoneNumberMessage && this.state.firstName && this.state.lastName ? (
-                      <Button variant="primary" type="submit" className={`${styled.controlSize} mt-3`}>
-                        Save Changes
-                      </Button>
-                    ) : (
-                      <Button variant="primary" disabled type="submit" className={`${styled.controlSize} mt-3`}>
-                        Save Changes
-                      </Button>
-                    )
-                  }
+                  <Loading left={true}>
+                    {
+                      !this.state.emailMessage && this.state.email && this.state.phoneNumber && !this.state.phoneNumberMessage && this.state.firstName ? (
+                        <Button variant="primary" onClick={(e) => this.saveChanges(e, 'ACCOUNT_SETTINGS')} type="submit" className={`${styled.controlSize} mt-3`}>
+                          Save Changes
+                        </Button>
+                      ) : (
+                        <Button variant="primary" disabled type="submit" className={`${styled.controlSize} mt-3`}>
+                          Save Changes
+                        </Button>
+                      )
+                    }
+                  </Loading>
                 </Form>
                 </main>
               </Card.Body>
@@ -263,7 +356,8 @@ class AccountSettingsComponent extends Component {
                           value={this.state.password}
                         />
                         <InputGroup.Prepend>
-                          <InputGroup.Text id="basic-addon2" className={`${styled.hideAppendPassword}`}>
+                          <InputGroup.Text id="basic-addon2" 
+                            className={`${styled.hideAppendPassword} ${this.state.password && `${!this.state.passwordMessage ? `${styled.hideAppendPasswordValid}` : `${styled.hideAppendPasswordInvalid}`}`}`}>
                             {
                               this.state.show ? (
                                 <Fragment>
@@ -309,7 +403,8 @@ class AccountSettingsComponent extends Component {
                           value={this.state.repeatPassword}
                         />
                         <InputGroup.Prepend>
-                          <InputGroup.Text id="basic-addon2" className={`${styled.hideAppendPassword}`}>
+                          <InputGroup.Text id="basic-addon2" 
+                            className={`${styled.hideAppendPassword} ${this.state.repeatPassword && `${!this.state.repeatPasswordMessage ? `${styled.hideAppendrepeatPasswordValid}` : `${styled.hideAppendRepeatPasswordInvalid}`}`}`}>
                             {
                               this.state.showSecond ? (
                                 <Fragment>
@@ -344,17 +439,20 @@ class AccountSettingsComponent extends Component {
                       </InputGroup>
                     </Col>
                   </Form.Row>
-                  {
-                    !this.state.passwordMessage && this.state.password && !this.state.repeatPasswordMessage && this.state.repeatPassword ? (
-                      <Button variant="primary" type="submit" className={`${styled.controlSize} mt-3`}>
-                        Save Changes
-                      </Button>
-                    ) : (
-                      <Button variant="primary" disabled type="submit" className={`${styled.controlSize} mt-3`}>
-                        Save Changes
-                      </Button>
-                    )
-                  }
+                  <Loading left={true}>
+                    {
+                      !this.state.passwordMessage && this.state.password && !this.state.repeatPasswordMessage && this.state.repeatPassword ? (
+                        <Button variant="primary" onClick={(e) => this.saveChanges(e, 'EDIT_PASSWORD')} type="submit" className={`${styled.controlSize} mt-3`}>
+                          Save Changes
+                        </Button>
+                      ) : (
+                        <Button variant="primary" disabled type="submit" className={`${styled.controlSize} mt-3`}>
+                          Save Changes
+                        </Button>
+                      )
+                    }
+                  </Loading>
+                  
                 </Form>
                 </main>
               </Card.Body>
@@ -370,4 +468,8 @@ const mapStateToProps = state => ({
   auth: state.auth,
 })
 
-export const AccountSettings = connect(mapStateToProps, null)(AccountSettingsComponent)
+const mapDispatchToProps = (dispatch) => ({
+  dispatch,
+})
+
+export const AccountSettings = connect(mapStateToProps, mapDispatchToProps)(AccountSettingsComponent)

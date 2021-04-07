@@ -1,5 +1,6 @@
 const initialState = {
   token: null,
+  id: null,
 	firstName: null,
 	lastName: null,
 	phoneNumber: null,
@@ -30,11 +31,12 @@ const auth = (state = initialState, action) => {
 		case "SET_USER_DATA": {
 			return {
 				...state,
+        id: action.payload.id,
 				firstName: action.payload.firstName,
-				lastName: action.payload.lastName,
+				lastName: action.payload.lastName ? action.payload.lastName : '',
 				email: action.payload.email,
 				picture: action.payload.picture,
-				phoneNumber: action.payload.phoneNumber,
+				phoneNumber: action.payload.phoneNumber ? action.payload.phoneNumber : '',
 			}
 		}
 

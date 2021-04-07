@@ -65,6 +65,7 @@ export const login = (email, password) => {
 				dispatch({
 					type: 'SET_USER_DATA',
 					payload: {
+            id: data.results.id,
 						firstName: data.results.first_name,
 						lastName: data.results.last_name,
 						email: data.results.email,

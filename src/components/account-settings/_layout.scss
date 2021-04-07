@@ -28,6 +28,46 @@
     background-color: transparent;
   }
 
+  .hideAppendValid {
+    border-color: $success;
+  }
+
+  .hideAppendInvalid {
+    border-color: $danger;
+  }
+
+  .hideAppendPasswordValid {
+    border-color: $success;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .hideAppendPasswordInvalid {
+    border-color: $danger;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .hideAppendrepeatPasswordValid {
+    border-color: $success;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
+  .hideAppendRepeatPasswordInvalid {
+    border-color: $danger;
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+  }
+
   .hideAppendPassword {
     background-color: transparent;
     border-left: none !important;

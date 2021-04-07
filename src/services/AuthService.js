@@ -61,7 +61,11 @@ class AuthService {
 
     getOrderHistory(token) {
       return http(token).get('/transaction/history')
-  }
+    }
+
+    editUser(token, data) {
+      return http(token).patch('/auth/user', data)
+    }
 }
 
 export default new AuthService()

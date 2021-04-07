@@ -14,7 +14,7 @@ export default function Loading(props) {
     <Fragment>
       {
         loading ? (
-        <div className={styled.loading}>
+        <div className={props.left ? styled.loadingLeft : styled.loading}>
           <Spinner animation="border" variant="primary" />
         </div>) : (
           props.children
