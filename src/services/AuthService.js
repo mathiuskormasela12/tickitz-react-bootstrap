@@ -58,6 +58,10 @@ class AuthService {
     getUserDetail(token) {
         return http(token).get('/auth/user')
     }
+
+    getOrderHistory(token) {
+      return http(token).get('/transaction/history')
+  }
 }
 
 export default new AuthService()

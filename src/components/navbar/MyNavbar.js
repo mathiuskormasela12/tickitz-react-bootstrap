@@ -52,7 +52,7 @@ export function MyNavbar(props) {
             <Nav className="mr-auto">
               <Nav.Link className={styled.link} onClick={() => push('/')}>Home</Nav.Link>
               <Nav.Link className={styled.link}>Movies</Nav.Link>
-              <Nav.Link className={styled.link} href="#now-showing">Buy Ticket</Nav.Link>
+              <Nav.Link className={styled.link} href="#now-showing" onClick={() => push('/')}>Buy Ticket</Nav.Link>
             </Nav>
             {
               token ? (

@@ -1,0 +1,35 @@
+.card {
+  border: none;
+
+  &Header {
+    background-color: transparent;
+    border-bottom: 1px solid #dedede;
+  }
+
+  .title {
+    color: $title-color;
+  }
+
+  .time {
+    font-size: .8rem;
+  }
+
+  .img {
+    width: 5rem;
+  }
+
+  .btn {
+    cursor: text !important;
+
+    &:hover {
+      background-color: $success;
+      border-color: $success;
+    }
+
+    &:active {
+      background-color: $success !important;
+      border-color: $success !important;
+      box-shadow: none !important;
+    }
+  }
+}
