@@ -17,7 +17,7 @@ import {
 } from 'react-bootstrap';
 
 // import all components
-import Loading from '../loading/Loading';
+import Loading from '../loading-customize/LoadingCustomize';
 
 // import styled 
 import styled from './style.module.scss';
@@ -31,19 +31,29 @@ class AccountSettingsComponent extends Component {
       lastName: this.props.auth.lastName,
       email: this.props.auth.email,
       phoneNumber: this.props.auth.phoneNumber,
-      password: null,
-      repeatPassword: null,
+      password: '',
+      repeatPassword: '',
       passwordMessage: null,
       repeatPasswordMessage: null,
       emailMessage: null,
       phoneNumberMessage: null,
       show: false,
       showSecond: false,
+      firstLoading: false,
+      lastLoading: false,
     }
 
     this.handleInput = this.handleInput.bind(this);
     this.showPassword = this.showPassword.bind(this);
     this.saveChanges = this.saveChanges.bind(this);
+    this.setLoading = this.setLoading.bind(this);
+  }
+
+  setLoading(name) {
+    this.setState(currentState => ({
+      ...currentState,
+      [name]: !currentState[name],
+    }))
   }
 
   async saveChanges(e, name) {
@@ -57,9 +67,7 @@ class AccountSettingsComponent extends Component {
         form.append('email', this.state.email)
         form.append('phone', this.state.phoneNumber)
 
-        this.props.dispatch({
-          type: 'SET_LOADING',
-        })
+        this.setLoading('firstLoading');
 
         try {
           const {data: {message}} = await http.editUser(this.props.auth.token, form)
@@ -76,18 +84,14 @@ class AccountSettingsComponent extends Component {
               picture: data.results.poster,
             },
           })
-          this.props.dispatch({
-            type: 'SET_LOADING',
-          })
+          this.setLoading('firstLoading');
           Swal.fire({
             title: 'Success',
             text: message,
             icon: 'success'
           })
         } catch (err) {
-          this.props.dispatch({
-            type: 'SET_LOADING',
-          })
+          this.setLoading('firstLoading');
 
           Swal.fire({
             title: 'Failed',
@@ -98,25 +102,19 @@ class AccountSettingsComponent extends Component {
         break;
         
       case 'EDIT_PASSWORD': 
-        this.props.dispatch({
-          type: 'SET_LOADING',
-        })
+        this.setLoading('lastLoading');
 
         try {
           const {data: {message}} = await http.editPassword(this.props.auth.id, this.props.auth.email, this.state.password)
 
-          this.props.dispatch({
-            type: 'SET_LOADING',
-          })
+          this.setLoading('lastLoading');
           Swal.fire({
             title: 'Success',
             text: message,
             icon: 'success'
           })
         } catch (err) {
-          this.props.dispatch({
-            type: 'SET_LOADING',
-          })
+          this.setLoading('lastLoading');
 
           Swal.fire({
             title: 'Failed',
@@ -317,9 +315,9 @@ class AccountSettingsComponent extends Component {
                       </InputGroup>
                     </Col>
                   </Form.Row>
-                  <Loading left={true}>
+                  <Loading left={true} loading={this.state.firstLoading}>
                     {
-                      !this.state.emailMessage && this.state.email && this.state.phoneNumber && !this.state.phoneNumberMessage && this.state.firstName ? (
+                      !this.state.emailMessage && this.state.email !== '' && this.state.phoneNumber !== '' && !this.state.phoneNumberMessage && this.state.firstName !== '' ? (
                         <Button variant="primary" onClick={(e) => this.saveChanges(e, 'ACCOUNT_SETTINGS')} type="submit" className={`${styled.controlSize} mt-3`}>
                           Save Changes
                         </Button>
@@ -439,9 +437,9 @@ class AccountSettingsComponent extends Component {
                       </InputGroup>
                     </Col>
                   </Form.Row>
-                  <Loading left={true}>
+                  <Loading left={true} loading={this.state.lastLoading}>
                     {
-                      !this.state.passwordMessage && this.state.password && !this.state.repeatPasswordMessage && this.state.repeatPassword ? (
+                      !this.state.passwordMessage && this.state.password !== '' && !this.state.repeatPasswordMessage && this.state.repeatPassword !== '' ? (
                         <Button variant="primary" onClick={(e) => this.saveChanges(e, 'EDIT_PASSWORD')} type="submit" className={`${styled.controlSize} mt-3`}>
                           Save Changes
                         </Button>

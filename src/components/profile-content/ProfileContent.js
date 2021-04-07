@@ -3,6 +3,8 @@
 import React, { Component, Fragment } from 'react';
 import {Route, Switch, withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+import Swal from 'sweetalert2'
+import http from '../../services/AuthService';
 
 // import all components 
 import { HeroGray, OrderHistory, AccountSettings } from '../';
@@ -21,6 +23,8 @@ import {
 // import styled 
 import styled from './style.module.scss';
 
+import Loading from '../loading-customize/LoadingCustomize';
+
 // import all assets
 import evamore from '../../assets/images/eva-more.svg';
 import star from '../../assets/images/star.svg';
@@ -31,9 +35,20 @@ class ProfileContentComponent extends Component {
 
     this.state = {
       active: true,
+      picture: null,
+      loading: false,
     }
 
     this.navigate = this.navigate.bind(this);
+    this.handleUpload = this.handleUpload.bind(this);
+    this.setLoading = this.setLoading.bind(this);
+  }
+
+  setLoading() {
+    this.setState(currentState => ({
+      ...currentState,
+      loading: !currentState.loading,
+    }))
   }
 
   navigate(name, page) {
@@ -52,6 +67,60 @@ class ProfileContentComponent extends Component {
     this.props.history.push(page);
   }
 
+  async handleUpload(e) {
+    const form = new FormData();
+    form.append('poster', e.target.files[0])
+    
+    if(!e.target.files[0].type.startsWith('image/')) {
+      return Swal.fire({
+        title: 'Failed',
+        text: 'You only upload image file',
+        icon: 'warning'
+      })
+    } else if((e.target.files[0].size / 1024 / 1024) > 3) {
+      return Swal.fire({
+        title: 'Failed',
+        text: 'Your image too large',
+        icon: 'warning'
+      })
+    }
+
+    this.setLoading();
+
+    try {
+      const {data: {message}} = await http.uploadPhoto(this.props.auth.token, form)
+      const {data} = await http.getUserDetail(this.props.auth.token)
+
+      this.props.dispatch({
+        type: 'SET_USER_DATA',
+        payload: {
+          id: data.results.id,
+          firstName: data.results.first_name,
+          lastName: data.results.last_name,
+          email: data.results.email,
+          phoneNumber: data.results.phone,
+          picture: data.results.poster,
+        },
+      })
+
+      this.setLoading();
+
+      Swal.fire({
+        title: 'Success',
+        text: message,
+        icon: 'success'
+      })
+    } catch (err) {
+      this.setLoading();
+
+      Swal.fire({
+        title: 'Failed',
+        text: err.response.data.message,
+        icon: 'error'
+      })
+    }
+  }
+
   render() {
     return (
       <Fragment>
@@ -68,18 +137,20 @@ class ProfileContentComponent extends Component {
                       <Col md={5} className="text-right">
                         <label className={styled.upload} htmlFor="upload">
                           <Image src={evamore} fluid alt="Upload Button" />
-                          <input type="file" className={styled.inputUpload} id="upload" />
                         </label>
+                        <input type="file" className={styled.inputUpload} id="upload" onChange={this.handleUpload} />
                       </Col>
                     </Row>
                   </Card.Header>
                   <Card.Body className={`${styled.cardBody} py-4`}>
                     <Container className="d-flex flex-column align-items-center">
                       <figure>
-                        <Image 
-                          src={this.props.auth.picture}
-                          className={styled.img}
-                        />
+                        <Loading loading={this.state.loading}>
+                          <Image 
+                            src={this.props.auth.picture}
+                            className={styled.img}
+                          />
+                        </Loading>
                       </figure>
                       <figcaption className={`${styled.title} mt-1`}>
                         Mathius
@@ -158,4 +229,8 @@ const mapStateToProps = states => ({
   auth: states.auth,
 })
 
-export const ProfileContent = withRouter(connect(mapStateToProps, null)(ProfileContentComponent))
+const mapDispatchToProps = dispatch => ({
+  dispatch
+})
+
+export const ProfileContent = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProfileContentComponent))

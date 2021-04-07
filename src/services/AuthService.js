@@ -66,6 +66,10 @@ class AuthService {
     editUser(token, data) {
       return http(token).patch('/auth/user', data)
     }
+
+    uploadPhoto(token, data) {
+      return http(token).patch('/auth/user/upload', data)
+    }
 }
 
 export default new AuthService()
