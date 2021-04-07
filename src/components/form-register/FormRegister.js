@@ -181,7 +181,10 @@ function FormRegister(props) {
                       onChange={(e) => handleInput(e, 'password')}
                     />
                     <InputGroup.Prepend>
-                      <InputGroup.Text id="basic-addon2" className={`${styled.hideAppend}`}>
+                      <InputGroup.Text 
+                        id="basic-addon2" 
+                        className={`${styled.hideAppend} ${state.password && `${!state.passwordMessage ? `${styled.hideAppendPasswordValid}` : `${styled.hideAppendPasswordInvalid}`}`}`}
+                      >
                         {
                           props.show ? (
                             <Fragment>
