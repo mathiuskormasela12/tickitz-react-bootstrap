@@ -53,65 +53,71 @@ class OrderHistoryComponent extends Component {
   render() {
     return (
       <Fragment>
-        <Container fluid>
-          <Row>
-            {
-              this.state.loading ? (<p>Loading ...</p>) : this.state.history.length < 1 ? (<p>{this.state.message}</p>) : (
-                this.state.history.map((item, index) => (
-                  <Col md={12} className="mb-4" key={String(index)}>
-                    <Card className={styled.card}>
-                      <Card.Header className={`${styled.cardHeader} py-4`}>
-                        <Container>
-                          <Row>
-                            <Col md={6}>
-                              <p className={`${styled.time} text-muted`}>
-                                <Moment format="dddd, DD MMMM YYYY">
-                                  {item.showTimeDate}
-                                </Moment>
-                                {' '}
-                                <Moment format="hh:mma">
-                                  {new Date(
-                                    2021,
-                                    4,
-                                    1,
-                                    item.ticketTime.split(':')[0],
-                                    item.ticketTime.split(':')[1],
-                                    item.ticketTime.split(':')[2],
-                                  )}
-                                </Moment>
-                              </p>
-                              <h5 className={styled.title}>{item.movieTitle}</h5>
-                            </Col>
-                            <Col md={6} className="d-flex justify-content-end align-items-center">
-                              <Image fluid src={item.cinemaPoster} alt={item.movieTitle} className={styled.img} />
-                            </Col>
-                          </Row>
-                        </Container>
-                      </Card.Header>
-                      <Card.Body>
-                        <Container>
-                          <Row>
-                            {
-                              new Date(item.showTimeDate).getTime() < Date.now() ? (
-                                <Col>tn
-                                  <Button variant="success" disabled className={`${styled.btn} px-4`}>Tickit used</Button>
-                                </Col>
-                              ) : (
-                                <Col>
-                                  <Button variant="success" className={`${styled.btn} px-4`}>Tickit in active</Button>
-                                </Col>
-                              )
-                            }
-                          </Row>
-                        </Container>
-                      </Card.Body>
-                    </Card>
-                  </Col>
-                ))
-              )
-            }
-          </Row>
-        </Container>
+        <Row noGuuters>
+          {
+            this.state.loading ? (
+              <Col md={12}>
+                <p>Loading ...</p>
+              </Col>
+            ) : this.state.history.length < 1 ? (
+              <Col md={12}>
+                <p>{this.state.message}</p>
+              </Col>
+            ) : (
+              this.state.history.map((item, index) => (
+                <Col md={12} className="mb-4" key={String(index)}>
+                  <Card className={styled.card}>
+                    <Card.Header className={`${styled.cardHeader} py-4`}>
+                      <Container>
+                        <Row>
+                          <Col md={6}>
+                            <p className={`${styled.time} text-muted`}>
+                              <Moment format="dddd, DD MMMM YYYY">
+                                {item.showTimeDate}
+                              </Moment>
+                              {' '}
+                              <Moment format="hh:mma">
+                                {new Date(
+                                  2021,
+                                  4,
+                                  1,
+                                  item.ticketTime.split(':')[0],
+                                  item.ticketTime.split(':')[1],
+                                  item.ticketTime.split(':')[2],
+                                )}
+                              </Moment>
+                            </p>
+                            <h5 className={styled.title}>{item.movieTitle}</h5>
+                          </Col>
+                          <Col md={6} className="d-flex justify-content-end align-items-center">
+                            <Image fluid src={item.cinemaPoster} alt={item.movieTitle} className={styled.img} />
+                          </Col>
+                        </Row>
+                      </Container>
+                    </Card.Header>
+                    <Card.Body>
+                      <Container>
+                        <Row>
+                          {
+                            new Date(item.showTimeDate).getTime() < Date.now() ? (
+                              <Col>tn
+                                <Button variant="success" disabled className={`${styled.btn} px-4`}>Tickit used</Button>
+                              </Col>
+                            ) : (
+                              <Col>
+                                <Button variant="success" className={`${styled.btn} px-4`}>Tickit in active</Button>
+                              </Col>
+                            )
+                          }
+                        </Row>
+                      </Container>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))
+            )
+          }
+        </Row>
       </Fragment>
     );
   }
