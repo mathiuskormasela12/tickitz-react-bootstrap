@@ -1,0 +1,83 @@
+.hero {
+  min-height: 100vh;
+  background-color: #F5F6F8;
+}
+
+h1.title {
+  color: $title-color;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.input {
+  border: none !important;
+  background-color: #EFF0F6 !important;
+  width: 100% !important;
+  border-radius: 4px !important;
+  height: 3rem;
+  font-size: 1rem;
+  padding-left: 2.8rem;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.searchIcon {
+  position: absolute !important;
+  top: 0;
+  left: 1rem;
+  top: 1rem;
+  font-size: 1.1rem;
+}
+
+.arrowIcon {
+  position: absolute !important;
+  top: 0;
+  left: 1rem;
+  top: 1rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.select {
+  height: 3rem;
+  appearance: none;
+  cursor: pointer;
+  background-color: #EFF0F6;
+  border: none;
+  padding-left: 2.5rem;
+  background:  #EFF0F6 url('../../assets/images/forward.svg') no-repeat 14rem center;
+  padding-right: 1rem;
+
+  &:focus {
+    background-color: #EFF0F6 !important;
+    box-shadow: none !important;
+  }
+}
+
+.card {
+  z-index: 10;
+  cursor: pointer;
+  border-radius: 8px;
+  width: 100% !important;
+  border: 0.1px solid #DEDEDE;
+  height: auto;
+  overflow: hidden;
+  align-items: center;
+  box-shadow: none !important;
+  border: none !important;
+
+  .imgCard {
+    width: 12rem;
+    height: 18rem;
+  }
+
+  .cardBody {
+    padding: 0 !important;
+  }
+}
+
+.view {
+  cursor: pointer;
+}

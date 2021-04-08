@@ -25,3 +25,4 @@ export * from './hero-gray/HeroGray';
 export * from './profile-content/ProfileContent';
 export * from './account-settings/AccountSettings';
 export * from './order-history/OrderHistory';
+export * from './movies/Movies'

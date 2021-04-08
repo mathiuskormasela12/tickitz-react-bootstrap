@@ -70,6 +70,12 @@ class AuthService {
     uploadPhoto(token, data) {
       return http(token).patch('/auth/user/upload', data)
     }
+
+    getAllMovies(data) {
+      return http(null).get(
+        `/movies/?limit=4&by=${data.by}&sort=${data.sort}&page=${data.page}&search=${data.search}`,
+      );
+    }
 }
 
 export default new AuthService()
