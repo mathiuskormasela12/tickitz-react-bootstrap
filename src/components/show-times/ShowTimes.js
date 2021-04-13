@@ -1,6 +1,8 @@
 // import all modules
 import React, { Fragment, useEffect } from 'react'
 import { connect } from 'react-redux'
+import Moment from 'react-moment'
+import moment from 'moment'
 import http from '../../services/AuthService'
 
 // import actions
@@ -12,7 +14,8 @@ import {
   Row,
   Col,
   Form,
-  Container
+  Container,
+  Image,
 } from 'react-bootstrap'
 
 // import SCSS
@@ -23,11 +26,15 @@ import {
   ShowTimesCard
 } from '../'
 
+// import all assets
+import arrow from '../../assets/images/forward.svg';
+import calendar from '../../assets/images/calendar.svg';
+
 function ShowTimesComponent(props) {
   const { getShowTimes, id } = props
 
   const [state, setState] = React.useState({
-    showTimeDate: null,
+    showTimeDate: moment().format('YYYY-MM-DD'),
     location: 'Jakarta',
     cities: []
   })
@@ -67,8 +74,20 @@ function ShowTimesComponent(props) {
               <Form className="mt-4">
                 <Row className="justify-content-center">
                   <Col lg={3}>
-                    <Form.Control type="date" className={`${styled.date} py-4`} onChange={e => handleForm(e, 'showTimeDate')}/>
-                    <label className={styled.arrowDate}></label>
+                    <label htmlFor="input-date" className={styled.date}>
+                      <div className={styled.dateCol}>
+                        <Image src={calendar} alt="Calendar" className={styled.calendar} />
+                      </div>
+                      <div className={styled.dateCol}>
+                        <Moment format="YYYY-MM-DD">
+                          { state.showTimeDate }
+                        </Moment>
+                      </div>
+                      <div className={styled.dateCol}>
+                        <Image src={arrow} alt="Forward" className={styled.forward} />
+                      </div>
+                    </label>
+                    <Form.Control type="date" id="input-date" className={`${styled.dates}`} onChange={e => handleForm(e, 'showTimeDate')}/>
                   </Col>
                   <Col lg={3} className="position-relative">
                     <Form.Control as="select" id="select" className={`${styled.select}`} value={state.location} onChange={e => handleForm(e, 'location')}>
@@ -88,7 +107,7 @@ function ShowTimesComponent(props) {
             <Col lg={12} className="mt-5">
               <Row>
                 {
-                  props.success ? (
+                  props.results.length > 0 ? (
                     props.results.map((item, indexShowTime) => (
                       <Col lg={4} key={String(indexShowTime)} className="mb-3">
                         <ShowTimesCard item={item} indexShowTime={indexShowTime} />
@@ -96,7 +115,7 @@ function ShowTimesComponent(props) {
                     ))
                   ): (
                     <Fragment>
-                      <h5>{props.message}</h5>
+                      <h5>Show Time Not Avaliable</h5>
                     </Fragment>
                   )
                 }

@@ -7,28 +7,50 @@
     font-size: 1.5rem;
 }
 
+// label.date {
+//     position: relative;
+//     background-color: #EFF0F6;
+//     border: none;
+//     outline: none;
+//     box-shadow: none !important;
+//     cursor: pointer;
+//     height: 3rem;
+
+//     .inputDate {
+//       display: none;
+//     }
+
+//     // &::-webkit-calendar-picker-indicator {
+//     //     background: url('../../assets/images/forward.svg') no-repeat center center;
+//     //     position: absolute;
+//     //     left: 12.3rem;
+//     //     cursor: pointer;
+//     //  }
+//     //  &::-webkit-datetime-edit-fields-wrapper {
+//     //      padding-left: 2.3rem;
+//     //  }
+
+//     //  &:focus {
+//     //     background-color: #EFF0F6 !important;
+//     // }
+// }
+
 .date {
     position: relative;
     background-color: #EFF0F6;
     border: none;
-    outline: none;
-    box-shadow: none !important;
     cursor: pointer;
     height: 3rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
 
-    &::-webkit-calendar-picker-indicator {
-        background: url('../../assets/images/forward.svg') no-repeat center center;
-        position: absolute;
-        left: 12.3rem;
-        cursor: pointer;
-     }
-     &::-webkit-datetime-edit-fields-wrapper {
-         padding-left: 2.3rem;
-     }
-
-     &:focus {
-        background-color: #EFF0F6 !important;
-    }
+.dates {
+  position: absolute;
+  left: 0;
+  top: 0;
+  visibility: hidden;
 }
 
 .select {
@@ -40,9 +62,11 @@
     padding-left: 3.4rem;
     background:  #EFF0F6 url('../../assets/images/forward.svg') no-repeat 14rem center;
     padding-right: 1rem;
+    box-shadow: none !important;
 
     &:focus {
         background-color: #EFF0F6 !important;
+        box-shadow: none !important;
     }
 }
 
@@ -59,15 +83,22 @@
     background-position: 1.2rem center;
 }
 
+.dateCol:first-child {
+  flex: 1;
+}
 
-.arrowDate {
-    display: block;
-    height: 100px;
-    width: 100px;
-    position: absolute;
-    top: 1rem;
-    left: 2rem;
-    background: url('../../assets/images/calendar.svg') no-repeat;
+.dateCol:nth-child(2) {
+  flex: 2.7;
+  text-align: left;
+}
+
+.dateCol:last-child {
+  flex: 1;
+}
+
+.calendar, 
+.forward {
+  width: 1.2rem;
 }
 
 .cardTitle {
