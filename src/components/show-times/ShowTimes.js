@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import Moment from 'react-moment'
 import moment from 'moment'
 import http from '../../services/AuthService'
+import DatePicker from 'react-datepicker'
 
 // import actions
 import { getShowTimes, getMovieDetails, getAllTimes } from '../../redux/actions/movieDetails'
@@ -20,6 +21,7 @@ import {
 
 // import SCSS
 import styled from './style.module.scss'
+import "react-datepicker/dist/react-datepicker.css";
 
 // import all components
 import {
@@ -36,7 +38,8 @@ function ShowTimesComponent(props) {
   const [state, setState] = React.useState({
     showTimeDate: moment().format('YYYY-MM-DD'),
     location: 'Jakarta',
-    cities: []
+    cities: [],
+    show: false,
   })
 
   useEffect(() => {
@@ -62,6 +65,21 @@ function ShowTimesComponent(props) {
     }))
   }
 
+  const selectDate = (date) => {
+    setState(current => ({
+      ...current,
+      show: !current.show,
+      showTimeDate: moment(date).format('YYYY-MM-DD'),
+    }))
+  }
+
+  const showDate = () => {
+    setState(current => ({
+      ...current,
+      show: !current.show
+    }))
+  }
+
   return (
     <Fragment>
       <div className={`${styled.hero} py-5`}>
@@ -73,21 +91,35 @@ function ShowTimesComponent(props) {
             <Col lg={12} className="text-center">
               <Form className="mt-4">
                 <Row className="justify-content-center">
-                  <Col lg={3}>
+                  <Col lg={3} className="position-relative">
                     <label htmlFor="input-date" className={styled.date}>
-                      <div className={styled.dateCol}>
+                      <div className={styled.dateCol} onClick={showDate}>
                         <Image src={calendar} alt="Calendar" className={styled.calendar} />
                       </div>
                       <div className={styled.dateCol}>
-                        <Moment format="YYYY-MM-DD">
+                        <Moment format="YYYY-MM-DD" onClick={showDate}>
                           { state.showTimeDate }
                         </Moment>
+                        <DatePicker 
+                          value={state.showTimeDate}
+                          wrapperClassName={`${styled.dateInput}`} 
+                          className="d-none"
+                          onChange={date => selectDate(date)} 
+                          dateFormat="Pp"
+                          open={state.show}
+                        />
                       </div>
-                      <div className={styled.dateCol}>
+                      <div className={styled.dateCol} onClick={showDate}>
                         <Image src={arrow} alt="Forward" className={styled.forward} />
                       </div>
                     </label>
-                    <Form.Control type="date" id="input-date" className={`${styled.dates}`} onChange={e => handleForm(e, 'showTimeDate')}/>
+                    {/* <DatePicker 
+                      value={state.showTimeDate}
+                      className={`${styled.date}`} 
+                      onChange={date => selectDate(date)} 
+                      dateFormat="Pp"
+                    /> */}
+                    {/* <Form.Control type="date" ref={dateRef} id="input-date" className={`${styled.dates}`} onChange={e => handleForm(e, 'showTimeDate')}/> */}
                   </Col>
                   <Col lg={3} className="position-relative">
                     <Form.Control as="select" id="select" className={`${styled.select}`} value={state.location} onChange={e => handleForm(e, 'location')}>
