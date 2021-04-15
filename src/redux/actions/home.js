@@ -2,12 +2,10 @@ import http from '../../services/AuthService'
 
 export const getNowShowing = () => {
     return dispatch => {
+        dispatch({
+          type: 'SET_LOADING_REDUCER'
+        });
         http.getNowShowing()
-            // .finally(() => {
-            //     dispatch({
-            //         type: 'SET_LOADING'
-            //     })
-            // })
             .then(response => {
                 dispatch({
                     type: 'SHOW_NOW_SHOWING',
@@ -31,12 +29,10 @@ export const getNowShowing = () => {
 
 export const getUpcomingMovies = (month) => {
     return dispatch => {
+        dispatch({
+          type: 'SET_LOADING_REDUCER'
+        });
         http.getUpcoming(month)
-            // .finally(() => {
-            //     dispatch({
-            //         type: 'SET_LOADING'
-            //     })
-            // })
             .then(response => {
                 dispatch({
                     type: 'SHOW_UPCOMING',

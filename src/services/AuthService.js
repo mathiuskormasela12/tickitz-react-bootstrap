@@ -47,8 +47,8 @@ class AuthService {
         return http(token).get('/times')
     }
 
-    getSoldSeat(token, movieId, cinemaId, time) {
-        return http(token).get(`/soldseats/${movieId}/${cinemaId}/${time}`)
+    getSoldSeat(token, id) {
+      return http(token).get(`/soldseats/${id}`);
     }
 
     getAllCities() {
@@ -75,6 +75,16 @@ class AuthService {
       return http(null).get(
         `/movies/?limit=4&by=${data.by}&sort=${data.sort}&page=${data.page}&search=${data.search}`,
       );
+    }
+
+    getSelectedShowTimeId(showTimeDate, movieId, timeId, cinemaId) {
+      return http().get(
+        `/selectedShowTime/${showTimeDate}/${movieId}/${timeId}/${cinemaId}`,
+      );
+    }
+
+    buyTicket(token, data) {
+      return http(token).post('/transaction', data);
     }
 }
 

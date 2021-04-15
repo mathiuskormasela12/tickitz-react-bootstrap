@@ -54,7 +54,7 @@ const reducer = (state = initialState, action) => {
             }
         }
 
-        case "SET_LOADING": {
+        case "SET_LOADING_REDUCER": {
             return {
                 ...state,
                 isLoading: true
@@ -66,7 +66,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 successShowtimes: action.success,
                 showTimes: action.results,
-                messageShowtimes: action.message
+                messageShowtimes: action.message,
+                isLoading: false,
             }
         }
 

@@ -15,9 +15,10 @@ export const setOrder = (data) => {
     }
 }
 
-export const selectTime = (time) => ({
+export const selectTime = (time, timeId) => ({
     type: 'SELECT_TIME',
-    time
+    time,
+    timeId,
 })
 
 export const selectSeat = (seats) => ({

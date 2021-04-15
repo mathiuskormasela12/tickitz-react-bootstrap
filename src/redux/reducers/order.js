@@ -20,7 +20,8 @@ const initialState = {
     isPersonalInfoValid: false,
     message: null,
     messageType: null,
-    category: null
+    category: null,
+    timeId: null,
 }
 
 const reducer = (state = initialState, action) => {
@@ -45,7 +46,8 @@ const reducer = (state = initialState, action) => {
         case 'SELECT_TIME' : {
             return {
                 ...state,
-                ticketTime: action.time
+                ticketTime: action.time,
+                timeId: action.timeId,
             }
         }
 

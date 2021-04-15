@@ -1,8 +1,11 @@
 // import all modules
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Moment from 'react-moment'
+import Swal from 'sweetalert2'
+import http from '../../services/AuthService'
+import moment from 'moment'
 
 // import actions
 import { getAllTimes } from '../../redux/actions/movieDetails'
@@ -25,20 +28,47 @@ import styled from './style.module.scss'
 function ShowTimesCardComponent(props) {
   const { getAllTimes } = props 
   const history = useHistory()
-  const [isChecked, setChecked] = useState(false)
 
   useEffect(() => {
-    getAllTimes()
-  }, [getAllTimes])
+    getAllTimes(props.token)
+  }, [getAllTimes, props.token])
 
-  const handleOrder = (index) => {
-    props.setOrder(props.results[index])
-    history.push('/order')
+  const handleOrder = async (index) => {
+    if(!props.order.ticketTime) {
+      return Swal.fire({
+        title: "You can't buy ticket",
+        text: 'Please select your show time',
+        icon: 'warning',
+      })
+    } else {
+      try {
+        const {data} = await http.getSelectedShowTimeId(
+          props.selectedDate,
+          props.movieId,
+          props.order.timeId,
+          props.cinemaId
+        )
+        
+        props.setOrder({
+          ...props.results[index],
+          showTimeId: data.results.showTimeId,
+          cinemaCity: props.item.city,
+          showTimeDate: moment(props.results[index].showTimeDate).format('YYYY-MM-DD'),
+        })
+        history.push('/order')
+      } catch (err) {
+        console.log(err)
+        return Swal.fire({
+          title: "Server Error",
+          text: 'Please contact the developer',
+          icon: 'danger',
+        })
+      }
+    } 
   }
 
-  const selectTime = (e) => {
-    setChecked(current => true)
-    props.selectTime(e.target.value)
+  const selectTime = (e, id) => {
+    props.selectTime(e.target.value, id)
   }
 
   return (
@@ -67,7 +97,7 @@ function ShowTimesCardComponent(props) {
                             <input type="radio" id={props.item.cinemaId.toString().concat(index)} className={styled.input} name={props.item.movieId} value={time.showTime} disabled/>
                         ) : (
                           <input type="radio" id={props.item.cinemaId.toString().concat(index)} className={styled.input} name={props.item.movieId} value={time.showTime} 
-                          onChange={e => selectTime(e)}
+                          onChange={e => selectTime(e, time.id)}
                           />
                         )
                       }
@@ -94,17 +124,9 @@ function ShowTimesCardComponent(props) {
             <Col lg={12} className="mt-3">
               <Row>
                 <Col xs={6}>
-                  {
-                    (props.order.ticketTime && isChecked) ? (
-                      <Button variant="primary" onClick={() => handleOrder(props.indexShowTime)} className={`${styled.shadow} py-2 px-4`}>
-                        Book Now
-                      </Button>
-                    ) : (
-                      <Button variant="primary" className={`${styled.shadow} py-2 px-4`} disabled>
-                        Book Now
-                      </Button>
-                    )
-                  }
+                  <Button variant="primary" onClick={() => handleOrder(props.indexShowTime)} className={`${styled.shadow} py-2 px-4`}>
+                    Book Now
+                  </Button>
                 </Col>
                 <Col xs={6} className="text-right">
                   <Button variant="outline-light" className="py-2 px-2">
@@ -129,6 +151,7 @@ const mapStateToProps = state => {
     messageTimes: state.redux.messageTimes,
     order: state.order,
     results: state.redux.showTimes,
+    token: state.auth.token,
   }
 }
 

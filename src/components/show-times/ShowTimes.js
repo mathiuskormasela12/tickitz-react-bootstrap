@@ -51,9 +51,9 @@ function ShowTimesComponent(props) {
         throw new Error(err)
       }
     }
-    getShowTimes(id, state.showTimeDate, state.location)
+    getShowTimes(id, state.showTimeDate, state.location, props.token)
     getAllCities()
-  }, [getShowTimes, id, state.showTimeDate, state.location])
+  }, [getShowTimes, id, state.showTimeDate, state.location, props.token])
 
   const handleForm = (e, prop) => {
     setState(current => ({
@@ -107,16 +107,30 @@ function ShowTimesComponent(props) {
             <Col lg={12} className="mt-5">
               <Row>
                 {
-                  props.results.length > 0 ? (
-                    props.results.map((item, indexShowTime) => (
-                      <Col lg={4} key={String(indexShowTime)} className="mb-3">
-                        <ShowTimesCard item={item} indexShowTime={indexShowTime} />
-                      </Col>
-                    ))
-                  ): (
-                    <Fragment>
-                      <h5>Show Time Not Avaliable</h5>
-                    </Fragment>
+                  props.loading ? (<p>Please wait ...</p>) : (
+                    props.success ? (
+                      props.results.length > 0 ? (
+                        props.results.map((item, indexShowTime) => (
+                          <Col lg={4} key={String(indexShowTime)} className="mb-3">
+                            <ShowTimesCard 
+                              item={item} 
+                              indexShowTime={indexShowTime} 
+                              selectedDate={state.showTimeDate}
+                              movieId={item.movieId}
+                              cinemaId={item.cinemaId}
+                            />
+                          </Col>
+                        ))
+                      ) : (
+                        <Fragment>
+                          <h6>Show Time Not Avaliable</h6>  
+                        </Fragment>
+                      )
+                    ) : (
+                      <Fragment>
+                        <h6>{props.message}</h6>
+                      </Fragment>
+                    )
                   )
                 }
               </Row>
@@ -142,8 +156,6 @@ function ShowTimesComponent(props) {
 }
   
 const mapStateToProps = state => {
-  console.log('REDUCER')
-  console.log(state.redux.times)
   return {
     success: state.redux.successShowtimes,
     results: state.redux.showTimes,
@@ -153,7 +165,9 @@ const mapStateToProps = state => {
     messageTimes: state.redux.messageTimes,
     order: state.order,
     successMovieDetails: state.redux.successMovieDetails,
-    resultsMovieDetails: state.redux.movieDetails
+    resultsMovieDetails: state.redux.movieDetails,
+    loading: state.redux.isLoading,
+    token: state.auth.token,
   }
 }
 

@@ -29,19 +29,20 @@ function OrderMainComponent(props) {
     const getSoldSeat = async () => {
       try {
         const response = await http.getSoldSeat(
-        localStorage.getItem('token'), 
-          props.results.movieId, 
-          props.results.cinemaId, 
-          props.results.ticketTime
+          props.token, 
+          props.results.showTimeId,
         )
         setSoldSeat(response.data.results)
+        console.log('============ SEAT ==============')
+        console.log(response.data.results)
       } catch(err) {
         setSoldSeat([])
-        console.log(err)
+        console.log('===== INI ERROR ========')
+        console.log(err.response.data.message)
       }
     }
     getSoldSeat()
-  }, [props.results.cinemaId, props.results.movieId, props.results.ticketTime])
+  }, [props.results.showTimeId, props.token])
 
   // const [userSeat, setUserSeat] = useState([]);
 
@@ -252,7 +253,8 @@ function OrderMainComponent(props) {
 }
 
 const mapStateToProps = (state) => ({
-  results: state.order
+  results: state.order,
+  token: state.auth.token,
 })
 
 const mapDispatchToProps = {
