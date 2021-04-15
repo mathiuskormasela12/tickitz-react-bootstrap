@@ -38,43 +38,22 @@ function PaymentMainComponent(props) {
   }
 
   const order = async () => {
-    if(!props.order.fullName || !props.order.email || !props.order.phone) {
-      props.setMessage("Form can't be empty", 'warning')
-    } else if (props.order.email.match(/[^@$a-z0-9.]/gi) || !props.order.email.match(/@\b/g) || props.order.email.match(/\s/) || props.order.email.match(/\b[0-9]/) || !props.order.email.split('@').pop().includes('.')) {
-      props.setMessage("Incorrect email", 'warning') 
-    } else if(props.order.phone.match(/[a-z]/gi) || props.order.phone.match(/[^0-9]/gi)) {
-      props.setMessage("Incorrect phone number", 'warning') 
-    } else {
-      const formData = new URLSearchParams();
-      // append(formData, {
-      //   showTimeId: state.showTimeId,
-      //   timeId: state.timeId,
-      //   cinemaId: state.cinemaId,
-      //   totalPayment: state.totalPayment,
-      //   paymentMethod: state.paymentMethod,
-      //   seats: state.seats.join(', '),
-      //   movieId: state.movieId,
-      //   showTimeDate: state.showTimeDate,
-      //   ticketTime: state.time,
-      //   cinemaName: state.cinemaName,
-        // cinemaPoster: state.cinemaPoster.replace(process.env.PHOTO_URL, ''),
-      //   cinemaCity: state.cinemaCity,
-      //   movieTitle: state.movieTitle,
-      // });
-      formData.append('showTimeId', props.order.showTimeId)
-      formData.append('timeId', props.order.timeId)
-      formData.append('cinemaId', props.order.cinemaId)
-      formData.append('totalPayment', props.order.totalPayment)
-      formData.append('paymentMethod', props.order.paymentMethod)
-      formData.append('seats', props.order.seats.join(', '))
-      formData.append('movieId', props.order.movieId)
-      formData.append('showTimeDate', props.order.showTimeDate)
-      formData.append('ticketTime', props.order.ticketTime)
-      formData.append('cinemaName', props.order.cinemaName)
-      formData.append('cinemaPoster', props.order.cinemaPoster.replace(process.env.PHOTO_URL, ''))
-      formData.append('cinemaCity', props.order.cinemaCity)
-      formData.append('movieTitle', props.order.movieTitle)
+    const formData = new URLSearchParams();
+    formData.append('showTimeId', props.order.showTimeId)
+    formData.append('timeId', props.order.timeId)
+    formData.append('cinemaId', props.order.cinemaId)
+    formData.append('totalPayment', props.order.totalPayment)
+    formData.append('paymentMethod', props.order.paymentMethod)
+    formData.append('seats', props.order.seats.join(', '))
+    formData.append('movieId', props.order.movieId)
+    formData.append('showTimeDate', props.order.showTimeDate)
+    formData.append('ticketTime', props.order.ticketTime)
+    formData.append('cinemaName', props.order.cinemaName)
+    formData.append('cinemaPoster', props.order.cinemaPoster.replace(process.env.REACT_APP_PHOTO_URL, ''))
+    formData.append('cinemaCity', props.order.cinemaCity)
+    formData.append('movieTitle', props.order.movieTitle)
 
+    if(props.order.paymentMethod) {
       try {
         const response = await http.buyTicket(props.token, formData);
         props.setMessage(null, null)
@@ -90,9 +69,15 @@ function PaymentMainComponent(props) {
         Swal.fire({
           title: 'Failed',
           text: err.response.data.message,
-          icon: 'danger',
+          icon: 'error',
         })
       }
+    } else {
+      Swal.fire({
+        title: 'Failed',
+        text: 'Please select your payment method',
+        icon: 'warning',
+      })
     }
   }
 

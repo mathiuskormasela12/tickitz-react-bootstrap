@@ -33,12 +33,8 @@ function OrderMainComponent(props) {
           props.results.showTimeId,
         )
         setSoldSeat(response.data.results)
-        console.log('============ SEAT ==============')
-        console.log(response.data.results)
       } catch(err) {
         setSoldSeat([])
-        console.log('===== INI ERROR ========')
-        console.log(err.response.data.message)
       }
     }
     getSoldSeat()

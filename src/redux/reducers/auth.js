@@ -35,7 +35,7 @@ const auth = (state = initialState, action) => {
 				firstName: action.payload.firstName,
 				lastName: action.payload.lastName ? action.payload.lastName : '',
 				email: action.payload.email,
-				picture: action.payload.picture,
+				picture: action.payload.picture.split('/').pop() === 'null' ? null : action.payload.picture,
 				phoneNumber: action.payload.phoneNumber ? action.payload.phoneNumber : '',
 			}
 		}

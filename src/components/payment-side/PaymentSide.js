@@ -1,6 +1,5 @@
 // import all modules
-import React, { Fragment } from 'react';
-import warning from '../../assets/images/warning.svg';
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { setPersonalInfo, setPersonalInfoValid } from '../../redux/actions/order'
 
@@ -11,18 +10,12 @@ import {
   Container,
   InputGroup,
   FormControl,
-  Image,
-  Alert
 } from 'react-bootstrap';
 
 // import scss
 import styled from './style.module.scss';
 
 function PaymentSideComponent(props) {
-  const handleInput = (e, prop) => {
-    props.setPersonalInfo(prop, e.target.value)
-  }
-
   return (
     <Fragment>
       <aside className={styled.aside}>
@@ -33,11 +26,11 @@ function PaymentSideComponent(props) {
               <Form>
                 <div className="mb-3">
                   <Form.Label htmlFor="fullname">Full Name</Form.Label>
-                  <Form.Control type="text" id="fullname" placeholder="Full name..." onChange={e => handleInput(e, 'fullName')} />
+                  <Form.Control type="text" id="fullname" placeholder="Full name..." />
                 </div>
                 <div className="mb-3">
                   <Form.Label htmlFor="email" className="text-muted">Email</Form.Label>
-                  <Form.Control type="email" id="email" placeholder="E-mail..." onChange={e => handleInput(e, 'email')} />
+                  <Form.Control type="email" id="email" placeholder="E-mail..." />
                 </div>
                 <div className="mb-3">
                   <Form.Label htmlFor="phonenumber">
@@ -47,20 +40,10 @@ function PaymentSideComponent(props) {
                     <InputGroup.Prepend>
                       <InputGroup.Text className="bg-white">+62</InputGroup.Text>
                     </InputGroup.Prepend>
-                    <FormControl id="phonenumber" placeholder="Phone number..." onChange={e => handleInput(e, 'phone')} />
+                    <FormControl id="phonenumber" placeholder="Phone number..." />
                   </InputGroup>
                 </div>
               </Form>
-              {
-                (props.order.message) ? (
-                  <Alert variant={props.order.messageType} className="mt-4 d-flex align-items-center">
-                    {
-                      (props.order.messageType !== 'success') ? <Image fluid className="mr-4" src={ warning } alt="Warning" /> : null
-                    }
-                    {props.order.message}
-                  </Alert>
-                ) : null
-              }
             </Container>
           </Card.Body>
         </Card>

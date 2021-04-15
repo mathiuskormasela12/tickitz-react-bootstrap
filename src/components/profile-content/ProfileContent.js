@@ -28,6 +28,7 @@ import Loading from '../loading-customize/LoadingCustomize';
 // import all assets
 import evamore from '../../assets/images/eva-more.svg';
 import star from '../../assets/images/star.svg';
+import user from '../../assets/images/user-big.png'
 
 class ProfileContentComponent extends Component {
   constructor(props) {
@@ -147,13 +148,16 @@ class ProfileContentComponent extends Component {
                       <figure>
                         <Loading loading={this.state.loading}>
                           <Image 
-                            src={this.props.auth.picture}
+                            src={this.props.auth.picture ? this.props.auth.picture : user}
                             className={styled.img}
+                            fluid
                           />
                         </Loading>
                       </figure>
                       <figcaption className={`${styled.title} mt-1`}>
-                        Mathius
+                        {
+                          this.props.auth.firstName ? this.props.auth.lastName ? this.props.auth.firstName.concat(' ', this.props.auth.lastName) : this.props.auth.firstName : '-'
+                        }
                       </figcaption>
                       <figcaption className={`${styled.subtitle} mt-1`}>
                         Moviegoers

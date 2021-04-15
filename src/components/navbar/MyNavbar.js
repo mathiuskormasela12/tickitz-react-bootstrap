@@ -11,6 +11,7 @@ import { logout } from '../../redux/actions/auth';
 
 // import all images
 import tickitz from '../../assets/images/tickitz2.svg';
+import user from '../../assets/images/user.png';
 
 // import bootstrap components
 import {
@@ -56,7 +57,7 @@ export function MyNavbar(props) {
             </Nav>
             {
               token ? (
-                <NavDropdown title={<Image className={styled.picture} src={picture} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow}>
+                <NavDropdown title={<Image className={styled.picture} src={picture ? picture : user} fluid />} id="collasible-nav-dropdown" className={styled.dropdownArrow}>
                   <NavDropdown.Item onClick={() => handleHistory('/profile')}>Profile</NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
                 </NavDropdown>
